@@ -7,6 +7,6 @@ dotenv.config()
 
 
 app.listen(process.env.PORT,()=>{
-    connectDB()
-    console.log("app is running")
+  connectDB()
+  console.log("app is running")
 })
