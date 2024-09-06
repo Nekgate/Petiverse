@@ -1,5 +1,9 @@
 // Initialize the Express app
 const express=require("express")
+// initialize the cors to allow cross origin
+const cors = require("cors");
+// importing allowed site to utilize the api
+const corsAllowed = require('./middlewares/corsAllow');
 
 // Import the connectDB function from the database configuration file to establish a MongoDB connection
 const connectDB = require("./database/db")
@@ -12,6 +16,9 @@ const dotenv=require("dotenv")
 
 // Load environment variables from the .env file
 dotenv.config()
+
+// allowing coors for all routes
+app.use(cors(corsAllowed));
 
 
 // Start the Express server and listen on the port defined in the environment variables (PORT)
