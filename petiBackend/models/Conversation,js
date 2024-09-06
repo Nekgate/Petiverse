@@ -5,7 +5,7 @@ const mongoose = require("mongoose")
 const conversationSchema = new mongoose.Schema({
   // Array of participants in the conversation, each being a reference to a User model
   participants: [{
-    type:mongoose.Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true  // The participants field is required
   }]

@@ -1,26 +1,26 @@
-const mongoose=require("mongoose")
+const mongoose = require("mongoose")
 
-const storySchema=new mongoose.Schema({
-  user:{
-    type:mongoose.Schema.Types.ObjectId,
-    ref:"User",
+const storySchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
     required:true
   },
-  text:{
-    type:String,
-    required:true,
-    trim:true
+  text: {
+    type: String,
+    required: true,
+    trim: true
   },
-  image:{
+  image: {
     type:String,
     required:false
   },
-  createdAT:{
-    type:Date,
-    default:Date.now
+  createdAT: {
+    type: Date,
+    default: Date.now
   }
 })
 
-const Story=mongoose.Model("Story",storySchema)
+const Story = mongoose.Model("Story",storySchema)
 
-module.exports=Story
+module.exports = Story
