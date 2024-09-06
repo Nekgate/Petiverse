@@ -24,6 +24,15 @@ const userSchema=new mongoose.Schema({
     required:true,
     trim:true
   },
+  location:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"Location"
+  },
+  phoneNumber:{
+    type:Number,
+    required:true,
+    trim:true
+  },
   bio:{
     type:String,
     required:true

@@ -22,8 +22,8 @@ const postSchema=new mongoose.Schema({
     type:mongoose.Schema.Types.ObjectId,
     ref:"Comment"
   }]
-},{timestamps:true})
+},{timestamps:true});
 
-const Post=mongoose.model("Post",postSchema)
+const Post=mongoose.model("Post",postSchema);
 
-module.exports=Post
+module.exports=Post;
