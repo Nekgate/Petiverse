@@ -15,6 +15,10 @@ const userSchema = new mongoose.Schema({
     trim: true,
     lowercase: true
   },
+  phoneNumber:{
+    type:Number,
+    trim:true
+  },
   password: {
     type: String,
     required: true
@@ -28,6 +32,11 @@ const userSchema = new mongoose.Schema({
     type:String,
     required:true
   },
+  location:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"Location",
+    trim:true
+  },
   profilePicture: {
     type: String,
     default: ""
@@ -35,6 +44,9 @@ const userSchema = new mongoose.Schema({
   coverPicture: {
     type: String,
     default: ""
+  },
+  verify:{
+    type:String
   },
   posts: [{
     type: mongoose.Schema.Types.ObjectId,
