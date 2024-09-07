@@ -26,11 +26,13 @@ const userSchema = new mongoose.Schema({
   fullname: {
     type: String,
     required: true,
+    lowercase:true,
     trim: true
   },
   bio:{
     type:String,
-    required:true
+    lowercase:true,
+    trim:true
   },
   location:{
     type:mongoose.Schema.Types.ObjectId,

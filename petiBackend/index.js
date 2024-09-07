@@ -16,20 +16,34 @@ const app=express()
 
 // Import the dotenv module to load environment variables from a .env file into process.env
 const dotenv=require("dotenv")
+
+// Import cookieParser to handle cookies
+const cookieParser = require('cookie-parser');
+
+// importing routes
 const authRoute=require("./routes/auth")
 
 // Load environment variables from the .env file
 dotenv.config()
-app.use("/api/auth",authRoute)
+
+// Use cookieParser to allow the app to handle cookies
+app.use(cookieParser());
+
+// allowing cors for all routes
+app.use(cors(corsAllowed));
+
+// Allow the app to parse JSON payloads
+app.use(express.json());
+
+// Allow the app to parse URL-encoded bodies
+app.use(express.urlencoded({ extended: true }));
+
+// use authentication routes
+app.use("/v1/api/auth",authRoute)
 
 // instantiationg errorHandler to app
 app.use(errorHandler);
 
-// allowing coors for all routes
-app.use(cors(corsAllowed));
-
-// allow app to use json
-app.use(express.json);
 
 
 // Start the Express server and listen on the port defined in the environment variables (PORT)
