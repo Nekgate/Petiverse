@@ -5,7 +5,10 @@ const mongoose=require("mongoose")
 const connectDB= async ()=>{
     try{
       // Connect to the MongoDB database using the connection string stored in environment variable
-       await mongoose.connect(process.env.MONGO_URL);
+       await mongoose.connect(process.env.MONGO_URL, {
+        maxPoolSize: 10, // Maintain up to 10 socket connections
+        serverSelectionTimeoutMS: 5000,
+      });
        console.log("database connected successfully!")  // Log success message if connection is successful
     }
     catch(error){

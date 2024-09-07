@@ -3,6 +3,7 @@
 - accepts a json as required data for login
 - {
     username,
+    fullname,
     email,
     password,
     confirmPassword,

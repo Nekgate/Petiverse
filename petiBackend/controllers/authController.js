@@ -23,6 +23,10 @@ const registerContoller = async (req, res, next) => {
         if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)){
             throw new CustomError("Invalid Email", 400);
         }
+        // check if password and confirmPassword is not the same and throw error
+        if (password !== confirmPassword) {
+            throw new CustomError("Password not the same", 400);
+        }
         // check if the length of password is less than 8 char
         if (password.length < 8){
             throw new CustomError("password must be upto 8 character", 400);
@@ -57,11 +61,6 @@ const registerContoller = async (req, res, next) => {
 
         if (fullname < 2 || !/^[a-zA-Z]+$/.test(fullname)) {
             throw new CustomError("Name of pet should be more than 2 and only string")
-        }
-
-        // check if password and confirmPassword is not the same and throw error
-        if (!password === confirmPassword) {
-            throw new CustomError("Password not the same", 400);
         }
 
         // check if email or username exist in database
