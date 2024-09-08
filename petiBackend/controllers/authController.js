@@ -2,12 +2,11 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { CustomError } = require("../middlewares/error");
-const validatePhoneNumber = require("../utils/phoneAuth");
 
 const registerContoller = async (req, res, next) => {
     try{
         // getting all the input from the request body
-        var { username, fullname, email, phoneNumber, password, confirmPassword }= req.body;
+        let { username, fullname, email, phoneNumber, password, confirmPassword }= req.body;
 
         // check if any input is empty and throw error
         if ( !username || !fullname || !email || !phoneNumber || !password || !confirmPassword ) {
@@ -41,25 +40,16 @@ const registerContoller = async (req, res, next) => {
         }
 
         // Remove any non-numeric characters (e.g., spaces, hyphens, dots, parentheses)
-        var cleanedNumber = phoneNumber.replace(/\D/g, '');
-
-        if (cleanedNumber[0] === '0') {
-            // Remove the leading '0'
-            cleanedNumber = cleanedNumber.substring(1);
-            return cleanedNumber;
-        }
+        phoneNumber = phoneNumber.replace(/\D/g, '');
+        // remove the 0 if it the first number
+        if (phoneNumber[0] === '0') phoneNumber = phoneNumber.substring(1);
 
         // Check the cleaned number again for the valid length
-        if (cleanedNumber.length < 7 || cleanedNumber.length > 15) {
-            throw new CustomError("Phone number is not valid after cleaning.");
+        if (phoneNumber.length < 7 || phoneNumber.length > 15 || !/^\+?\d{7,15}$/.test(phoneNumber)) {
+            throw new CustomError("Phone number is not valid.", 400);
         }
 
-        // Validate the phone number format using a regular expression
-        if (!/^\+?\d{7,15}$/.test(cleanedNumber)) {
-            throw new CustomError("Invalid phone number format.", 400);
-        }
-
-        if (fullname < 2 || !/^[a-zA-Z]+$/.test(fullname)) {
+        if (fullname < 2 || !/^[a-zA-Z\s]+$/.test(fullname)) {
             throw new CustomError("Name of pet should be more than 2 and only string")
         }
 
@@ -73,16 +63,20 @@ const registerContoller = async (req, res, next) => {
         const salt = await bcrypt.genSalt(16);
         // hash the password
         const hashedPassword = await bcrypt.hashSync(password, salt);
-        // destructure to remove confirm password
-        var { confirmPassword, ...data } = req.body;
         // add the data to the database
-        const newUser=new User({...data,password:hashedPassword, phoneNumber:cleanedNumber});
+        const newUser=new User({
+            username,
+            fullname,
+            email,
+            phoneNumber,
+            password:hashedPassword
+        });
         // save the information
         const savedUser=await newUser.save();
         // remove email, phoneNumber, password
-        var { email, password, phoneNumber,...savedData} = savedUser;
+        const { password: _, email: __, phoneNumber: ___, ...userData } = savedUser._doc;
         // display other information 
-        res.status(201).json(...savedData);
+        res.status(201).json(userData);
     } catch(error) {
         next(error);
     }
