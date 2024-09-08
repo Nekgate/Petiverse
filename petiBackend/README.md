@@ -12,7 +12,7 @@
 }
 
 ### registration route
-- `/v1/api/auth/registration`
+- `/api/v1/auth/registration`
 - accepts a json as required data for login
 - {
     username,
