@@ -1,91 +1,88 @@
-const User=require("../models/User")
-const bcrypt=require("bcrypt")
-const jwt=require("jsonwebtoken")
+const User = require("../models/User");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const { CustomError } = require("../middlewares/error");
 
-const registerController = async (req, res) => {
-  try{
-      const {password, username, email}=req.body
-      if (!password || !username || !email) {
-        return res.status(400).json("Username, email, and password are required!")
-      }
-      const existingUser=await User.findOne({ $or: [{username},{email}] })
-      if(existingUser){
-        return res.status(400).json("Username or email already exist!")
-      }
-
-      const salt=await bcrypt.genSalt(10)
-      const hashedPassword=await bcrypt.hash(password, salt)
-      const newUser=new User({...req.body, password:hashedPassword})
-      const savedUser=await newUser.save()
-      return res.status(201).json(savedUser)
-  }
-  catch(error){
-    console.error("Error occurred:", error)
-    return res.status(500).json({ message: "An error occurred", error })
-  }
-}
-
-const loginController = async (req, res) => {
-  try{
-      let user;
-      if(req.body.email){
-        user=await User.findOne({email:req.body.email})
-      }
-      else{
-        user=await User.findOne({username:req.body.username})
-      }
-
-      if(!user){
-        return res.status(404).json("User not found!")
-      }
-
-      const match=await bcrypt.compare(req.body.password, user.password)
-
-      if(!match){
-        return res.status(401).json("Incorrect Password!")
-      }
-  
-      const {password, ...data}=user._doc
-      const token=jwt.sign({_id:user._id}, process.env.JWT_SECRET, {expiresIn:process.env.JWT_EXPIRE})
-      res.cookie("token", token).status(200).json(data)
-  }
-  catch(error){
-    res.status(500).json(error)
-  }
-}
-
-const logoutController = async (req, res) => {
-  try{
-    res.clearCookie("token", {
-      sameSite: "none",
-      secure: true
-    })
-    .status(200)
-    .json("User logged out successfully!")
-  }
-  catch(error){
-    res.status(500).json(error)
-  }
-}
-
-const refetchUserController = async(req, res) => {
-  const token = req.cookies.token
-  jwt.verify(token, process.env.JWT_SECRET, async(err, decodedData) => {
-    if(err){
-      return res.status(401).json({ message: "Invalid or expired token", error: err })
-    }
+const registerContoller = async (req, res, next) => {
     try{
-      const user = await User.findOne({_id: decodedData._id})
-      if (!user) {
-        return res.status(401).json({ message: "User not found" });
-      }
+        // getting all the input from the request body
+        let { username, fullname, email, phoneNumber, password, confirmPassword }= req.body;
 
-      res.status(200).json(user); 
+        // check if any input is empty and throw error
+        if ( !username || !fullname || !email || !phoneNumber || !password || !confirmPassword ) {
+            throw new CustomError("Invalid Credential", 400);
+        }
+        
+        // check if user didnt start with string
+        // check if user used anything apart from number, underscore,hyphen and string
+        if (!/^[a-zA-Z]+[a-zA-Z0-9-_]*$/.test(username)){
+            throw new CustomError("Invalid Username", 400);
+        }
+        // check if user added invalid email protoype ensuring the .com or .co.uk is accepted
+        if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)){
+            throw new CustomError("Invalid Email", 400);
+        }
+        // check if password and confirmPassword is not the same and throw error
+        if (password !== confirmPassword) {
+            throw new CustomError("Password not the same", 400);
+        }
+        // check if the length of password is less than 8 char
+        if (password.length < 8){
+            throw new CustomError("password must be upto 8 character", 400);
+        }
+        // check to ensure uppercase, lowercase, number and special character is in the password
+        if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/.test(password)) {
+            throw new CustomError("Password should contain upper&lower case, num, special char", 400);
+        }
+        // Ensure the phone number is within the valid range
+        if (phoneNumber.length < 7 || phoneNumber.length > 15) {
+            throw new CustomError("Phone number length is not valid.");
+        }
+
+        // Remove any non-numeric characters (e.g., spaces, hyphens, dots, parentheses)
+        phoneNumber = phoneNumber.replace(/\D/g, '');
+        // remove the 0 if it the first number
+        if (phoneNumber[0] === '0') phoneNumber = phoneNumber.substring(1);
+
+        // Check the cleaned number again for the valid length
+        if (phoneNumber.length < 7 || phoneNumber.length > 15 || !/^\+?\d{7,15}$/.test(phoneNumber)) {
+            throw new CustomError("Phone number is not valid.", 400);
+        }
+
+        if (fullname < 2 || !/^[a-zA-Z\s]+$/.test(fullname)) {
+            throw new CustomError("Name of pet should be more than 2 and only string")
+        }
+
+        // check if email or username exist in database
+        const existingUser=await User.findOne({ $or: [{username}, {email}] });
+        // if they exist throw error
+        if (existingUser){
+            throw new CustomError("Username or Email already exists!", 400);
+        }
+        // use bcrypt for hashing
+        const salt = await bcrypt.genSalt(16);
+        // hash the password
+        const hashedPassword = await bcrypt.hashSync(password, salt);
+        // add the data to the database
+        const newUser=new User({
+            username,
+            fullname,
+            email,
+            phoneNumber,
+            password:hashedPassword
+        });
+        // save the information
+        const savedUser=await newUser.save();
+        // remove email, phoneNumber, password
+        const { password: _, email: __, phoneNumber: ___, ...userData } = savedUser._doc;
+        // display other information 
+        res.status(201).json(userData);
     } catch(error) {
-      res.status(500).json({ message: "Server error", error });
+        next(error);
     }
-  })
 }
 
-module.exports = {registerController, loginController, 
-                  logoutController, refetchUserController}
+
+module.exports = {
+    registerContoller
+}
