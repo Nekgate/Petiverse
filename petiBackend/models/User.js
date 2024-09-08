@@ -51,6 +51,10 @@ const userSchema = new mongoose.Schema({
     type:Boolean,
     default:false
   },
+  resetToken:{
+    type:String,
+    default:""
+  },
   posts: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Post"
