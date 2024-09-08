@@ -1,6 +1,11 @@
 const User = require("../models/User");
+const UserVerification = require("../models/UserVerification");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
+const {v4:uuidv4} = require("uuid");
+const dotenv=require("dotenv")
+
 const { CustomError } = require("../middlewares/error");
 
 const registerContoller = async (req, res, next) => {
@@ -48,7 +53,7 @@ const registerContoller = async (req, res, next) => {
         if (phoneNumber.length < 7 || phoneNumber.length > 15 || !/^\+?\d{7,15}$/.test(phoneNumber)) {
             throw new CustomError("Phone number is not valid.", 400);
         }
-
+        // check if fullname is less than 2 and allow only string and space inbetween character
         if (fullname < 2 || !/^[a-zA-Z\s]+$/.test(fullname)) {
             throw new CustomError("Name of pet should be more than 2 and only string")
         }

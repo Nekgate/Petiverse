@@ -39,7 +39,7 @@ app.use(express.json());
 // app.use(express.urlencoded({ extended: true }));
 
 // use authentication routes
-app.use("/v1/api/auth",authRoute)
+app.use("/api/v1/auth",authRoute)
 
 // instantiationg errorHandler to app
 app.use(errorHandler);
