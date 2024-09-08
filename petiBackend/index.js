@@ -1,29 +1,11 @@
-// Initialize the Express app
 const express=require("express")
-// initialize the cors to allow cross origin
-const cors = require("cors");
-// importing allowed site to utilize the api
-const corsAllowed = require('./middlewares/corsAllow');
-
-// Import the connectDB function from the database configuration file to establish a MongoDB connection
 const connectDB = require("./database/db")
-
-// importing customError and errorHandler
-const { CustomError, errorHandler } = require('./middlewares/error');
-
-// Initialize the Express app
 const app=express()
-
-// Import the dotenv module to load environment variables from a .env file into process.env
 const dotenv=require("dotenv")
-
-// Import cookieParser to handle cookies
-const cookieParser = require('cookie-parser');
-
-// importing routes
+const cookieParser=require("cookie-parser")
 const authRoute=require("./routes/auth")
 
-// Load environment variables from the .env file
+
 dotenv.config()
 
 // Use cookieParser to allow the app to handle cookies
