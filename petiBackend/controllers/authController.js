@@ -8,6 +8,7 @@ const dotenv=require("dotenv")
 
 const { CustomError } = require("../middlewares/error");
 const generateTokenAndSetCookie = require("../utils/generateTokenAndSetCookie");
+const sendVerificationEmail = require("../mailutils/sendMail");
 
 const registerContoller = async (req, res, next) => {
     try{
