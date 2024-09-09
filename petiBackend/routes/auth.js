@@ -1,8 +1,9 @@
 // Initialize the Express app
 const express=require("express")
-const otpController = require("../otp/otpController");
 const { 
-  forgotPasswordController
+  forgotPasswordController,
+  verifyTokenPasswordController,
+  resetPasswordController,
 } = require("../controllers/passwordController");
 
 const router=express.Router()
@@ -10,6 +11,7 @@ const User=require("../models/User")
 const bcrypt=require("bcrypt")
 const jwt=require("jsonwebtoken");
 const { loginController, fetchUserController, logoutController } = require("../controllers/logController");
+const { registerContoller } = require("../controllers/authController");
 
 
 // Register
@@ -24,9 +26,15 @@ router.get("/logout", logoutController);
 
 // Fetch Current User
 router.get("/refetch", fetchUserController);
+
 // RESET PASSWORD
 router.post("/reset-password", forgotPasswordController);
-// CONFIRM PASSWORD
+
+// VERIFY TOKEN PASSWORD
+router.post("/verify-token", verifyTokenPasswordController);
+
+// CHANGE PASSWORD
+router.post("/change-password", resetPasswordController);
 
 
 module.exports = router

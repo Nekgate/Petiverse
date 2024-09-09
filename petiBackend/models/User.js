@@ -16,8 +16,16 @@ const userSchema = new mongoose.Schema({
     lowercase: true
   },
   phoneNumber:{
-    type:Number,
+    type:String,
     trim:true
+  },
+  country:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"Country"
+  },
+  state:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"State"
   },
   password: {
     type: String,
@@ -34,11 +42,6 @@ const userSchema = new mongoose.Schema({
     lowercase:true,
     trim:true
   },
-  location:{
-    type:mongoose.Schema.Types.ObjectId,
-    ref:"Location",
-    trim:true
-  },
   profilePicture: {
     type: String,
     default: ""
@@ -47,13 +50,13 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: ""
   },
-  verified:{
+  lastLogin:{
+    type:Date,
+    default:Date.now
+  },
+  isVerified:{
     type:Boolean,
     default:false
-  },
-  resetToken:{
-    type:String,
-    default:""
   },
   posts: [{
     type: mongoose.Schema.Types.ObjectId,
@@ -70,7 +73,11 @@ const userSchema = new mongoose.Schema({
   blocklist: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "User"
-  }]
+  }],
+  resetPasswordToken:String,
+  resetPasswordExpiresAt:Date,
+  verificationToken:String,
+  verificationTokenExpiresAt:Date,
 }, { timestamps: true });
 
 const User = mongoose.model("User", userSchema);

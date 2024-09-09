@@ -2,6 +2,9 @@ const express=require("express")
 const connectDB = require("./database/db")
 const app=express()
 const dotenv=require("dotenv")
+const cors = require('cors');
+const corsAllowed = require('./middlewares/corsAllow');
+const { errorHandler, CustomError } = require('./middlewares/error');
 const cookieParser=require("cookie-parser")
 const authRoute=require("./routes/auth")
 
