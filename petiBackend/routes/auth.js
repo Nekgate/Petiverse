@@ -12,11 +12,14 @@ const bcrypt=require("bcrypt")
 const jwt=require("jsonwebtoken");
 const { loginController, fetchUserController, logoutController } = require("../controllers/logController");
 const { registerContoller } = require("../controllers/authController");
+const { verifyEmailController } = require("../controllers/verifyEmailController");
 
 
 // Register
 router.post("/register", registerContoller);
-// router.post("/request-otp", otpController);
+
+// VERIFY USER AFTER REGISTRATION
+router.post("/verify-email", verifyEmailController);
 
 // Login
 router.post("/login", loginController);

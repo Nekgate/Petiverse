@@ -8,7 +8,7 @@ const dotenv=require("dotenv")
 
 const { CustomError } = require("../middlewares/error");
 const generateTokenAndSetCookie = require("../utils/generateTokenAndSetCookie");
-const sendVerificationEmail = require("../mailutils/sendMail");
+const { sendVerificationEmail } = require("../mailutils/sendMailToVerify");
 
 const registerContoller = async (req, res, next) => {
     try{
@@ -86,7 +86,7 @@ const registerContoller = async (req, res, next) => {
         // authenticate user with a created token
         generateTokenAndSetCookie(res, savedUser._id);
         // send email to user
-        sendVerificationEmail(savedUser.email, verificationToken);
+        await sendVerificationEmail(savedUser.email, verificationToken);
         // remove email, phoneNumber, password
         // display other information 
         res.status(201).json({

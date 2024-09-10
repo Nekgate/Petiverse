@@ -13,7 +13,7 @@
 
 ### registration route
 - `/api/v1/auth/registration`
-- accepts a json as required data for login
+- accepts a json as required data for registration
 - {
     username,
     fullname,
@@ -23,3 +23,10 @@
     phoneNumber,
 }
 - yet to implement location(country & state)
+
+### VERIFY ACCOUNT
+- `api/v1/auth/verify-email`
+- accepts a json as required data for verification of email
+- {
+    code
+}
