@@ -1,11 +1,5 @@
 const User = require("../models/User");
-const UserVerification = require("../models/UserVerification");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const nodemailer = require("nodemailer");
-const {v4:uuidv4} = require("uuid");
-const dotenv=require("dotenv")
-
 const { CustomError } = require("../middlewares/error");
 const generateTokenAndSetCookie = require("../utils/generateTokenAndSetCookie");
 const { sendVerificationEmail } = require("../mailutils/sendMailToVerify");

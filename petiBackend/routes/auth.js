@@ -1,18 +1,13 @@
 // Initialize the Express app
 const express=require("express")
-const { 
-  forgotPasswordController,
-  verifyTokenPasswordController,
-  resetPasswordController,
-} = require("../controllers/passwordController");
+const router=express.Router();
+const { loginController, fetchUserController, logoutController } = require("../authControllers/loggingController");
+const { registerContoller } = require("../authControllers/registerController");
+const { verifyEmailController } = require("../authControllers/verifyEmailController");
+const forgotPasswordController = require("../authControllers/forgotPasswordController");
+const changePasswordController = require("../authControllers/changePasswordController");
 
-const router=express.Router()
-const User=require("../models/User")
-const bcrypt=require("bcrypt")
-const jwt=require("jsonwebtoken");
-const { loginController, fetchUserController, logoutController } = require("../controllers/logController");
-const { registerContoller } = require("../controllers/authController");
-const { verifyEmailController } = require("../controllers/verifyEmailController");
+
 
 
 // Register
@@ -31,13 +26,10 @@ router.get("/logout", logoutController);
 router.get("/refetch", fetchUserController);
 
 // RESET PASSWORD
-router.post("/reset-password", forgotPasswordController);
+router.post("/forgot-password", forgotPasswordController);
 
-// VERIFY TOKEN PASSWORD
-router.post("/verify-token", verifyTokenPasswordController);
-
-// CHANGE PASSWORD
-router.post("/change-password", resetPasswordController);
+// RESET PASSWORD WITH TOKEN
+router.post("/reset-password/:token", changePasswordController);
 
 
 module.exports = router
