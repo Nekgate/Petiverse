@@ -6,8 +6,8 @@ const { AUTH_EMAIL, AUTH_PASS } = process.env;
 // create the transporter with the required configuration for gmail
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
-    port: 587,
-    secure: false, // Use STARTTLS
+    port: 465,  // This is for SSL/TLS
+    secure: true, // Use SSL/TLS
     auth: {
         user: AUTH_EMAIL,
         pass: AUTH_PASS 
