@@ -9,11 +9,13 @@
     JWT_SECRET=ANY CHARACTER OF CHOICE,
     JWT_EXPIRES=HOW LONG JWT EXPIRES,
     URL=URL OF LOCALHOST
+    AUTH_EMAIL=your email
+    AUTH_PASS=your password
 }
 
 ### registration route
-- `/v1/api/auth/registration`
-- accepts a json as required data for login
+- `/api/v1/auth/registration`
+- accepts a json as required data for registration
 - {
     username,
     fullname,
@@ -23,3 +25,10 @@
     phoneNumber,
 }
 - yet to implement location(country & state)
+
+### VERIFY ACCOUNT
+- `api/v1/auth/verify-email`
+- accepts a json as required data for verification of email
+- {
+    code
+}

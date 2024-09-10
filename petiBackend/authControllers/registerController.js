@@ -1,7 +1,8 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 const { CustomError } = require("../middlewares/error");
+const generateTokenAndSetCookie = require("../utils/generateTokenAndSetCookie");
+const { sendVerificationEmail } = require("../mailutils/sendMailToVerify");
 
 const registerContoller = async (req, res, next) => {
     try{
@@ -48,7 +49,7 @@ const registerContoller = async (req, res, next) => {
         if (phoneNumber.length < 7 || phoneNumber.length > 15 || !/^\+?\d{7,15}$/.test(phoneNumber)) {
             throw new CustomError("Phone number is not valid.", 400);
         }
-
+        // check if fullname is less than 2 and allow only string and space inbetween character
         if (fullname < 2 || !/^[a-zA-Z\s]+$/.test(fullname)) {
             throw new CustomError("Name of pet should be more than 2 and only string")
         }
@@ -60,23 +61,35 @@ const registerContoller = async (req, res, next) => {
             throw new CustomError("Username or Email already exists!", 400);
         }
         // use bcrypt for hashing
-        const salt = await bcrypt.genSalt(16);
+        const salt = await bcrypt.genSalt(10);
         // hash the password
         const hashedPassword = await bcrypt.hashSync(password, salt);
+        const verificationToken = Math.floor(100000 + Math.random() * 900000).toString();
         // add the data to the database
         const newUser=new User({
             username,
             fullname,
             email,
+            password:hashedPassword,
             phoneNumber,
-            password:hashedPassword
+            verificationToken,
+            verificationTokenExpiresAt:Date.now() + 20 * 60 * 1000,
         });
         // save the information
         const savedUser=await newUser.save();
+        // authenticate user with a created token
+        generateTokenAndSetCookie(res, savedUser._id);
+        // send email to user
+        await sendVerificationEmail(savedUser.email, verificationToken);
         // remove email, phoneNumber, password
-        const { password: _, email: __, phoneNumber: ___, ...userData } = savedUser._doc;
         // display other information 
-        res.status(201).json(userData);
+        res.status(201).json({
+            message:"User created Successfully",
+            ...savedUser._doc,
+            password:undefined,
+            phoneNumber:undefined,
+            email:undefined
+        });
     } catch(error) {
         next(error);
     }
