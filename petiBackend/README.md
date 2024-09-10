@@ -9,6 +9,8 @@
     JWT_SECRET=ANY CHARACTER OF CHOICE,
     JWT_EXPIRES=HOW LONG JWT EXPIRES,
     URL=URL OF LOCALHOST
+    AUTH_EMAIL=your email
+    AUTH_PASS=your password
 }
 
 ### registration route
