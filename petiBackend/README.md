@@ -80,20 +80,60 @@
 ### GET ALL VERIFIED USER
 - ` api/v1/user/users/verified`
 - GET  route
+- user must log in to perform
 
 ### GET ALL UNVERIFIED USER
 - `api/v1/user/users/not-verified`
 - GET route
+- user must log in to perform
 
 ### GET A USER
 - `api/v1/user/:userId`
 -   GET ROUTE
+- user must log in to perform
+
+### GET USERS FOLLOWED BY A USER
+- `api/v1/user/following/:userId`
+- GET ROUTE
+- user must log in to perform
+
+### GET USERS FOLLOWING BY A USER
+- `api/v1/user/followers/:userId`
+- GET ROUTE
+- user must log in to perform
 
 ### GET USERS BLACKLISTED BY A USER
 - `api/v1/user/blocked/:userId`
 - GET ROUTE
+- user must log in to perform
 
 ### SEARCH A USER ROUTE
 - `api/v1/user/search/:query`
 - GET ROUTE
 - query is any key word will return users with same username or full name
+- user must log in to perform
+
+### FOLLOW ANOTHER USER
+- `api/v1/user/unfollow/:userId`
+- POST ROUTE
+- url will contain the userId of the user to be followed
+- user must log in to perform
+
+### UNFOLLOW ANOTHER USER
+- `api/v1/user/unfollow/:userId`
+- POST ROUTE
+- url will contain the userId of the user to be unfollowed
+- user must log in to perform
+
+### BLOCK ANOTHER USER
+- `api/v1/user/block/:userId`
+- POST ROUTE
+- url will contain the userId of the user to be blocked
+- user must log in to perform
+
+### UNBLOCK ANOTHER USER
+- `api/v1/user/unblock/:userId`
+- POST ROUTE
+- url will contain the userId of the user to be unblock
+- user must log in to perform
+
