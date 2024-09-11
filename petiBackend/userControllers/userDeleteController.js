@@ -6,16 +6,10 @@ const Story = require('../models/Story');
 
 const deleteUserController = async (req, res, next) => {
     try {
-        // get the userId from url
-        const { userId } = req.params;
-        // throw error if params is not available
-        if (!userId){
-            throw new CustomError("User Id is required", 400);
-        }
         // get the id of user from the verifiedToken of user in cookie
-        const logId = req.userId;
+        const userId = req.userId;
         // throw error if no user Id
-        if (!logId) {
+        if (!userId) {
             throw new CustomError("You have to login first", 401);
         }
         // get the object of user
@@ -24,7 +18,6 @@ const deleteUserController = async (req, res, next) => {
         if (!userToDelete) {
             throw new CustomError("User not found", 404);
         }
-
         // delete all users post
         await Post.deleteMany({user:userId});
         // delete comment from all post
@@ -59,9 +52,12 @@ const deleteUserController = async (req, res, next) => {
         );
         // delete user with the userId
         await userToDelete.deleteOne();
-        res.status(200).json({message:"Everything about User have been deleted Successfully!"});
-
+        res.clearCookie("token")
+        .status(200)
+        .json("User Deleted successfully!");
     } catch(error) {
         next(error);
     }
 }
+
+module.exports = deleteUserController;

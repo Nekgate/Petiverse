@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const upload = require('../middlewares/upload');
+const upload = require('../middlewares/multerConfig');
 const verifyToken = require('../middlewares/verifyToken');
 const verifyUser = require('../middlewares/verifyUser');
 const { 
@@ -18,6 +18,11 @@ const {
     blockUserController,
     unblockUserController,
 } = require('../userControllers/userFollowBlockController');
+const deleteUserController = require('../userControllers/userDeleteController');
+const updateUserController = require('../userControllers/userUpdateControllerApp');
+const uploadImage = require('../middlewares/uploadProfilePictureToCloud');
+const uploadCoverImage = require('../middlewares/uploadCoverPictureToCloud');
+const { uploadProfilePictureController, uploadCoverPictureController } = require('../userControllers/userUploadPictureController');
 
 // GET USER
 router.get("/:userId", verifyToken, getUserController);
@@ -41,7 +46,7 @@ router.get("/blocked/:userId", verifyToken, getBlockedUsersController);
 router.get("/search/:query", verifyToken, searchUserController);
 
 // UPDATE USER
-// router.put("/update/:userId", updateUserController);
+router.put("/update", updateUserController);
 
 // FOLLOW USER
 router.post("/follow/:userId", verifyToken, followUserController);
@@ -56,21 +61,24 @@ router.post("/block/:userId", verifyToken, blockUserController);
 router.post("/unblock/:userId", verifyToken, unblockUserController);
 
 // DELETE USER 
-// router.delete("/delete/:userId", deleteUserController);
+router.delete("/delete", deleteUserController);
 
 // UPDATE PROFILE PICTURE
 // upload.single("profilePicture") changes the name of the file to profilePicture
-// router.put(
-    // "/update-profile-picture/:userId",
-    // upload.single("profilePicture"),
-    // uploadProfilePictureController
-// )
+router.put(
+    "/update-profile-picture",
+    verifyToken,
+    upload.single("profilePicture"),
+    uploadImage,
+    uploadProfilePictureController
+);
 
 // UPDATE COVER PICTURE
-// router.put(
-    // "/update-cover-picture/:userId",
-    // upload.single("coverPicture"),
-    // uploadCoverPictureController
-// )
+router.put(
+    "/update-cover-picture",
+    upload.single("coverPicture"),
+    uploadCoverImage,
+    uploadCoverPictureController
+);
 
 module.exports = router;

@@ -11,6 +11,9 @@
     URL=URL OF LOCALHOST
     AUTH_EMAIL=your email
     AUTH_PASS=your password
+    CLOUDINARY_NAME=cloudinary name
+    CLOUDINARY_API_KEY=cloudinary api name
+    CLOUDINARY_API_SECRET=cloudinary api secret key
 }
 
 ## AUTH ROUTES
@@ -137,3 +140,36 @@
 - url will contain the userId of the user to be unblock
 - user must log in to perform
 
+### DELETE ACCOUNT FOR USER
+- `api/v1/user/delete`
+- DELETE ROUTE
+- url will contain the userId, in other to delete
+- user must log in to perform
+
+### UPDATE BIO OR FULL NAME OR BOTH
+- `api/v1/user/update`
+- PUT ROUTE
+- userId will be gotten from cookie
+
+### UPDATE THE PROFILE PICTURE
+- `api/v1/user/update-profile-picture`
+- PUT ROUTE
+- takes a file form data of image in jpg, png, jpeg
+- get userId from cookie
+- push the image to cloudinary and generate a url 
+
+### UPDATE THE COVER PICTURE
+`api/v1/user/update-profile-picture`
+- PUT ROUTE
+- takes a file form data of image in jpg, png, jpeg
+- get userId from cookie
+- push the image to cloudinary and generate a url 
+
+
+## POST
+
+## COMMENT
+
+## MESSAGE/CONVERSATION
+
+## STORY
