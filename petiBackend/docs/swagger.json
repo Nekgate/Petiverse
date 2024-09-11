@@ -1,0 +1,69 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Petiverse",
+      "version": "1.0.0",
+      "description": "A social media app for pet"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:5000",
+        "description": "Development server"
+      }
+    ],
+    "paths": {
+      "/api/v1/auth/register": {
+        "post": {
+          "summary": "Registration route that registers the user",
+          "responses": {
+            "201": {
+              "description": "User Resgistered Successfully",
+              "parameters": [{
+              "name": "id",
+              "in": "query",
+              "description": "An optional query parameter to filter the response",
+              "required": false,
+              "schema": {
+              "type": "string"
+              }
+            }],
+            "responses": {
+              "200": {
+                "description": "Successful response",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "This is an example response"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "400": {
+                "description": "Bad Request",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "error": {
+                          "type": "string",
+                          "example": "Invalid request"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

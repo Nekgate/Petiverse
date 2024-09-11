@@ -6,9 +6,8 @@ const { registerContoller } = require("../authControllers/registerController");
 const { verifyEmailController } = require("../authControllers/verifyEmailController");
 const forgotPasswordController = require("../authControllers/forgotPasswordController");
 const changePasswordController = require("../authControllers/changePasswordController");
-
-
-
+const checkAuthController = require("../authControllers/checkAuthController");
+const verifyToken = require("../middlewares/verifyToken");
 
 // Register
 router.post("/register", registerContoller);
@@ -16,11 +15,14 @@ router.post("/register", registerContoller);
 // VERIFY USER AFTER REGISTRATION
 router.post("/verify-email", verifyEmailController);
 
+// CHECK AUTHENTICATION
+router.get("/check-auth",verifyToken, checkAuthController);
+
 // Login
 router.post("/login", loginController);
 
 // Logout
-router.get("/logout", logoutController);
+router.post("/logout", logoutController);
 
 // Fetch Current User
 router.get("/refetch", fetchUserController);

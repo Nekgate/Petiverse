@@ -57,8 +57,12 @@ const registerContoller = async (req, res, next) => {
         // check if email or username exist in database
         const existingUser=await User.findOne({ $or: [{username}, {email}] });
         // if they exist throw error
-        if (existingUser){
+        if (existingUser.isVerified){
             throw new CustomError("Username or Email already exists!", 400);
+        }
+        // if existing user is not verified delete the account and register again
+        if (!existingUser.isVerified){
+            await existingUser.deleteOne();
         }
         // use bcrypt for hashing
         const salt = await bcrypt.genSalt(10);

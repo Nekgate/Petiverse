@@ -1,12 +1,15 @@
-const express=require("express")
-const connectDB = require("./database/db")
-const app=express()
-const dotenv=require("dotenv")
+const express=require("express");
+const connectDB = require("./database/db");
+const app=express();
+const dotenv=require("dotenv");
 const cors = require('cors');
 const corsAllowed = require('./middlewares/corsAllow');
 const { errorHandler, CustomError } = require('./middlewares/error');
-const cookieParser=require("cookie-parser")
-const authRoute=require("./routes/auth")
+const cookieParser=require("cookie-parser");
+const authRoute=require("./routes/auth");
+const userRoute=require("./routes/user");
+const swaggerUi = require('swagger-ui-express');
+const path = require('path');
 
 
 dotenv.config()
@@ -23,8 +26,15 @@ app.use(express.json());
 // Allow the app to parse URL-encoded bodies
 // app.use(express.urlencoded({ extended: true }));
 
+// Load Swagger document
+// const swaggerDocument = require(path.join(__dirname, 'docs', 'swagger.json'));
+
+// Serve Swagger UI at /api-docs
+// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 // use authentication routes
-app.use("/api/v1/auth",authRoute)
+app.use("/api/v1/auth",authRoute);
+app.use("/api/v1/user", userRoute);
 
 // instantiationg errorHandler to app
 app.use(errorHandler);

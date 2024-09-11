@@ -1,5 +1,6 @@
 // Import the Mongoose library to interact with MongoDB
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
+const { type } = require("express/lib/response");
 
 // Define the schema for a comment
 // Reference to the user who created the comment (User model)
@@ -31,7 +32,7 @@ const commentSchema = new mongoose.Schema({
     // The user who replied
     users: {
       types: mongoose.Schema.Types.ObjectId,
-      ref: "Users",
+      ref: "User",
       required: true
     },
     // The text content of the reply

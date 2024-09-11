@@ -17,7 +17,7 @@ const verifyEmailController = async (req, res, next) => {
         });
         // throw error if no user found or expires
         if (!user) {
-            throw new CustomError("Invalid token or expired token", 400);
+            throw new CustomError("Invalid token or expired token, Register again in 24 hours", 400);
         }
         // if it is still verified and valid
         // change verification to true

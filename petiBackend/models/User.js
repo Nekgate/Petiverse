@@ -51,7 +51,8 @@ const userSchema = new mongoose.Schema({
     default: ""
   },
   lastLogin:{
-    type:Date
+    type:Date,
+    default: Date.now()
   },
   isVerified:{
     type:Boolean,
@@ -78,6 +79,18 @@ const userSchema = new mongoose.Schema({
   verificationToken:String,
   verificationTokenExpiresAt:Date,
 }, { timestamps: true });
+
+// creating index for faster querying, 1 is ascending and -1 is decending
+userSchema.index({
+  email: 1,
+  username: 1,
+  createdAt: -1,
+  lastLogin: -1,
+  posts: -1,
+  followers: -1,
+  following: -1,
+  blocklist: -1,
+});
 
 const User = mongoose.model("User", userSchema);
 
