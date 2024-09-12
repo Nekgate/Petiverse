@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken')
 const { CustomError } = require('../middlewares/error');
 const User = require('../models/User');
 const bcrypt = require('bcrypt');

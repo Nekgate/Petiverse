@@ -4,9 +4,10 @@ const app=express()
 const dotenv=require("dotenv")
 const cors = require('cors');
 const corsAllowed = require('./middlewares/corsAllow');
-const { errorHandler, CustomError } = require('./middlewares/error');
 const cookieParser=require("cookie-parser")
 const authRoute=require("./routes/auth")
+const userRoute=require("./routes/users")
+const { errorHandler } = require("./middlewares/error");
 
 
 dotenv.config()
@@ -25,6 +26,10 @@ app.use(express.json());
 
 // use authentication routes
 app.use("/api/v1/auth",authRoute)
+
+// use user routes
+app.use("/api/v1/user",userRoute)
+
 
 // instantiationg errorHandler to app
 app.use(errorHandler);
