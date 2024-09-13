@@ -15,7 +15,7 @@ const createCommentController = async (req, res, next) => {
         // get text form body
         const { text } = req.body;
         // throw error if text is empty
-        if (!text){
+        if (!text.trim()){
             throw new CustomError("Text not found", 400);
         }
         // get the id of user from the verifiedToken of user in cookie
@@ -69,7 +69,7 @@ const createCommentReplyController = async (req, res, next) => {
         // get userId,text form body
         const { text } = req.body;
         // throw error if text is empty
-        if (!text){
+        if (!text.trim()){
             throw new CustomError("Text not found", 400);
         }
         // get the id of user from the verifiedToken of user in cookie
@@ -120,7 +120,7 @@ const updateCommentController = async (req, res, next) => {
         // get text form body
         const { text } = req.body;
         // throw error if text is empty
-        if (!text){
+        if (!text.trim()){
             throw new CustomError("Text not found", 400);
         }
         // get the id of user from the verifiedToken of user in cookie
@@ -161,7 +161,7 @@ const updateReplyCommentController = async (req, res, next) => {
         // get text form body
         const { text } = req.body;
         // throw error if text is empty
-        if (!text){
+        if (!text.trim()){
             throw new CustomError("Text not found", 400);
         }
         // get the id of user from the verifiedToken of user in cookie

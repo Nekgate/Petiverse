@@ -8,12 +8,12 @@ const storySchema = new mongoose.Schema({
   },
   text: {
     type: String,
-    required: true,
+    default:"",
     trim: true
   },
   image: {
     type:String,
-    required:false
+    default: "",
   },
   createdAT: {
     type: Date,
