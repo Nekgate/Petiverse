@@ -20,7 +20,11 @@ const storySchema = new mongoose.Schema({
     default: Date.now
   }
 })
-
+// add index to schema
+storySchema.index({
+  createdAT: -1
+});
+// store the schema in story
 const Story = mongoose.model("Story",storySchema)
 
 module.exports = Story

@@ -11,7 +11,7 @@ const createStoryController = async (req, res, next) => {
         if (!userId) {
             throw new CustomError("You have to login first", 401);
         }
-
+    
         // Get text from the request body
         const { text } = req.body;
 
@@ -20,9 +20,12 @@ const createStoryController = async (req, res, next) => {
         if (!user) {
             throw new CustomError("User not found", 404);
         }
-
+        // image is stored as empty
+        let image = ""
         // Get the image URL from Cloudinary (if file uploaded)
-        const imageUrl = req.imageUrl;
+        if (req.file){
+            image=req.imageUrl;;
+        }
 
         // // Ensure that only one of text or image is provided (not both)
         // if (text && imageUrl) {
@@ -37,7 +40,7 @@ const createStoryController = async (req, res, next) => {
         // create new story
         const newStory = new Story({
             text,
-            image:imageUrl,
+            image,
             user:userId,
         });
         // session add the story and save

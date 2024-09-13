@@ -6,6 +6,13 @@ const { CustomError } = require('../middlewares/error');
 
 const createCommentController = async (req, res, next) => {
     try {
+        // get the id of user from the verifiedToken of user in cookie
+        const userId = req.userId;
+        // throw error if no user Id
+        if (!userId) {
+            throw new CustomError("You have to login first", 401);
+        }
+        
         // get postId from the url
         const { postId } = req.params;
         // throw error if no post id
@@ -18,12 +25,7 @@ const createCommentController = async (req, res, next) => {
         if (!text.trim()){
             throw new CustomError("Text not found", 400);
         }
-        // get the id of user from the verifiedToken of user in cookie
-        const userId = req.userId;
-        // throw error if no user Id
-        if (!userId) {
-            throw new CustomError("You have to login first", 401);
-        }
+        
         // get post with postId
         const post = await Post.findById(postId);
         // throw error if not found
