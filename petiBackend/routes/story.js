@@ -8,7 +8,7 @@ const { deleteUserStoriesController, deleteAStoryController } = require('../stor
 const router = express.Router();
 
 // CREATE STORY
-router.post("/create", verifyToken, upload.single(image), uploadStoryImage, createStoryController);
+router.post("/create", verifyToken, upload.single('image'), uploadStoryImage, createStoryController);
 
 // GET ALL STORIES
 router.get("/all/user/following", verifyToken, getStoriesController);

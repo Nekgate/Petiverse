@@ -42,7 +42,7 @@ app.use("/api/v1/user", userRoute);
 app.use("/api/v1/comment", commentRoute);
 app.use("/api/v1/story", storyRoute);
 app.use("/api/v1/chat", chatRoute);
-api.use("/api/v1/messages", messageRoute);
+app.use("/api/v1/messages", messageRoute);
 
 // instantiating errorHandler to app
 app.use(errorHandler);
