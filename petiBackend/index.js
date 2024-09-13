@@ -10,13 +10,21 @@ const userRoute=require("./routes/user");
 const commentRoute=require('./routes/comment');
 const storyRoute=require("./routes/story");
 const chatRoute=require("./routes/chat");
+const http = require('http');
 const messageRoute=require("./routes/message");
 const swaggerUi = require('swagger-ui-express');
 const path = require('path');
+const { setupSocket } = require('./utils/socketIOConfig');
 const { errorHandler, CustomError } = require("./middlewares/error");
 
 
 dotenv.config()
+
+// instantiating app to socketio setup
+const server = http.createServer(app);
+
+// Setup Socket.IO
+setupSocket(server);
 
 // Use cookieParser to allow the app to handle cookies
 app.use(cookieParser());
@@ -61,7 +69,7 @@ const port = process.env.PORT || 5000;
 connectDB()
     .then(() => {
         // Start the server after a successful database connection
-        app.listen(port, () => {
+        server.listen(port, () => {
             console.log("App is running on port"); // Log a message indicating the server is running
         });
     })

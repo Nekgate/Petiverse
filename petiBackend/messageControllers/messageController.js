@@ -2,6 +2,7 @@ const Message = require('../models/Message');
 const Conversation = require('../models/Conversation');
 const User = require('../models/User');
 const { CustomError } = require('../middlewares/error');
+const { emitMessage } = require('../utils/socketIOConfig');
 
 const createMessageController = async (req, res, next) => {
     try {
@@ -45,6 +46,9 @@ const createMessageController = async (req, res, next) => {
         })
         // save newMessage
         await newMessage.save();
+
+        // emit message to user instantly
+        emitMessage(conversationId, { conversationId, userId, text });
 
         res.status(201).json({text: newMessage.text});
     } catch(error) {
@@ -90,6 +94,9 @@ const editMessageController = async (req, res, next) => {
         // Update the message text
         message.text = text;
         await message.save();
+
+        // emit message to user instantly
+        emitMessage(message.conversationId, { conversationId: message.conversationId, userId, text });
 
         res.status(200).json({ text: message.text });
     } catch(error) {
