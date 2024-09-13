@@ -7,6 +7,7 @@ const corsAllowed = require('./middlewares/corsAllow');
 const cookieParser=require("cookie-parser");
 const authRoute=require("./routes/auth");
 const userRoute=require("./routes/user");
+const commentRoute=require('./routes/comment');
 const swaggerUi = require('swagger-ui-express');
 const path = require('path');
 const { errorHandler, CustomError } = require("./middlewares/error");
@@ -35,6 +36,7 @@ app.use(express.json());
 // use authentication routes
 app.use("/api/v1/auth",authRoute);
 app.use("/api/v1/user", userRoute);
+app.use("/api/v1/comment", commentRoute);
 
 // instantiating errorHandler to app
 app.use(errorHandler);

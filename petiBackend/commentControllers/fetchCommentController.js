@@ -1,3 +1,7 @@
+const Comment = require('../models/Comment');
+const Post = require('../models/Post');
+const { CustomError } = require("../middlewares/error");
+
 const populateUserDetails = async (comments) => {
     // populateUserDetails arrange how information will be represented
     // each comment in the post
@@ -13,9 +17,13 @@ const populateUserDetails = async (comments) => {
 }
 
 const getCommentsByPostController = async (req, res, next) => {
-    // get postId from url
-    const { postId } = req.params;
     try {
+        // get postId from url
+        const { postId } = req.params;
+        // throw error if there is no postId provided
+        if (!postId) {
+            throw new CustomError("postId not found", 400);
+        }
         // check if post exist
         const post = Post.findById(postId);
         // throw error if not found
@@ -23,7 +31,7 @@ const getCommentsByPostController = async (req, res, next) => {
             throw new CustomError("Post not found", 404);
         }
         // get all comment associated with the post
-        let comments = await Comment.find({post:postId});
+        const comments = await Comment.find({post:postId});
         // populate how the comment will be displayed
         await populateUserDetails(comments);
 
@@ -32,3 +40,5 @@ const getCommentsByPostController = async (req, res, next) => {
         next(error);
     }
 }
+
+module.exports = getCommentsByPostController;

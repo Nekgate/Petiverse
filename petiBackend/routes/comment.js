@@ -6,6 +6,17 @@ const {
     updateCommentController,
     updateReplyCommentController,
 } = require('../commentControllers/commentController');
+const { 
+    deleteCommentController,
+    deleteReplyCommentController,
+} = require('../commentControllers/deleteCommentController');
+const getCommentsByPostController = require('../commentControllers/fetchCommentController');
+const { 
+    likeCommentController,
+    dislikeCommentController,
+    likeReplyCommentController,
+    dislikeRelpyCommentController,
+} = require('../commentControllers/likeCommentController');
 const router = express.Router();
 
 
@@ -22,24 +33,24 @@ router.put("/update/:commentId", verifyToken, updateCommentController);
 router.put("/update/:commentId/replies/:replyId", verifyToken, updateReplyCommentController);
 
 // GET ALL POST COMMENTS
-router.get("/post/:postId", getCommentsByPostController);
+router.get("/post/:postId", verifyToken, getCommentsByPostController);
 
 // DELETE COMMENT
-router.delete("/delete/:commentId", deleteCommentController);
+router.delete("/delete/:commentId",verifyToken, deleteCommentController);
 
 // DELETE REPLY COMMENT
-router.delete("/delete/:commentId/replies/:replyId", deleteReplyCommentController)
+router.delete("/delete/:commentId/replies/:replyId", verifyToken, deleteReplyCommentController);
 
 // LIKE A COMMENT
-router.post("/like/:commentId", likeCommentController);
+router.post("/like/:commentId", verifyToken, likeCommentController);
 
 // UNLIKE COMMENT
-router.post("/dislike/:commentId", dislikeCommentController);
+router.post("/dislike/:commentId", verifyToken, dislikeCommentController);
 
 // LIKE A REPLY COMMENT 
-router.post("/:commentId/replies/like/:replyId", likeReplyCommentController);
+router.post("/:commentId/replies/like/:replyId", verifyToken, likeReplyCommentController);
 
 // UNLIKE REPLY COMMENT
-router.post("/:commentId/replies/dislike/:replyId", dislikeRelpyCommentController);
+router.post("/:commentId/replies/dislike/:replyId", verifyToken, dislikeRelpyCommentController);
 
 module.exports = router;

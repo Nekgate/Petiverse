@@ -1,9 +1,22 @@
+const User = require('../models/User');
+const Comment = require('../models/Comment');
+const { CustomError } = require("../middlewares/error");
+
+
 const likeCommentController = async (req, res, next) => {
-    // get comment id from url
-    const { commentId } = req.params;
-    // get userId from body
-    const { userId } = req.body;
     try {
+        // get comment id from url
+        const { commentId } = req.params;
+        // throw new error if commentId is not found on url
+        if (!commentId){
+            throw new CustomError("No query in path for comment", 400);
+        }
+        // get the id of user from the verifiedToken of user in cookie
+        const userId = req.userId;
+        // throw error if no user Id
+        if (!userId) {
+            throw new CustomError("You have to login first", 401);
+        }
         // check if commentId exist
         const comment = await Comment.findById(commentId);
         // throw error if not found
@@ -32,11 +45,19 @@ const likeCommentController = async (req, res, next) => {
 }
 
 const dislikeCommentController = async (req, res, next) => {
-    // get comment id from url
-    const { commentId } = req.params;
-    // get userId from body
-    const { userId } = req.body;
     try {
+        // get comment id from url
+        const { commentId } = req.params;
+        // throw new error if commentId is not found on url
+        if (!commentId){
+            throw new CustomError("No query in path for comment", 400);
+        }
+        // get the id of user from the verifiedToken of user in cookie
+        const userId = req.userId;
+        // throw error if no user Id
+        if (!userId) {
+            throw new CustomError("You have to login first", 401);
+        }
         // check if commentId exist
         const comment = await Comment.findById(commentId);
         // throw error if not found
@@ -53,7 +74,7 @@ const dislikeCommentController = async (req, res, next) => {
         if (!comment.likes.includes(userId)){
             throw new CustomError("You have not liked the comment before", 400);
         }
-        // filter the comment likes id and remove this user
+        // filter/remove the comment likes id and remove this user
         comment.likes=comment.likes.filter(id=>id.toString()!==userId);
         // save the comment
         await comment.save()
@@ -65,11 +86,19 @@ const dislikeCommentController = async (req, res, next) => {
 }
 
 const likeReplyCommentController = async (req, res, next) => {
-    // get comment id & reply id  from url
-    const { commentId, replyId } = req.params;
-    // get userId from body
-    const { userId } = req.body;
     try {
+        // get comment id & reply id  from url
+        const { commentId, replyId } = req.params;
+        // throw error if the comment & replyId is not provided
+        if (!(commentId && replyId)) {
+            throw new CustomError("CommentId and ReplyId is required", 400);
+        }
+        // get the id of user from the verifiedToken of user in cookie
+        const userId = req.userId;
+        // throw error if no user Id
+        if (!userId) {
+            throw new CustomError("You have to login first", 401);
+        }
         // check if commentId exist
         const comment = await Comment.findById(commentId);
         // throw error if not found
@@ -104,11 +133,19 @@ const likeReplyCommentController = async (req, res, next) => {
 }
 
 const dislikeRelpyCommentController = async (req, res, next) => {
-    // get comment id & reply id  from url
-    const { commentId, replyId } = req.params;
-    // get userId from body
-    const { userId } = req.body;
     try {
+        // get comment id & reply id  from url
+        const { commentId, replyId } = req.params;
+        // throw error if the comment & replyId is not provided
+        if (!(commentId && replyId)) {
+            throw new CustomError("CommentId and ReplyId is required", 400);
+        }
+        // get the id of user from the verifiedToken of user in cookie
+        const userId = req.userId;
+        // throw error if no user Id
+        if (!userId) {
+            throw new CustomError("You have to login first", 401);
+        }
         // check if commentId exist
         const comment = await Comment.findById(commentId);
         // throw error if not found
@@ -140,4 +177,11 @@ const dislikeRelpyCommentController = async (req, res, next) => {
     } catch(error) {
         next(error);
     }
+}
+
+module.exports = {
+    likeCommentController,
+    dislikeCommentController,
+    likeReplyCommentController,
+    dislikeRelpyCommentController
 }
