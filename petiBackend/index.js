@@ -4,12 +4,12 @@ const app=express();
 const dotenv=require("dotenv");
 const cors = require('cors');
 const corsAllowed = require('./middlewares/corsAllow');
-const { errorHandler, CustomError } = require('./middlewares/error');
 const cookieParser=require("cookie-parser");
 const authRoute=require("./routes/auth");
 const userRoute=require("./routes/user");
 const swaggerUi = require('swagger-ui-express');
 const path = require('path');
+const { errorHandler, CustomError } = require("./middlewares/error");
 
 
 dotenv.config()
@@ -36,7 +36,7 @@ app.use(express.json());
 app.use("/api/v1/auth",authRoute);
 app.use("/api/v1/user", userRoute);
 
-// instantiationg errorHandler to app
+// instantiating errorHandler to app
 app.use(errorHandler);
 
 // import port

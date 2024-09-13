@@ -1,22 +1,21 @@
-// multer handles upload and storage of information
-const multer = require("multer");
-const path = require("path");
+const multer = require("multer")
+const path = require("path")
 
-// storage function handles the storage info of uploaded information
+// Configure storage for uploaded files
 const storage = multer.diskStorage({
-    // destinating the file to uploads folder
+  // Destination where files will be stored
     destination:function (req, file, cb) {
-        cb(null, "uploads/")
+        cb(null,"uploads/")
     },
-    // destinating how the file will be saved
-    // filename-date uploaded and extention of the file originally
-    filename:function (req, file, cb) {
-        const ext = path.extname(file.originalname)
-        cb(null,`${file.fieldname}-${Date.now()}${ext}`)
+    // Filename format for uploaded files
+    filename:function(req, file, cb) {
+        const ext=path.extname(file.originalname) // Get file extension
+        cb(null, `${file.fieldname}-${Date.now()}${ext}`) // Set filename with timestamp
     }
 })
 
-// storing the storage in multer, assigning it to upload
-const upload = multer({storage:storage});
+// Create an instance of multer with the storage configuration
+const upload=multer({storage:storage})
 
-module.exports = upload;
+// Export the upload middleware to be used in routes
+module.exports=upload

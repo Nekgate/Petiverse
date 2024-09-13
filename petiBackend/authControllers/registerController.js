@@ -99,7 +99,6 @@ const registerContoller = async (req, res, next) => {
     }
 }
 
-
 module.exports = {
     registerContoller
 }

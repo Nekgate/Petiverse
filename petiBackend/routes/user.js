@@ -61,7 +61,7 @@ router.post("/block/:userId", verifyToken, blockUserController);
 router.post("/unblock/:userId", verifyToken, unblockUserController);
 
 // DELETE USER 
-router.delete("/delete", deleteUserController);
+router.delete("/delete", verifyToken, deleteUserController);
 
 // UPDATE PROFILE PICTURE
 // upload.single("profilePicture") changes the name of the file to profilePicture
@@ -76,6 +76,7 @@ router.put(
 // UPDATE COVER PICTURE
 router.put(
     "/update-cover-picture",
+    verifyToken,
     upload.single("coverPicture"),
     uploadCoverImage,
     uploadCoverPictureController

@@ -1,7 +1,7 @@
+const jwt = require('jsonwebtoken')
 const { CustomError } = require('../middlewares/error');
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 const generateTokenAndSetCookie = require('../utils/generateTokenAndSetCookie');
 
 const loginController = async (req, res, next) => {
