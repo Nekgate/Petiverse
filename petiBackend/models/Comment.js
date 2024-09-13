@@ -30,7 +30,7 @@ const commentSchema = new mongoose.Schema({
   // Nested array of replies, each reply has its own user, text, likes, and creation date
   replies: [{
     // The user who replied
-    users: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true
