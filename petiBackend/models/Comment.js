@@ -24,14 +24,14 @@ const commentSchema = new mongoose.Schema({
   },
   // Array of users (ObjectId) who liked the comment
   likes: [{
-    types: mongoose.Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "User"
   }],
   // Nested array of replies, each reply has its own user, text, likes, and creation date
   replies: [{
     // The user who replied
     users: {
-      types: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true
     },
@@ -43,7 +43,7 @@ const commentSchema = new mongoose.Schema({
     },
     // Array of users who liked the reply
     likes: [{
-      types:mongoose.Schema.Types.ObjectId,
+      type:mongoose.Schema.Types.ObjectId,
       ref: "User"
     }],
     // Timestamp of when the comment was created
@@ -56,6 +56,16 @@ const commentSchema = new mongoose.Schema({
   createdAT: {
     type: Date,
     default: Date.now
+  }
+});
+
+// add index to the database
+commentSchema.index({
+  createdAT: -1,
+  likes: -1,
+  replies: {
+    createdAT: -1,
+    likes: -1,
   }
 })
 

@@ -21,6 +21,6 @@ const storySchema = new mongoose.Schema({
   }
 })
 
-const Story = mongoose.Model("Story",storySchema)
+const Story = mongoose.model("Story",storySchema)
 
 module.exports = Story
