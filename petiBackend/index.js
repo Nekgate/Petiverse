@@ -9,6 +9,8 @@ const authRoute=require("./routes/auth");
 const userRoute=require("./routes/user");
 const commentRoute=require('./routes/comment');
 const storyRoute=require("./routes/story");
+const chatRoute=require("./routes/chat");
+const messageRoute=require("./routes/message");
 const swaggerUi = require('swagger-ui-express');
 const path = require('path');
 const { errorHandler, CustomError } = require("./middlewares/error");
@@ -39,6 +41,8 @@ app.use("/api/v1/auth",authRoute);
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/comment", commentRoute);
 app.use("/api/v1/story", storyRoute);
+app.use("/api/v1/chat", chatRoute);
+api.use("/api/v1/messages", messageRoute);
 
 // instantiating errorHandler to app
 app.use(errorHandler);

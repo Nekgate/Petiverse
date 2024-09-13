@@ -4,71 +4,94 @@ const User = require('../models/User');
 const { CustomError } = require('../middlewares/error');
 
 const createMessageController = async (req, res, next) => {
-    // destructure and get every item from body
-    const { conversationId, sender, text } = req.body;
     try {
+        // get the id of user from the verifiedToken of user in cookie
+        const userId = req.userId;
+        // throw error if no user Id
+        if (!userId) {
+            throw new CustomError("You have to login first", 401);
+        }
+        // destructure and get every item from body
+        const { conversationId, text } = req.body;
+        if (!text.trim()){
+            throw new CustomError("Text is not found", 400);
+        }
         // check if conversationId exist
         const conversation = await Conversation.findById(conversationId);
+        
         // throw error if not found
         if (!conversation) {
             throw new CustomError("Conversation not found!", 404)
         }
         // check if conversationId exist
-        const user = await User.findById({_id:sender});
+        const user = await User.findById({userId});
         // throw error if not found
-        if (!conversation) {
+        if (!user) {
             throw new CustomError("User not found!", 404)
+        }
+        // check if user in the participant of the conversation
+        const userInConvo = await Conversation.find({
+            participants:{$in:[userId]},
+        })
+        // throw error if user is not part of the conversation
+        if (!userInConvo) {
+            throw new CustomError("You cannot message in this convo", 401);
         }
         // create new message
         const newMessage = new Message({
             text,
             conversation:conversationId,
-            sender:sender,
+            sender:userId,
         })
         // save newMessage
         await newMessage.save();
 
-        res.status(201).json(newMessage);
+        res.status(201).json({text: newMessage.text});
     } catch(error) {
         next(error);
     }
 }
 
-const getMessagesController = async (req, res, next) => {
-    // get conversation id from url
-    const { conversationId } = req.params;
+const editMessageController = async (req, res, next) => {
     try {
-        // check if conversationId exist
-        const conversation = await Conversation.findById(conversationId);
-        // throw a error if not found
-        if (!conversation){
-            throw new CustomError("Conversation not found", 404);
+        // get the id of user from the verifiedToken of user in cookie
+        const userId = req.userId;
+        // throw error if no user Id
+        if (!userId) {
+            throw new CustomError("You have to login first", 401);
         }
-        // get all message that have same conversation Id
-        const messages = await Message.find({
-            conversation:conversationId
-        });
-        res.status(200).json(messages);
+        // Destructure and get messageId and updatedText from body
+        const messageId = req.params;
+        const text = req.body;
+        // throw error if text is not available
+        if (!text.trim()) {
+            throw new CustomError("Text is not found", 400);
+        }
 
-    } catch(error) {
-        next(error);
-    }
-}
-
-const deleteMessageController = async (req, res, next) => {
-    // get message id from url
-    const { messageId } = req.params;
-    try {
-        // check if message exist
+        // Find the message by its ID
         const message = await Message.findById(messageId);
-        // throw error if it don't exist
+        // Throw error if message is not found
         if (!message) {
-            throw new CustomError("Message not found");
+            throw new CustomError("Message not found!", 404);
         }
-        // find and delete the message in the database
-        await Message.findByIdAndDelete(messageId);
+        // check if user in the participant of the conversation
+        const userInConvo = await Conversation.find({
+            participants:{$in:[userId]},
+        })
+        // throw error if user is not part of the conversation
+        if (!userInConvo) {
+            throw new CustomError("You cannot message in this convo", 401);
+        }
+        // Check if the user is the sender of the message
+        if (message.sender.toString() !== userId.toString()) {
+            throw new CustomError("You cannot edit this message", 403);
+        }
 
-        res.status(200).json({message:"Message deleted succcessfully!"});
+        // Update the message text
+        message.text = text;
+        await message.save();
+
+        res.status(200).json({ text: message.text });
     } catch(error) {
         next(error);
     }
@@ -76,6 +99,5 @@ const deleteMessageController = async (req, res, next) => {
 
 module.exports = {
     createMessageController,
-    getMessagesController,
-    deleteMessageController,
-}
+    editMessageController
+};

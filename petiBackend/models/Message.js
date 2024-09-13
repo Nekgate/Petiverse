@@ -22,8 +22,12 @@ const messageSchema = new mongoose.Schema({
   }
 },{timestamps: true})  // Automatically adds createdAt and updatedAt timestamps
 
+// index the createAt decending last in first out
+messageSchema.index({
+  createdAt: -1
+});
 // Create a Mongoose model for the Message schema
 const Message = mongoose.model("Message",messageSchema)
 
 // Export the Message model for use in other parts of the application
-module.exports = Message
+module.exports = Message;
