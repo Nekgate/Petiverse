@@ -14,7 +14,7 @@ const deleteAStoryController = async (req, res, next) => {
         }
 
         // get story id from url
-        const storyId = req.params;
+        const storyId = req.params.storyId;
 
         // check if storyId is available
         if (!storyId) {
@@ -29,13 +29,13 @@ const deleteAStoryController = async (req, res, next) => {
         }
         // check if user that created the story is 
         // the same user that want to delete the story
-        if (story.user !== userId){
+        if (story.user.toString() !== userId){
             throw new CustomError("You did not create the story", 401);
         }
         // find and delete
-        await Story.findByIdAndDelete(storyId);
+        const updatedStory = await Story.findByIdAndDelete({_id:storyId});
         // save story
-        Story.save();
+        updatedStory.save();
 
         res.status(200).json({message:"Story Deleted Successfully"});
     } catch(error) {

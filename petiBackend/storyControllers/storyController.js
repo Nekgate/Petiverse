@@ -33,7 +33,7 @@ const createStoryController = async (req, res, next) => {
         // }
 
         // Ensure that either text or image is provided
-        if (!text.trim() && !imageUrl) {
+        if (!text && !image) {
             throw new CustomError("Either text or image must be provided", 400);
         }
                 

@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const upload = require('../middlewares/multerConfig');
 const verifyToken = require('../middlewares/verifyToken');
-const verifyUser = require('../middlewares/verifyUser');
 const { 
     getUserController,
     getBlockedUsersController,

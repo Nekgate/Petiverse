@@ -1,24 +1,41 @@
 const multer = require('multer');
 const cloudinary = require('../utils/cloudinaryConfig');
+const streamifier = require('streamifier');
 const { CustomError } = require('./error');
 
 
-const uploadStoryImage = async (req, res, next) => {
+const uploadImage = async (req, res, next) => {
     try {
         // Access the uploaded file via Multer
-        const image = req.file;
+        const image = req.file.buffer;
 
         // Throw error if no image is uploaded
         if (!image) {
             return next(new CustomError("Image is missing", 400));
         }
 
+        // Helper function to upload buffer to Cloudinary
+        const uploadToCloudinary = (buffer) => {
+            return new Promise((resolve, reject) => {
+                const uploadStream = cloudinary.uploader.upload_stream(
+                    {
+                        resource_type: "auto",
+                        public_id: `user_${req.userId}_story`,  // Make public_id dynamic
+                        upload_preset: 'stories',
+                    },
+                    (error, result) => {
+                        if (error) {
+                            reject(error);
+                        } else {
+                            resolve(result);
+                        }
+                    }
+                );
+                streamifier.createReadStream(buffer).pipe(uploadStream);
+            });
+        };
         // Upload the image to Cloudinary
-        const result = await cloudinary.uploader.upload(image.path, {
-            resource_type: "auto",
-            public_id: `user_${req.userId}_story`,  // Make public_id dynamic
-            upload_preset: 'story',
-        });
+        const result = await uploadToCloudinary(image);
 
         // Generate auto-cropped URL for the image
         const autoCropUrl = cloudinary.url(result.public_id, {
@@ -33,7 +50,6 @@ const uploadStoryImage = async (req, res, next) => {
         // Attach the image URLs to the request object for further use
         req.imageUrl = result.secure_url;
         req.autoCropUrl = autoCropUrl;
-        console.log(req.autoCropUrl);
 
         // Proceed to the next middleware/controller
         next();
@@ -43,4 +59,4 @@ const uploadStoryImage = async (req, res, next) => {
     }
 };
 
-module.exports = uploadStoryImage;
+module.exports = uploadImage;

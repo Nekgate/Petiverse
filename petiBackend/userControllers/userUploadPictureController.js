@@ -4,12 +4,6 @@ const { CustomError } = require('../middlewares/error');
 
 const uploadProfilePictureController = async (req, res, next) => {
     try {
-        // extract the file uploaded from request file processed in multer
-        const { filename } = req.file;
-        // throw error if not found
-        if (!filename) {
-            throw new CustomError("Profile Picture is required", 400);
-        }
         // get the image url of the file uploaded in cloudinary
         const imageUrl = req.imageUrl
         // check if cloudinary was able to upload and get url
@@ -46,12 +40,6 @@ const uploadProfilePictureController = async (req, res, next) => {
 
 const uploadCoverPictureController = async (req, res, next) => {
     try {
-        // extract the file uploaded from request file processed in multer
-        const { filename } = req.file;
-        // throw error if not found
-        if (!filename) {
-            throw new CustomError("Profile Picture is required", 400);
-        }
         // get the image url of the file uploaded in cloudinary
         const imageUrl = req.imageUrl
         // check if cloudinary was able to upload and get url
