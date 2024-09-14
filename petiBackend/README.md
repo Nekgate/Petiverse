@@ -156,14 +156,21 @@
 - PUT ROUTE
 - takes a file form data of image in jpg, png, jpeg
 - get userId from cookie
-- push the image to cloudinary and generate a url 
+- push the image to cloudinary and generate a url
+- {
+    profilePicture: image
+}
+
 
 ### UPDATE THE COVER PICTURE
-`api/v1/user/update-profile-picture`
+`api/v1/user/update-cover-picture`
 - PUT ROUTE
 - takes a file form data of image in jpg, png, jpeg
 - get userId from cookie
 - push the image to cloudinary and generate a url 
+- {
+    coverPicture: image
+}
 
 
 ## POST
@@ -173,3 +180,36 @@
 ## MESSAGE/CONVERSATION
 
 ## STORY
+
+### CREATE A STORY
+`api/v1/story/create`
+- POST ROUTE
+- takes a file form data of image in jpg, png, jpeg or text or both
+- get userId from cookie
+- push the image to cloudinary and generate a url 
+- {
+    image: image
+    text:text
+}
+
+### GET ALL STORY OF USERS A USER IS FOLLOWING
+`api/v1/story/all/user/following`
+- GET ROUTE
+- get userId from cookie
+
+### GET ALL STORY OF A USER
+`api/v1/story/user/stories`
+- GET ROUTE
+- get userId from cookie
+
+### DELETE A SINGLE STORY OF A USER
+- `api/v1/story/delete/:storyId`
+- DELETE ROUTE
+- url will contain the storyId, in other to delete
+- user must log in to perform
+
+### DELETE ALL STORIES OF A USER
+- `api/v1/story/delete/all/user/stories`
+- DELETE ROUTE
+- the cookie will contain the userId, in other to delete
+- user must log in to perform
