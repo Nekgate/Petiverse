@@ -1,0 +1,109 @@
+.footer-background{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 4rem;
+    background-color: black;
+    color: white;
+    overflow: hidden;
+    bottom: 0%;
+}
+.footer-inner{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.top-batch{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10rem;
+    margin-bottom: 2rem;
+}
+.foot-left{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 70%;
+}
+.foot-left p{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    font-size: 20px;
+    font-family: "lato";
+    font-weight: 300;
+    width: 70%;
+    line-height: 2rem;
+}
+.icons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+}
+.foot-a{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    margin-top: 2rem;
+}
+
+.foot-right{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 50%;
+    gap: 5rem;
+}
+.list-1{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.list-1 h5{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    font-size: 20px;
+    font-family: "Lato";
+}
+.list-1 ul{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-decoration: none;
+  list-style: none;
+}
+.list-1 li{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-decoration: none;
+  list-style: none;
+  font-size: 18px;
+  font-weight: 300;
+  font-family: "Lato";
+}
+.copy{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 300;
+    font-family: "Lato";
+}
