@@ -5,6 +5,7 @@
     align-items: center;
     width: 100%;
     position: relative;
+    overflow: hidden;
 }
 .back-ads{
     width: 100%;

@@ -5,7 +5,8 @@ import Mid from "./components/Mid/mid";
 import Service from "./components/Services/service";
 import Article from "./components/Articles/article";
 import About from "./components/About/about";
-import Ads from "./components/Ads/ads"
+import Ads from "./components/Ads/ads";
+import Review from "./components/Reviews/review";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Article />
       <About />
       <Ads />
+      <Review />
     </div>
   );
 }
