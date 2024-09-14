@@ -45,7 +45,7 @@ function footer() {
             </div>
           </div>
         </div>
-        <p className='copy'>copyrightt©|All rights reserved | Terms and Privacy Policy</p>
+        <p className='copy'>copyright© | All rights reserved | Terms and Privacy Policy</p>
       </div>
     </div>;
 }
