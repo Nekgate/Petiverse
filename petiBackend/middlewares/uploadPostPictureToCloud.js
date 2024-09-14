@@ -8,7 +8,6 @@ const uploadImages = async (req, res, next) => {
     try {
         // Access the uploaded files via Multer
         const images = req.files;
-        console.log(images);
 
         // Throw error if no images are uploaded
         if (!images || images.length === 0) {

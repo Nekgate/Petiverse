@@ -10,6 +10,7 @@ const userRoute=require("./routes/user");
 const commentRoute=require('./routes/comment');
 const storyRoute=require("./routes/story");
 const chatRoute=require("./routes/chat");
+const postRoute=require("./routes/posts");
 const http = require('http');
 const messageRoute=require("./routes/message");
 const swaggerUi = require('swagger-ui-express');
@@ -52,6 +53,7 @@ app.use("/api/v1/comment", commentRoute);
 app.use("/api/v1/story", storyRoute);
 app.use("/api/v1/chat", chatRoute);
 app.use("/api/v1/messages", messageRoute);
+app.use("/api/v1/post", postRoute);
 
 // instantiating errorHandler to app
 app.use(errorHandler);
