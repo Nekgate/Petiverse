@@ -16,6 +16,7 @@ const swaggerUi = require('swagger-ui-express');
 const path = require('path');
 const { setupSocket } = require('./utils/socketIOConfig');
 const { errorHandler, CustomError } = require("./middlewares/error");
+require('./utils/redisMongooseCacheConfig');
 
 
 dotenv.config()
