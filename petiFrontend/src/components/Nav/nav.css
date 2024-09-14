@@ -1,0 +1,64 @@
+.Background{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 30px;
+    background-color: white;
+    opacity: var(--sds-size-stroke-border);
+    background: rgba(255, 255, 255, 0.50);
+    box-shadow: 0px 2px 13.1px 0px rgba(0, 0, 0, 0.10);
+    backdrop-filter: blur(10.199999809265137px);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+.col-two{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+ul{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    list-style-type: none;
+    gap: 2rem;
+}
+li{
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 500;
+    font-family: "Lato";
+}
+
+.col-three{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+.col-three button{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: "Lato";
+}
+.col-three button.btn-1{
+   background-color: black;
+   color: white;
+}
+.col-three button.btn-2{
+   background-color: transparent;
+   color: black;
+}

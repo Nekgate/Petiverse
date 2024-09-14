@@ -1,0 +1,53 @@
+.ads-background{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    position: relative;
+}
+.back-ads{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+.ads-over{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    align-items: center;
+    overflow: hidden;
+}
+.ads-over h1{
+    font-size: 45px;
+    font-weight: 200;
+    font-family: "Lato";
+    color: white;
+}
+.ads-over p{
+    font-size: 26px;
+    font-weight: 400;
+    font-family: "Lato";
+    color: white;
+    margin-top: 0rem;
+    font-style: normal;
+    line-height: normal;
+    text-align: center;
+}
+.ads-over button{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 3rem;
+    font-size: 20px;
+    border: 1px solid white;
+    background-color: transparent;
+    color: white;
+    margin-top: 2rem
+}

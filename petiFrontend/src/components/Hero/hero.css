@@ -1,0 +1,66 @@
+.hero-background{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 0rem 0rem;
+}
+.hero-inner{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.left{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 50%;
+    padding: 0rem 5rem;
+}
+.left h1{
+   color: black;
+   font-family: Lato;
+   font-size: 70px;
+   font-weight: 700;
+   width: 90%;
+   margin-bottom: 0rem;
+}
+span{
+    color: #613105;
+}
+.left p{
+    color: #252525;
+    font-family: Lato;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 35px;
+    margin-top: 2rem;
+    width: 90%;
+}
+.hero-btn button{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 4rem;
+    font-size: 18px;
+    font-family: "Lato";
+    font-weight: 500;
+    color: white;
+    background-color: #1A1A1A;
+    border-radius: 2px;
+    margin-top: 2rem;
+    border: 1px solid #1A1A1A;
+    cursor: pointer;
+}
+.right{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-end;
+    width: 50%;
+}
