@@ -10,8 +10,7 @@ const getAllUsersVerifiedController = async (req, res, next) => {
             throw new CustomError("You have to login first", 401);
         }
         // Get all verified users from the database
-        const users = await User.find({ isVerified: true })
-        .cache(userId).sort(-createdAt);
+        const users = await User.find({ isVerified: true });
 
         // Remove sensitive fields for each user
         const foundUsers = users.map(user => {

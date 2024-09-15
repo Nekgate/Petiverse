@@ -6,11 +6,13 @@ const { sendPasswordResetEmail } = require('../mailutils/sendMailToResetPassword
 const forgotPasswordController = async (req, res, next) => {
     // get email of user from body
     const { email } = req.body;
+    console.log(email);
 
     try {
         // validate if email is provided and is in valid format
-        if (!(email && /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email))) {
-            throw new CustomError("Invalid email format", 400);
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!(email && emailPattern.test(email))) {
+        throw new CustomError("Invalid email format", 400);
         }
         // check if the email exist and verified
         const user = await User.findOne({ email: email });

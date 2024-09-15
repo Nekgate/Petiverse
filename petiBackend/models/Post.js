@@ -1,10 +1,15 @@
-const mongoose=require("mongoose")
+const mongoose = require("mongoose")
 
-const postSchema=new mongoose.Schema({
+const postSchema = new mongoose.Schema({
   user:{
     type:mongoose.Schema.Types.ObjectId,
     ref:"User",
     required:true
+  },
+  visibility:{
+    type: String,
+    enum: ['public','friends'],
+    default: 'friends'
   },
   caption:{
     type:String,

@@ -5,9 +5,11 @@ const verifyToken = require('../middlewares/verifyToken');
 const { 
     createPostController,
     createPostWithImageController,
-    updatePostController
+    updatePostController,
+    updatePostVisibilityController
 } = require('../postControllers/postController');
 const uploadImages = require('../middlewares/uploadPostPictureToCloud');
+const { getPostsController, getAPostController } = require('../postControllers/fetchPostController');
 
 
 // CREATE POST
@@ -20,11 +22,23 @@ router.post("/create/image",verifyToken, upload.array("image",5),uploadImages, c
 // UPDATE POST
 router.put("/update/:postId", verifyToken, updatePostController);
 
-// GET ALL POSTS
-// router.get("/all/:userId", getPostsController);
+// UPDATE POST VISIBILITY
+router.put("/update/visibility/:postId", verifyToken, updatePostVisibilityController);
 
-// GET USER POSTS
-// router.get("/user/:userId", getUserPostsController);
+// GET A POSTS
+router.get("/:postId", verifyToken, getAPostController);
+
+// GET ALL POSTS
+router.get("/all", verifyToken, getPostsController);
+
+// GET ALL POSTS FROM A USER
+// router.get("/users/:userId", getUserPostsController);
+
+// GET LOGGED IN USER POST
+// router.get("/posts", getUserPostsController);
+
+// GET A SINGLE POST OF USER
+// router.get("/posts", getUserPostsController);
 
 // DELETE A POST
 // router.delete("/delete/:postId", deletePostController);
