@@ -1,0 +1,138 @@
+.create-account{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem 1rem;
+    background-color: white;
+    overflow: hidden;
+}
+.create-inner{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.cre-head{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    font-family: "Lato";
+    font-weight: 700;
+     margin-bottom: 1rem;
+}
+.cre-para{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 20px;
+    font-family: "Lato";
+    font-weight: 300;
+    margin-top: 0rem;
+    width: 100%;
+}
+.cre-form{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    width: 100%;
+}
+.form-in{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+    margin-top: 2rem;
+}
+.form-in label{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    font-size: 20px;
+    font-weight: 400;
+    font-family:"Lato";
+}
+.form-in input{
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+align-items: flex-start;
+width: 100%;
+border: 1px solid black;
+padding: 1rem;
+margin-top: 10px;
+border-radius: 5px;
+font-family:"Lato";
+font-size: 24px;
+}
+::placeholder{
+    font-size: 20px;
+    font-weight: 300;
+    font-family: "Lato";
+}
+.form-check{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.box-check{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+}
+.form-check label{
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   align-items: center;
+}
+.create-btn{
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items: center;
+    width: 100%;
+    gap: 1rem;
+    margin-top: 3rem;
+    padding: 0rem 1rem;
+}
+.btn-create{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 1rem 2rem;
+    font-size: 20px;
+    font-weight: 400;
+    background-color: black;
+    color: white;
+    font-family: "Lato";
+    cursor: pointer;
+}
+.btn-log{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 1rem 0rem;
+    font-size: 20px;
+    font-weight: 400;
+    background-color: white;
+    border: 1px solid black;
+    color: black;
+    font-family: "Lato";
+    cursor: pointer;
+}

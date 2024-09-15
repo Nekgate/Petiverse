@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { data as mockData } from "../../mocks/referrals";
+import { data as mockData } from "../../../mocks/referrals";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "../Reviews/reviews.css";
+import "./reviews.css";
 
 function Review() {
   var settings = {

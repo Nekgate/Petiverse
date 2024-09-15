@@ -1,5 +1,5 @@
 import React from 'react';
-import "../Hero/hero.css"
+import "./hero.css"
 
 function hero() {
   return <div className='hero-background'>

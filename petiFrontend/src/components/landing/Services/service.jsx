@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { data as mockData } from "../../mocks/offers";
+import { data as mockData } from "../../../mocks/offers";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "../Services/service.css";
+import "./service.css";
 
 function Service() {
 

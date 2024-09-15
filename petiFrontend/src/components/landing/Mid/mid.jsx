@@ -1,5 +1,5 @@
 import React from 'react';
-import "../Mid/mid.css"
+import "./mid.css"
 
 function mid() {
   return <div className="mid-background">

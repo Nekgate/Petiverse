@@ -1,5 +1,5 @@
 import React from 'react';
-import "../Nav/nav.css";
+import "../../../components/auth/signup/nav/nav.css";
 
 function nav() {
   return <div className="Background">

@@ -1,5 +1,5 @@
 import React from 'react';
-import "../Ads/ads.css";
+import "./ads.css";
 
 function ads() {
   return <div className="ads-background">

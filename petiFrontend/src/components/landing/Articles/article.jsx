@@ -1,5 +1,5 @@
 import React from 'react';
-import "../Articles/article.css";
+import "./article.css";
 
 function article() {
   return <div className="art-background">

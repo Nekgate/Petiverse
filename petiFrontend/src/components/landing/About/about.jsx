@@ -1,5 +1,5 @@
 import React from 'react';
-import "../About/about.css";
+import "./about.css";
 
 function about() {
   return <div className='about-background'>

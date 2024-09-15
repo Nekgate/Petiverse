@@ -2,7 +2,7 @@ import React from 'react';
 import { MdOutlineMailOutline } from "react-icons/md";
 import { FiTwitter } from "react-icons/fi";
 import { FiLinkedin } from "react-icons/fi";
-import "../Footer/footer.css";
+import "./footer.css";
 
 function footer() {
   return <div className="footer-background">
