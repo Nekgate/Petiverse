@@ -14,6 +14,7 @@
     CLOUDINARY_NAME=cloudinary name
     CLOUDINARY_API_KEY=cloudinary api name
     CLOUDINARY_API_SECRET=cloudinary api secret key
+    REDIS_URL=redis url
 }
 
 ## AUTH ROUTES

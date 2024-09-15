@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 const redis = require('redis');
 const util = require('util');
+const dotenv = require('dotenv');
+
+// initialize the dotenv
+dotenv.config();
 
 // Getting the redis URL from .env
 const redisUrl = process.env.REDIS_URL;
@@ -38,7 +42,7 @@ mongoose.Query.prototype.exec = async function () {
 
     try {
         // Check if there is a cached value for the generated key in Redis
-        const cacheValue = await client.hget(this.hashKey, key);
+        const cacheValue = await client.hGet(this.hashKey, key);
 
         if (cacheValue) {
             const doc = JSON.parse(cacheValue);
@@ -52,7 +56,7 @@ mongoose.Query.prototype.exec = async function () {
         const result = await exec.apply(this, arguments);
 
         // Cache the result in Redis and set the expiration time
-        await client.hset(this.hashKey, key, JSON.stringify(result), 'EX', this.cacheExpire);
+        await client.hSet(this.hashKey, key, JSON.stringify(result), 'EX', this.cacheExpire);
 
         return result;
     } catch (err) {

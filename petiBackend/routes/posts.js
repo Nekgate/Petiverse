@@ -9,6 +9,7 @@ const {
     updatePostVisibilityController
 } = require('../postControllers/postController');
 const uploadImages = require('../middlewares/uploadPostPictureToCloud');
+const { getPostsController, getAPostController } = require('../postControllers/fetchPostController');
 
 
 // CREATE POST
@@ -24,11 +25,20 @@ router.put("/update/:postId", verifyToken, updatePostController);
 // UPDATE POST VISIBILITY
 router.put("/update/visibility/:postId", verifyToken, updatePostVisibilityController);
 
-// GET ALL POSTS
-// router.get("/all/:userId", getPostsController);
+// GET A POSTS
+router.get("/:postId", verifyToken, getAPostController);
 
-// GET USER POSTS
-// router.get("/user/:userId", getUserPostsController);
+// GET ALL POSTS
+router.get("/all", verifyToken, getPostsController);
+
+// GET ALL POSTS FROM A USER
+// router.get("/users/:userId", getUserPostsController);
+
+// GET LOGGED IN USER POST
+// router.get("/posts", getUserPostsController);
+
+// GET A SINGLE POST OF USER
+// router.get("/posts", getUserPostsController);
 
 // DELETE A POST
 // router.delete("/delete/:postId", deletePostController);

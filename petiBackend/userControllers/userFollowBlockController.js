@@ -30,7 +30,11 @@ const followUserController = async (req, res, next) => {
         // throw error if user is not verified
         if (!userToFollow.isVerified){
             throw new CustomError("User is not verified", 401);
-        } 
+        }
+        // if the following user is already following each other throw error
+        if (userToFollow.blocklist.includes(userId)) {
+            throw new CustomError("You are bared to follow this user!", 400);
+        }
         // if the following user is already following each other throw error
         if (loggedInUser.following.includes(userId)) {
             throw new CustomError("Already following this user!", 400);
