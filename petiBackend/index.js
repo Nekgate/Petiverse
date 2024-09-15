@@ -38,7 +38,7 @@ app.use(cors(corsAllowed));
 app.use(express.json());
 
 // Allow the app to parse URL-encoded bodies
-// app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 
 // Load Swagger document
 // const swaggerDocument = require(path.join(__dirname, 'docs', 'swagger.json'));

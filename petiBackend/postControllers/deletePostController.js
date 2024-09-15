@@ -1,7 +1,17 @@
+const Post = require('../models/Post');
+const User = require('../models/User');
+const { CustomError } = require('../middlewares/error');
+
 const deletePostController = async (req, res, next) => {
     // get the postId from the params
     const { postId } = req.params;
     try {
+        // get the id of user from the verifiedToken of user in cookie
+        const userId = req.userId;
+        // throw error if no user Id
+        if (!userId) {
+            throw new CustomError("You have to login first", 401);
+        }
         // get post object
         const postToDelete = await Post.findById(postId);
         // throw error if not found

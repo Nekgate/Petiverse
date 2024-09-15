@@ -1,7 +1,16 @@
+const Post = require('../models/Post');
+const User = require('../models/User');
+const { CustomError } = require('../middlewares/error');
+
+
 const getPostsController = async (req, res, next) => {
-    // get the userId from the params
-    const { userId } = req.params;
     try {
+        // get the id of user from the verifiedToken of user in cookie
+        const userId = req.userId;
+        // throw error if no user Id
+        if (!userId) {
+            throw new CustomError("You have to login first", 401);
+        }
         // get user object
         const user = await User.findById(userId);
         // throw error if not found
@@ -25,6 +34,12 @@ const getUserPostsController = async (req, res, next) => {
     // get the userId from the params
     const { userId } = req.params;
     try {
+        // get the id of user from the verifiedToken of user in cookie
+        const userId = req.userId;
+        // throw error if no user Id
+        if (!userId) {
+            throw new CustomError("You have to login first", 401);
+        }
         // get user object
         const user = await User.findById(userId);
         // throw error if not found

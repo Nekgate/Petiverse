@@ -5,7 +5,8 @@ const verifyToken = require('../middlewares/verifyToken');
 const { 
     createPostController,
     createPostWithImageController,
-    updatePostController
+    updatePostController,
+    updatePostVisibilityController
 } = require('../postControllers/postController');
 const uploadImages = require('../middlewares/uploadPostPictureToCloud');
 
@@ -19,6 +20,9 @@ router.post("/create/image",verifyToken, upload.array("image",5),uploadImages, c
 
 // UPDATE POST
 router.put("/update/:postId", verifyToken, updatePostController);
+
+// UPDATE POST VISIBILITY
+router.put("/update/visibility/:postId", verifyToken, updatePostVisibilityController);
 
 // GET ALL POSTS
 // router.get("/all/:userId", getPostsController);

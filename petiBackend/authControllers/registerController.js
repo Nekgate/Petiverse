@@ -20,7 +20,7 @@ const registerContoller = async (req, res, next) => {
             throw new CustomError("Invalid Username", 400);
         }
         // check if user added invalid email protoype ensuring the .com or .co.uk is accepted
-        if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)){
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
             throw new CustomError("Invalid Email", 400);
         }
         // check if password and confirmPassword is not the same and throw error

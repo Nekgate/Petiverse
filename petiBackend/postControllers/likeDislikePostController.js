@@ -1,9 +1,20 @@
+const Post = require('../models/Post');
+const User = require('../models/User');
+const { CustomError } = require('../middlewares/error');
+
+
 const likePostController = async (req, res, next) => {
     // get the postId from the params
     const { postId } = req.params;
     // get the user to like the post from body
     const { userId } = req.body;
     try {
+        // get the id of user from the verifiedToken of user in cookie
+        const userId = req.userId;
+        // throw error if no user Id
+        if (!userId) {
+            throw new CustomError("You have to login first", 401);
+        }
         // find the postId in database
         const post = await Post.findById(postId);
         // throw error if not found
@@ -37,6 +48,12 @@ const dislikePostController = async (req, res, next) => {
     // get the user to like the post from body
     const { userId } = req.body;
     try {
+        // get the id of user from the verifiedToken of user in cookie
+        const userId = req.userId;
+        // throw error if no user Id
+        if (!userId) {
+            throw new CustomError("You have to login first", 401);
+        }
         // find the postId in database
         const post = await Post.findById(postId);
         // throw error if not found
