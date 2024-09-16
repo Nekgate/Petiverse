@@ -4,11 +4,13 @@ const { CustomError } = require('../middlewares/error');
 
 
 const likePostController = async (req, res, next) => {
-    // get the postId from the params
-    const { postId } = req.params;
-    // get the user to like the post from body
-    const { userId } = req.body;
     try {
+        // get the postId from the params
+        const { postId } = req.params;
+        // return no post to like
+        if (!postId){
+            res.status(200).json({message:"No post selected for like"});
+        }
         // get the id of user from the verifiedToken of user in cookie
         const userId = req.userId;
         // throw error if no user Id
