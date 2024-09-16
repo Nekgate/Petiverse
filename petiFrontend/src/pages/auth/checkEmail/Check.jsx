@@ -1,8 +1,13 @@
-import React from 'react'
+import React from 'react';
+import AuthNav from "../../../components/auth/authNav/AuthNav";
+import Check from "../../../components/auth/checkEmail/Check";
 
 function check() {
   return (
-    <div>check</div>
+    <div>
+      <AuthNav />
+      <Check />
+    </div>
   )
 }
 

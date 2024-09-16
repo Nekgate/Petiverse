@@ -1,0 +1,15 @@
+.auth-Background{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    background-color: white;
+    opacity: var(--sds-size-stroke-border);
+    background: rgba(255, 255, 255, 0.50);
+    box-shadow: 0px 2px 13.1px 0px rgba(0, 0, 0, 0.10);
+    backdrop-filter: blur(10.199999809265137px);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}

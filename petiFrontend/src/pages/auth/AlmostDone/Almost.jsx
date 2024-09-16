@@ -1,9 +1,12 @@
-import React from 'react'
+import React from 'react';
+import AlmostBody from "../../../components/auth/almostDone/AlmostBody";
+import AuthNav from "../../../components/auth/authNav/AuthNav";
 
-function almost() {
-  return (
-    <div>almost</div>
-  )
+function Almost() {
+  return <div>
+      <AuthNav />
+      <AlmostBody />
+    </div>;
 }
 
-export default almost
+export default Almost

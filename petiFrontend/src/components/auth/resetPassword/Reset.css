@@ -1,0 +1,137 @@
+.reset-background{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 4rem;
+    overflow: hidden;
+    background-color: white;
+}
+.reset-inner{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+.reset-left{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+.reset-right{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: start;
+    width: 100%;
+}
+.reset-right h1{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: start;
+    font-size: 45px;
+    font-family: "Lato";
+    font-weight: 800;
+    margin-bottom: .5rem;
+}
+.reset-right p{
+     display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: start;
+    font-size: 24px;
+    font-family: "Lato";
+    font-weight: 400;
+    margin-top: 0rem;
+    margin-bottom: 3rem;
+}
+.re-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+    gap: 2rem;
+}
+.re-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 80%;
+}
+.form-in-reset{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 70%;
+}
+.re-form label{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    font-size: 20px;
+    margin-bottom: 1rem;
+}
+.re-form input{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 1rem;
+    width: 100%;
+}
+.form-reset-check{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.box-reset-check{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+}
+.form-reset-check label{
+   display: flex;
+   flex-direction: row;
+   justify-content: flex-start;
+   align-items: flex-start;
+   width: 100%;
+   font-size: 16px;
+   margin-top: 0rem;
+}
+
+.reset-btn{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+}
+.btn-reset{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 75%;
+    padding: 1rem;
+    font-size: 20px;
+    font-weight: 400;
+    background-color: black;
+    color: white;
+    font-family: "Lato";
+    cursor: pointer;
+    margin-top: 1rem;
+}

@@ -1,8 +1,13 @@
-import React from 'react'
+import React from 'react';
+import AuthNav from '../../../components/auth/authNav/AuthNav';
+import Success from '../../../components/auth/success/Success';
 
 function successSignup() {
   return (
-    <div>successSignup</div>
+    <div>
+      <AuthNav />
+      <Success />
+    </div>
   )
 }
 

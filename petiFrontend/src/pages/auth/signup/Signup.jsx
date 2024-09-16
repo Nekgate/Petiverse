@@ -1,14 +1,14 @@
-import React from 'react';
-import Nav from "../../../components/auth/signup/nav/nav";
-import Body from "../../../components/auth/signup/body/body";
+import React from "react";
+import AuthNav from "../../../components/auth/authNav/AuthNav";
+import Signbody from "../../../components/auth/signup/SignBody";
 
 function Signup() {
   return (
     <div>
-      <Nav />
-      <Body />
-      </div>
-  )
+      <AuthNav />
+      <Signbody />
+    </div>
+  );
 }
 
 export default Signup;

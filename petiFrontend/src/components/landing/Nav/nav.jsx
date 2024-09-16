@@ -1,8 +1,10 @@
-import React from 'react';
-import "../../../components/auth/signup/nav/nav.css";
+import React from "react";
+import "../../../components/landing/Nav/nav.css";
+import { Link } from "react-router-dom";
 
 function nav() {
-  return <div className="Background">
+  return (
+    <div className="Background">
       <div className="col-one">
         <img src="/images/logo.png" alt="Logo" />
       </div>
@@ -15,10 +17,15 @@ function nav() {
         </ul>
       </div>
       <div className="col-three">
-        <button className='btn-1'>Sign in</button>
-        <button className='btn-2'>Sign up</button>
+        <Link to="/login" className="btn-1">
+          Sign in
+        </Link>
+        <Link to="/signup" className="btn-2">
+          Sign up
+        </Link>
       </div>
-    </div>;
+    </div>
+  );
 }
 
-export default nav
+export default nav;

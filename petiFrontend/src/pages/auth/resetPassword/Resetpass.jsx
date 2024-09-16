@@ -1,9 +1,14 @@
-import React from 'react'
+import React from 'react';
+import AuthNav from '../../../components/auth/authNav/AuthNav';
+import ResetPassword from "../../../components/auth/resetPassword/Reset";
 
-function resetpass() {
+function Resetpass() {
   return (
-    <div>resetpass</div>
+    <div>
+      <AuthNav />
+      <ResetPassword />
+    </div>
   )
 }
 
-export default resetpass
+export default Resetpass

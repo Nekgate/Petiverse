@@ -1,9 +1,14 @@
-import React from 'react'
+import React from 'react';
+import AuthNav from "../../../components/auth/authNav/AuthNav";
+import Log from "../../../components/auth/login/Login";
 
-function login() {
+function Login() {
   return (
-    <div>login</div>
+    <div>
+      <AuthNav />
+      <Log />
+    </div>
   )
 }
 
-export default login
+export default Login
