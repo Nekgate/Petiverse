@@ -18,7 +18,7 @@ function about() {
           <button>Learn More</button>
         </div>
         <div className="about-right">
-          <img src="/images/woman.png" alt="img" />
+          <img src="/Images/woman.png" alt="img" />
         </div>
       </div>
     </div>;

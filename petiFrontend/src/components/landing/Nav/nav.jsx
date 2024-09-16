@@ -6,7 +6,7 @@ function nav() {
   return (
     <div className="Background">
       <div className="col-one">
-        <img src="/images/logo.png" alt="Logo" />
+        <img src="/Images/logo.png" alt="Logo" />
       </div>
       <div className="col-two">
         <ul>

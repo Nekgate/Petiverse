@@ -2,7 +2,7 @@ import React from "react";
 import Landing from "./pages/Landing";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Signup from "./pages/auth/signup/Signup";
-import AlmostDone from "./pages/auth/almostDone/Almost";
+import Almost from "./pages/auth/AlmostDone/Almost";
 import Success from "./pages/auth/successSignup/SuccessSignup";
 import ForgotPassword from "./pages/auth/forgotPassword/ForgotPassword";
 import CheckEmail from "./pages/auth/checkEmail/Check";
@@ -16,7 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/almostDone" element={<AlmostDone />} />
+          <Route path="/almostDone" element={<Almost />} />
           <Route path="/successSignup" element={<Success />} />
           <Route path="/forgotPassword" element={<ForgotPassword />} />
           <Route path="/checkEmail" element={<CheckEmail />} />

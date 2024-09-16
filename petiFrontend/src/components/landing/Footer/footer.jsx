@@ -10,7 +10,7 @@ function footer() {
         <div className="top-batch">
           <div className="foot-left">
             <div>
-              <img src="/images/d-logo.png" alt="img" />
+              <img src="/Images/d-logo.png" alt="img" />
             </div>
             <p>
               The unconditional love of a pet can do more than keep you

@@ -9,4 +9,4 @@ function Almost() {
     </div>;
 }
 
-export default Almost
+export default Almost;
