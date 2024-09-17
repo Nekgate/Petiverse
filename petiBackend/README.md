@@ -176,6 +176,37 @@
 
 ## POST
 
+### CREATE POST WITH ONLY TEXT
+- `/api/v1/post/create`
+- POST ROUTE
+- takes caption or text for post and visibility
+- get userId from cookie
+- {
+    caption:text,
+    visibility:public||friends however friends is 
+}
+
+### CREATE POST WITH IMAGES
+- `/api/v1/post/create-post`
+- POST ROUTE
+- takes caption or text for post, images not more than 5 and visibility
+- get userId from cookie
+- {
+    images
+    caption:text,
+    visibility:public||friends however friends is 
+}
+
+### UPDATE TEXT IN BOTH POST NOT IMAGE
+### DELETE POST
+### LIKE POST
+### UNLIKE POST
+### GET POST OF USERS THAT ARE PUBLIC AND USER FOLLOWING
+### GET A POST OF USERS THAT ARE PUBLIC AND USER FOLLOWING
+### GET USERS POSTS
+### GET A USER POST
+### TOBE DELETE ROUTE.....GET ALL POST WITHOUT USER
+
 ## COMMENT
 
 ## MESSAGE/CONVERSATION
