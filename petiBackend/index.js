@@ -69,6 +69,8 @@ const port = process.env.PORT || 5000;
 // })
 
 // Connect to the database and then start the server
+// Connect to the database and then start the server
+// Connect to the database and then start the server
 connectDB()
     .then(() => {
         // Start the server after a successful database connection
