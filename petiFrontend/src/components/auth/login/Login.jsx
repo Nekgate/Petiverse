@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+import React, { useState } from "react";
 import "../../../components/auth/login/Login.css";
 import { Link } from "react-router-dom";
+import { authenticateUser } from "../../../api/authenticationApi";
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -17,12 +18,15 @@ function Login() {
     }));
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
     console.log(formData);
+    const userData = await authenticateUser(formData);
+    console.log("userData:", userData);
   };
 
-  return <div className="login-background">
+  return (
+    <div className="login-background">
       <div className="login-inner">
         <h2 className="log-head">Login</h2>
         <p className="log-para">
@@ -31,15 +35,35 @@ function Login() {
         <form onSubmit={handleSubmit} className="log-form">
           <div className="form-in">
             <label>Email Address:</label>
-            <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Enter your email address" required />
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Enter your email address"
+              required
+            />
           </div>
           <div className="form-in">
             <label>Password:</label>
-            <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Enter your password" required />
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Enter your password"
+              required
+            />
           </div>
           <div className="log-check-low">
             <div className="form-check">
-              <input className="box-check" type="checkbox" name="rememberMe" checked={formData.rememberMe} onChange={handleChange} />
+              <input
+                className="box-check"
+                type="checkbox"
+                name="rememberMe"
+                checked={formData.rememberMe}
+                onChange={handleChange}
+              />
               <label>remember me</label>
             </div>
             <div>
@@ -56,8 +80,8 @@ function Login() {
           </div>
         </form>
       </div>
-    </div>;
+    </div>
+  );
 }
 
-
-export default Login
+export default Login;
