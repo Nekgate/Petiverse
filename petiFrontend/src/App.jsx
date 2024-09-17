@@ -2,7 +2,7 @@ import React from "react";
 import Landing from "./pages/Landing";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Signup from "./pages/auth/signup/Signup";
-import Almost from "./pages/auth/AlmostDone/Almost";
+import Almost from "./pages/auth/almostDone/Almost";
 import Success from "./pages/auth/successSignup/SuccessSignup";
 import ForgotPassword from "./pages/auth/forgotPassword/ForgotPassword";
 import CheckEmail from "./pages/auth/checkEmail/Check";

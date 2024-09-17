@@ -3,22 +3,24 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 2rem 3rem;
+    padding: 2rem 1rem;
     background-color: #F2F2F2;
+    overflow: hidden;
 }
 .about-inner{
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding: 0rem 10rem;
+    padding: 0rem 5rem;
+    gap: 1rem;
 }
 .about-left{
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    width: 100%;
+    /* width: 100%; */
 }
 .about-left p{
     display: flex;
@@ -48,7 +50,7 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: flex-start;
-    font-size: 26px;
+    font-size: 24px;
     font-weight: 500;
     font-family: "Lato";
     margin-top: 0rem;
@@ -74,3 +76,10 @@
     align-items: center;
     width: 30%;
 }
+/* .ab-img{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+} */

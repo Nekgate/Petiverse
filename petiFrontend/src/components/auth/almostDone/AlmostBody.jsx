@@ -24,7 +24,7 @@ function AlmostBody() {
   return <div className="almost-background">
       <div className="almost-inner">
         <div className="almost-left">
-          <img src="/images/allpet1.png" alt="Logo" />
+          <img src="/Images/allpet1.png" alt="Logo" />
         </div>
         <div className="almost-right">
           <h1>Almost Done!</h1>
