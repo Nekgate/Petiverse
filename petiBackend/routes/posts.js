@@ -10,6 +10,7 @@ const {
 } = require('../postControllers/postController');
 const uploadImages = require('../middlewares/uploadPostPictureToCloud');
 const { getPostsController, getAPostController } = require('../postControllers/fetchPostController');
+const deletePostController = require('../postControllers/deletePostController');
 
 
 // CREATE POST
@@ -41,7 +42,7 @@ router.get("/all", verifyToken, getPostsController);
 // router.get("/posts", getUserPostsController);
 
 // DELETE A POST
-// router.delete("/delete/:postId", deletePostController);
+router.delete("/delete/:postId", verifyToken, deletePostController);
 
 // LIKE POST
 // router.post("/like/:postId", likePostController);

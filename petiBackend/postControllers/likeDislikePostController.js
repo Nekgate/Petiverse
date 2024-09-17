@@ -29,9 +29,10 @@ const likePostController = async (req, res, next) => {
         if (!user) {
             throw new CustomError("User not found", 404);
         }
+        
         // check if user have liked before
         if (post.likes.includes(userId)) {
-            throw new CustomError("You have liked this post already!", 404);
+            res.status(200).json({message:"Already following"});
         }
         // push userid to like post array
         post.likes.push(userId);
@@ -45,11 +46,13 @@ const likePostController = async (req, res, next) => {
 }
 
 const dislikePostController = async (req, res, next) => {
-    // get the postId from the params
-    const { postId } = req.params;
-    // get the user to like the post from body
-    const { userId } = req.body;
     try {
+        // get the postId from the params
+        const { postId } = req.params;
+        // return no post to like
+        if (!postId){
+            res.status(200).json({message:"No post selected for like"});
+        }
         // get the id of user from the verifiedToken of user in cookie
         const userId = req.userId;
         // throw error if no user Id
@@ -60,17 +63,17 @@ const dislikePostController = async (req, res, next) => {
         const post = await Post.findById(postId);
         // throw error if not found
         if (!post) {
-            throw new CustomError("Post not found", 404);
+            throw new CustomError("Post not found", 400);
         }
         // find user with userId
         const user = User.findById(userId);
         // found user not found throw error
         if (!user) {
-            throw new CustomError("User not found", 404);
+            throw new CustomError("User not found", 400);
         }
         // check if user have liked before
         if (!post.likes.includes(userId)) {
-            throw new CustomError("You have not liked the post before!", 404);
+            res.status(200).json({message:"Have not liked before following"});
         }
         // remove the userId from likes array and save
         post.likes=post.likes.filter(id=>id.toString()!==userId);
@@ -81,4 +84,9 @@ const dislikePostController = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
+}
+
+module.exports = {
+    likePostController,
+    dislikePostController
 }
