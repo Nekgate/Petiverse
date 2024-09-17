@@ -198,20 +198,94 @@
 }
 
 ### UPDATE TEXT IN BOTH POST NOT IMAGE
+- `/api/v1/post/update/:postId`
+- PUT ROUTE
+- takes caption or text
+- get userId from cookie
+- {
+    caption:text 
+}
+
+### UPDATE POST VISIBILITY
+- `/api/v1/post/update/visibility/:postId`
+- PUT ROUTE
+- takes visibilty as public or friends
+- get userId from cookie
+- {
+    visibility:public||friends
+}
+
 ### DELETE POST
+- `/api/v1/post/delete/:postId`
+- DELETE ROUTE
+- takes the postId in the url
+- get userId from cookie
+
 ### LIKE POST
+- `/api/v1/post/like/:postId`
+- POST ROUTE
+- takes the postId in the url
+- get userId from cookie
+
 ### UNLIKE POST
+- `/api/v1/post/dislike/:postId`
+- POST ROUTE
+- takes the postId in the url
+- get userId from cookie
+
 ### GET POST OF USERS THAT ARE PUBLIC AND USER FOLLOWING
+- `/api/v1/post/all`
+- GET ROUTE
+- get userId from cookie
+
 ### GET A POST OF USERS THAT ARE PUBLIC AND USER FOLLOWING
-### GET USERS POSTS
+- `/api/v1/post/:postId`
+- GET ROUTE
+- takes the postId in the url
+- get userId from cookie
+
 ### GET A USER POST
+- `/api/v1/post/user/:userId/post/:postId`
+- GET ROUTE
+- takes the userId and postId in the url
+- get loggedUser from cookie
+
+### GET ALL USER POSTS
+- `/api/v1/post/userId/posts`
+- GET ROUTE
+- takes the userId in the url
+- get loggedUser from cookie
+
+### GET LOGGED USER POSTS
+- `/api/v1/post/users/posts`
+- GET ROUTE
+- this finds all userId posts
+- get userId from cookie
+
+### GET A LOGGED USER POST
+- `/api/v1/post/user/:postId`
+- GET ROUTE
+- takes the postId in the url 
+- the post belongs to userId
+- get userId from cookie
+
 ### TOBE DELETE ROUTE.....GET ALL POST WITHOUT USER
+- `/api/v1/post/admin/all/posts`
+- GET ROUTE
+- returns all post both public and friends
 
 ## COMMENT
 
 ## MESSAGE/CONVERSATION
 
 ## STORY
+
+### CREATE STORY WITH IMAGE OR TEXT
+
+### GET ALL STORY FROM FOLLOWING USER
+### GET ALL PERSONAL STORY
+### DELETE INDIVIDUAL STORY
+### DELETE ALL STORY
 
 ### CREATE A STORY
 `api/v1/story/create`

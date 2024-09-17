@@ -32,7 +32,7 @@ const deletePostController = async (req, res, next) => {
         }
         // check if the post owner is logged user
         if (postToDelete.user.toString() !== userId.toString()){
-            throw new CustomError("You are not authorized to delete this post", 401);
+            return res.status(401).json("You are not authorized to delete this post");
         }
         // Remove the postId from the user's list of posts
         user.posts=user.posts.filter(postId=>postId.toString()!==postToDelete._id.toString());
