@@ -9,8 +9,9 @@ const {
     updatePostVisibilityController
 } = require('../postControllers/postController');
 const uploadImages = require('../middlewares/uploadPostPictureToCloud');
-const { getPostsController, getAPostController } = require('../postControllers/fetchPostController');
+const { getPostsController, getAPostController, getUserPostsController, getAUserPostController, getAllPostsForAdminController } = require('../postControllers/fetchPostController');
 const deletePostController = require('../postControllers/deletePostController');
+const { likePostController, dislikePostController } = require('../postControllers/likeDislikePostController');
 
 
 // CREATE POST
@@ -33,22 +34,22 @@ router.get("/:postId", verifyToken, getAPostController);
 router.get("/all", verifyToken, getPostsController);
 
 // GET ALL POSTS FROM A USER
-// router.get("/users/:userId", getUserPostsController);
-
-// GET LOGGED IN USER POST
-// router.get("/posts", getUserPostsController);
+router.get("/users/posts", verifyToken, getUserPostsController);
 
 // GET A SINGLE POST OF USER
-// router.get("/posts", getUserPostsController);
+router.get("/user/:postId", verifyToken, getAUserPostController);
 
 // DELETE A POST
 router.delete("/delete/:postId", verifyToken, deletePostController);
 
 // LIKE POST
-// router.post("/like/:postId", likePostController);
+router.post("/like/:postId", verifyToken, likePostController);
 
 // UNLIKE POST
-// router.post("/dislike/:postId", dislikePostController);
+router.post("/dislike/:postId", verifyToken, dislikePostController);
+
+// GET ALL POST FOR ADMIN TESTING, SHOULD BE DELETED BEFORE PRODUCTION
+router.get("/admin/all/posts", getAllPostsForAdminController);
 
 
 module.exports = router
