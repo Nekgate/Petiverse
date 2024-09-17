@@ -4,12 +4,8 @@ import { Link } from "react-router-dom";
 
 function Login() {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
     email: "",
-    phoneNumber: "",
     password: "",
-    confirmPassword: "",
     rememberMe: false
   });
 
