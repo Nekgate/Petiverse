@@ -2,7 +2,7 @@
 const express=require("express")
 const router=express.Router();
 const { loginController, fetchUserController, logoutController } = require("../authControllers/loggingController");
-const { registerContoller } = require("../authControllers/registerController");
+const registerContoller = require("../authControllers/registerController");
 const { verifyEmailController } = require("../authControllers/verifyEmailController");
 const forgotPasswordController = require("../authControllers/forgotPasswordController");
 const changePasswordController = require("../authControllers/changePasswordController");

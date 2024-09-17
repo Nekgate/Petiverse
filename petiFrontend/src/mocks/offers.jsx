@@ -10,7 +10,7 @@ export const data = [
       </a>
     ),
     title: "Loading",
-    img: "/images/caro5.png"
+    img: "/Images/caro5.png"
   },
   {
     id: 2,
@@ -23,7 +23,7 @@ export const data = [
       </a>
     ),
     title: "Loading",
-    img: "/images/caro4.png"
+    img: "/Images/caro4.png"
   },
   {
     id: 3,
@@ -36,7 +36,7 @@ export const data = [
       </a>
     ),
     title: "Loading",
-    img: "/images/sub.png"
+    img: "/Images/sub.png"
   },
   {
     id: 4,
@@ -49,7 +49,7 @@ export const data = [
       </a>
     ),
     title: "Loading",
-    img: "/images/caro2.png"
+    img: "/Images/caro2.png"
   },
   {
     id: 5,
@@ -62,7 +62,7 @@ export const data = [
       </a>
     ),
     title: "Loading",
-    img: "/images/caro1.png"
+    img: "/Images/caro1.png"
   },
   {
     id: 6,
@@ -75,6 +75,6 @@ export const data = [
       </a>
     ),
     title: "Loading",
-    img: "/images/caro6.png"
+    img: "/Images/caro6.png"
   }
 ];

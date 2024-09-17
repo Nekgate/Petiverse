@@ -14,7 +14,7 @@ function article() {
             <button>Get Started</button>
           </div>
           <div className="right-art">
-            <img src="/images/subimg.png" alt="img" />
+            <img src="/Images/subimg.png" alt="img" />
           </div>
         </div>
         <div className='low-inn'>

@@ -3,18 +3,18 @@ import "../../../components/auth/almostDone/AlmostBody.css";
 import { Link } from "react-router-dom";
 
 function AlmostBody() {
-
-    const [formData, setFormData] = useState({
-      phoneNumber: "",
-    });
-
-const handleChange = e => {
-  const { name, value, type, checked } = e.target;
-  setFormData(prevData => ({
-    ...prevData,
-    [name]: type === "checkbox" ? checked : value
-  }));
-};
+  
+  const [formData, setFormData] = useState({
+    phoneNumber: "",
+  });
+  
+  const handleChange = e => {
+    const { name, value, type, checked } = e.target;
+    setFormData(prevData => ({
+      ...prevData,
+      [name]: type === "checkbox" ? checked : value
+    }));
+  };
 
     const handleSubmit = e => {
       e.preventDefault();
@@ -28,7 +28,7 @@ const handleChange = e => {
         </div>
         <div className="almost-right">
           <h1>Almost Done!</h1>
-          <p>Input the 4 digit number that has been sent to your email.</p>
+          <p>Input the 6 digit number that has been sent to your email.</p>
           <form onSubmit={handleSubmit} className="all-form">
             <div className="all-form-in">
               <input type="tel" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} placeholder="4-digit Number" required />
@@ -42,4 +42,4 @@ const handleChange = e => {
     </div>;
 }
 
-export default AlmostBody
+export default AlmostBody;

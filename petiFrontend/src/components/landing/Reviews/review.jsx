@@ -44,7 +44,7 @@ function Review() {
   return <div className="review-background">
       <div className="review-top">
         <div className="top-stars">
-          <img src="/images/stars.png" alt="Logo" />
+          <img src="/Images/stars.png" alt="Logo" />
         </div>
         <h1>What Our Users Are Saying</h1>
       </div>

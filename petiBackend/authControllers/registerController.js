@@ -56,49 +56,54 @@ const registerContoller = async (req, res, next) => {
 
         // check if email or username exist in database
         const existingUser=await User.findOne({ $or: [{username}, {email}] });
-        // if they exist throw error
-        if (existingUser.isVerified){
-            throw new CustomError("Username or Email already exists!", 400);
-        }
-        // if existing user is not verified delete the account and register again
-        if (!existingUser.isVerified){
-            await existingUser.deleteOne();
-        }
-        // use bcrypt for hashing
-        const salt = await bcrypt.genSalt(10);
-        // hash the password
-        const hashedPassword = await bcrypt.hashSync(password, salt);
-        const verificationToken = Math.floor(100000 + Math.random() * 900000).toString();
-        // add the data to the database
-        const newUser=new User({
-            username,
-            fullname,
-            email,
-            password:hashedPassword,
-            phoneNumber,
-            verificationToken,
-            verificationTokenExpiresAt:Date.now() + 20 * 60 * 1000,
-        });
-        // save the information
-        const savedUser=await newUser.save();
-        // authenticate user with a created token
-        generateTokenAndSetCookie(res, savedUser._id);
-        // send email to user
-        await sendVerificationEmail(savedUser.email, verificationToken);
-        // remove email, phoneNumber, password
-        // display other information 
-        res.status(201).json({
-            message:"User created Successfully",
-            ...savedUser._doc,
-            password:undefined,
-            phoneNumber:undefined,
-            email:undefined
-        });
+        if (existingUser) {
+            // if they exist throw error
+            if (existingUser.isVerified) {
+                throw new CustomError("Username or Email already exists!", 400);
+            } else {
+                // if existing user is not verified delete the account and register again
+                if (!existingUser.isVerified){
+                    await existingUser.deleteOne();
+                }
+            }
+        } else {
+            // Proceed with the registration process if user does not exist
+        
+            // use bcrypt for hashing
+            const salt = await bcrypt.genSalt(10);
+            // hash the password
+            const hashedPassword = await bcrypt.hashSync(password, salt);
+            const verificationToken = Math.floor(100000 + Math.random() * 900000).toString();
+            // add the data to the database
+            const newUser=new User({
+                username,
+                fullname,
+                email,
+                password:hashedPassword,
+                phoneNumber,
+                verificationToken,
+                verificationTokenExpiresAt:Date.now() + 20 * 60 * 1000,
+            });
+            // save the information
+            const savedUser=await newUser.save();
+            // authenticate user with a created token
+            generateTokenAndSetCookie(res, savedUser._id);
+            // send email to user
+            await sendVerificationEmail(savedUser.email, verificationToken);
+
+            // remove email, phoneNumber, password
+            // display other information 
+            res.status(201).json({
+                message:"User created Successfully",
+                ...savedUser._doc,
+                password:undefined,
+                phoneNumber:undefined,
+                email:undefined
+            });
+        }    
     } catch(error) {
         next(error);
     }
 }
 
-module.exports = {
-    registerContoller
-}
+module.exports = registerContoller;

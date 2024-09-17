@@ -9,7 +9,7 @@ const getPostsController = async (req, res, next) => {
         const userId = req.userId;
         // throw error if no user Id
         if (!userId) {
-            throw new CustomError("You have to login first", 401);
+            return res.status(401).json({ message: "You have to login first" });
         }
         // get user object
         const user = await User.findById(userId);
@@ -17,6 +17,7 @@ const getPostsController = async (req, res, next) => {
         if (!user) {
             throw new CustomError("User not found", 404);
         }
+        
         // Get the list of users the current user is following
         const followingIds = user.following.map(id => id.toString());
 
@@ -28,19 +29,41 @@ const getPostsController = async (req, res, next) => {
         const blockedUsersIds = user.blocklist.map(id=>id.toString());
         // Combine the blocked lists for filtering
         const excludedUsersIds = [...blockedMeIds, ...blockedUsersIds];
+        // parameter for post return
+        const limit = parseInt(req.query.limit, 10) || 10;
+        const page = parseInt(req.query.page, 10) || 1;
         // Query to get posts:
         // 1. Posts from users the current user is following.
         // 2. Public posts from any user, excluding posts from users who blocked the current user or whom the user has blocked.
         const posts = await Post.find({
             $or: [
-                { user: { $in: followingIds } },  // Posts from followed users
+                { visibility: 'friends', user: { $in: followingIds.length > 0 ? followingIds : [] } },  // Posts from followed users
                 { visibility: 'public' }          // Public posts
             ],
             user: { $nin: excludedUsersIds }     // Exclude posts from blocked/blockedMe users
         })
+        .skip((page - 1) * limit)
+        .limit(limit)
         .populate("user", "username fullName profilePicture"); // Populate user details for each post
 
-        res.status(200).json({posts:posts});
+        // calculating the total post to be given to a user
+        const totalPosts = await Post.countDocuments({
+            $or: [
+                { visibility: 'public' },
+                { visibility: 'friends', user: { $in: followingIds } }
+            ],
+            user: { $nin: excludedUsersIds }
+        });
+        // getting the total page
+        const totalPages = Math.ceil(totalPosts / limit);
+
+        // return response with page number
+        res.status(200).json({
+            posts,
+            currentPage: page,
+            totalPages,
+            totalPosts
+        });
 
     } catch (error) {
         next(error);
@@ -49,12 +72,19 @@ const getPostsController = async (req, res, next) => {
 
 const getAPostController = async (req, res) => {
     try {
+        // Get the postId from the params
+        const { postId } = req.params;
+
+        // Return an error if postId is not provided
+        if (!postId) {
+            return res.status(400).json({ message: "No post selected" });
+        }
         // Extract user ID from the token or session
         const userId = req.userId;
         
         // Throw an error if the user is not authenticated
         if (!userId) {
-            throw new CustomError("You have to login first", 401);
+            return res.status(401).json({ message: "You have to login first" });
         }
 
         // Find the current user by ID
@@ -64,9 +94,6 @@ const getAPostController = async (req, res) => {
         if (!user) {
             throw new CustomError("User not found", 404);
         }
-
-        // Get the post ID from the request parameters
-        const { postId } = req.params;
 
         // Fetch the post from the database
         const post = await Post.findById(postId)
@@ -79,14 +106,14 @@ const getAPostController = async (req, res) => {
         // if the post owner didnt block the user
         const postAuthor = await User.findById(post._id);
         // Check if the post visibility is allowed for the current user
-        const isPostVisible = user.following.includes(post.user._id.toString()) || 
-        (post.visibility === 'public' &&  
-            !user.blocklist.includes(post.user._id.toString()) && 
-            !postAuthor.blocklist.includes(userId.toString()));
+        // Check if the post author has blocked the current user
+        if (postAuthor.blocklist.includes(userId)) {
+            return res.status(403).json({ message: "You are not authorized to view this post" });
+        }
 
-        // Return an error if the post is not visible to the current user
-        if (!isPostVisible) {
-            throw new CustomError("Post not accessible", 403);
+        // Check if the post is private and the current user is not following the author
+        if (post.visibility === 'friends' && !user.following.includes(postAuthor._id)) {
+            return res.status(403).json({ message: "You are not authorized to view this private post" });
         }
 
         // Return the post in the response
@@ -112,18 +139,119 @@ const getUserPostsController = async (req, res, next) => {
         if (!user) {
             throw new CustomError("User not found", 404);
         }
+        // Get pagination parameters from the query string or set default values
+        const limit = parseInt(req.query.limit) || 10;
+        const page = parseInt(req.query.page) || 1;
+        // Calculate the number of posts to skip based on the current page
+        const skip = (page - 1) * limit;
         // find all the user post
-        const userPosts = await Post.find({user:userId});
+        const userPosts = await Post.find({user:userId})
+        .populate("user", "username fullName profilePicture")
+        .skip(skip)
+        .limit(limit);
 
-        res.status(200).json({posts:userPosts});
+        // Fetch the total number of posts by the user for pagination metadata
+        const totalPosts = await Post.countDocuments({ user: userId });
+
+        // Calculate total pages based on total posts and limit
+        const totalPages = Math.ceil(totalPosts / limit);
+
+        // Check if the user has any posts
+        if (userPosts.length === 0) {
+            return res.status(200).json({ message: "No posts found for this user" });
+        }
+
+        // Respond with the user's posts along with pagination metadata
+        res.status(200).json({
+            posts: userPosts,
+            currentPage: page,
+            totalPages: totalPages,
+            totalPosts: totalPosts
+        });
 
     } catch (error) {
         next (error);
     }
 }
 
+const getAUserPostController = async (req, res, next) => {
+    try {
+        // Get the postId from the request parameters
+        const { postId } = req.params;
+    
+        // Get the userId from the verified token from cookie
+        const userId = req.userId;
+    
+        // Throw error if no userId is found (user is not logged in)
+        if (!userId) {
+            throw new CustomError("You have to login first", 401);
+        }
+    
+        // Find the user object in the database using userId
+        const user = await User.findById(userId);
+    
+        // Throw error if the user is not found
+        if (!user) {
+            throw new CustomError("User not found", 404);
+        }
+    
+        // Find the specific post by postId and ensure it's owned by the user
+        const userPost = await Post.findOne({ _id: postId, user: userId })
+            .populate("user", "username fullName profilePicture");
+    
+        // Throw error if the post is not found
+        if (!userPost) {
+            throw new CustomError("Post not found or you are not authorized", 404);
+        }
+    
+        // Respond with the single post data
+        res.status(200).json({ post: userPost });
+    
+    } catch (error) {
+        // Handle errors and pass to the next middleware
+        next(error);
+    }    
+}
+
+const getAllPostsForAdminController = async (req, res, next) => {
+    try {
+        // Extract pagination parameters from query
+        const { page = 1, limit = 10 } = req.query;
+
+        // Convert page and limit to integers
+        const pageNumber = parseInt(page, 10);
+        const pageSize = parseInt(limit, 10);
+
+        // Calculate the number of documents to skip
+        const skip = (pageNumber - 1) * pageSize;
+        // get all the post in database
+        const posts = await Post.find()
+        .skip(skip)
+        .limit(pageSize);
+        // Count total number of posts for pagination metadata
+        const totalPosts = await Post.countDocuments();
+
+        // Send response with paginated posts and metadata
+        res.status(200).json({
+            message: 'success',
+            posts,
+            pagination: {
+                totalPosts,
+                totalPages: Math.ceil(totalPosts / pageSize),
+                currentPage: pageNumber,
+                pageSize
+            }
+        });
+    } catch(error) {
+        next(error);
+    }
+    
+}
+
 module.exports = {
     getPostsController,
     getUserPostsController,
     getAPostController,
+    getAUserPostController,
+    getAllPostsForAdminController
 }
