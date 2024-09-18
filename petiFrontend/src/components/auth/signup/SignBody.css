@@ -175,3 +175,6 @@ font-size: 24px;
   font-weight: 500;
   margin-bottom: 10px;
 }
+.err-mesg{
+    color: red;
+}
