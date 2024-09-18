@@ -5,10 +5,10 @@ const deleteMessageController = require("../messageControllers/deleteMessageCont
 const router = express.Router();
 
 // CREATE MESSAGE
-router.post("/create", createMessageController);
+router.post("/chat/:conversationId/create", createMessageController);
 
 // EDIT MESSAGE
-router.put("/edit/:messageId", editMessageController);
+router.put("/chat/:conversationId/edit/:messageId", editMessageController);
 
 // GET MESSAGES
 router.get("/:conversationId", getMessagesController);
