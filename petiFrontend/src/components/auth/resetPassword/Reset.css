@@ -146,3 +146,27 @@
     font-family: "Lato";
     width: 60%;
 }
+.top-tog{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 110%;
+}
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.toggle-password {
+  cursor: pointer;
+  margin-left: 10px;
+  font-size: 12px;
+  color: #613105;
+  font-family: "Lato";
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}

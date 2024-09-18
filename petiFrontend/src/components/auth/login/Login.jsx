@@ -12,7 +12,7 @@ function Login() {
   });
 
   const navigate = useNavigate();
-
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = e => {
     const { name, value, type, checked } = e.target;
@@ -22,13 +22,17 @@ function Login() {
     }));
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   const handleSubmit = async e => {
     e.preventDefault();
     console.log(formData);
     const userData = await authenticateUser(formData);
     console.log("userData:", userData);
 
-      navigate("/forgotPassword");
+    navigate("/forgotPassword");
   };
 
   return (
@@ -51,9 +55,17 @@ function Login() {
             />
           </div>
           <div className="form-in">
-            <label>Password:</label>
+            <div className="top-tog2">
+              <label>Password:</label>
+              <span
+                onClick={togglePasswordVisibility}
+                className="toggle-password"
+              >
+                {showPassword ? "Hide" : "Show"}
+              </span>
+            </div>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               name="password"
               value={formData.password}
               onChange={handleChange}
@@ -73,7 +85,9 @@ function Login() {
               <label>remember me</label>
             </div>
             <div>
-              <Link to="/forgotPassword" className="f-log">Forgot password?</Link>
+              <Link to="/forgotPassword" className="f-log">
+                Forgot password?
+              </Link>
             </div>
           </div>
           <div className="login-btn">

@@ -11,11 +11,22 @@ function Reset() {
   });
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const navigate = useNavigate();
 
   const handleChange = e => {
     const { name, value } = e.target;
     setFormData(prevData => ({ ...prevData, [name]: value }));
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(!showConfirmPassword);
   };
 
   const handleSubmit = async e => {
@@ -41,7 +52,6 @@ function Reset() {
     }
   };
 
-
   return (
     <div className="reset-background">
       <div className="reset-inner">
@@ -53,9 +63,17 @@ function Reset() {
           <h6>Enter a new password below to reset your password</h6>
           <form onSubmit={handleSubmit} className="re-form">
             <div className="form-in-reset">
-              <label>New Password:</label>
+              <div className="top-tog">
+                <label>New Password:</label>
+                <span
+                  onClick={togglePasswordVisibility}
+                  className="toggle-password"
+                >
+                  {showPassword ? "Hide" : "Show"}
+                </span>
+              </div>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
@@ -64,9 +82,17 @@ function Reset() {
               />
             </div>
             <div className="form-in-reset">
-              <label>Confirm New Password:</label>
+              <div className="top-tog">
+                <label>Confirm New Password:</label>
+                <span
+                  onClick={toggleConfirmPasswordVisibility}
+                  className="toggle-password"
+                >
+                  {showConfirmPassword ? "Hide" : "Show"}
+                </span>
+              </div>
               <input
-                type="password"
+                type={showConfirmPassword ? "text" : "password"}
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
