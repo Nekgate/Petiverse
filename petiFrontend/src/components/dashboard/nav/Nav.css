@@ -9,7 +9,7 @@
     background: rgba(255, 255, 255, 0.50);
     box-shadow: 0px 2px 13.1px 0px rgba(0, 0, 0, 0.10);
     backdrop-filter: blur(10.199999809265137px);
-    position: fixed;
+    position: sticky;
     top: 0;
     z-index: 1000;
 }
@@ -34,46 +34,6 @@ li{
     font-weight: 500;
     font-family: "Lato";
 }
-a{
-    text-decoration: none;
-     color: black;
-     font-weight: 500;
-}
-
-.nav-nav ul li a{
-  position: relative;
-}
-
-/* ul li a::after{
-    content: '';
-    width: 0%;
-    height: 3px;
-    background-color: blue;
-    position: absolute;
-    left: 0;
-    bottom: -6px;
-    transition: 0.5s;
-}
-.west-nav{
-    content: '';
-    width: 10%;
-    height: 3px;
-    background-color: blue;
-    position: absolute;
-    left: 0;
-    bottom: -6px;
-    transition: 0.5s;
-} */
-
-ul li a:hover{
-    color: #613105;
-    font-weight: 500;
-}
-
-/* .col-two ul li a:hover::after{
-     width: 100%;
-     color: #613105;
-} */
 
 .col-three{
     display: flex;

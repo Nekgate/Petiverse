@@ -3,17 +3,32 @@ import "../../../components/landing/Nav/nav.css";
 import { Link } from "react-router-dom";
 
 function nav() {
-  return (
-    <div className="Background">
+  return <div className="Background">
       <div className="col-one">
         <img src="/Images/logo.png" alt="Logo" />
       </div>
       <div className="col-two">
         <ul>
-          <li>Home</li>
-          <li>About us</li>
-          <li>Services</li>
-          <li>Articles</li>
+          <li>
+            <a href="#section-one">
+              Home
+            </a>
+          </li>
+          <li>
+            <a href="#section-three">
+              Services
+            </a>
+          </li>
+          <li>
+            <a href="#section-five">
+              About
+            </a>
+          </li>
+          <li>
+            <a href="#section-six">
+              Article
+            </a>
+          </li>
         </ul>
       </div>
       <div className="col-three">
@@ -24,8 +39,7 @@ function nav() {
           Sign up
         </Link>
       </div>
-    </div>
-  );
+    </div>;
 }
 
 export default nav;
