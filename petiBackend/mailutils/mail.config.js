@@ -5,10 +5,10 @@ const { AUTH_EMAIL, AUTH_PASS } = process.env;
 
 // create the transporter with the required configuration for gmail
 const transporter = nodemailer.createTransport({
-    service: "hotmail",
+    service: "gmail",
     auth: {
         user: AUTH_EMAIL,
-        pass: AUTH_PASS 
+        pass: AUTH_PASS
     }
 })
 

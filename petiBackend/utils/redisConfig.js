@@ -32,47 +32,24 @@ const initRedisClient = async () => {
     }
 };
 
-// // Function to retrieve a value from Redis by key
-// const getValue = async (key) => {
-//     try {
-//         // Get JSON data from Redis for the provided key
-//         const value = await client.json.get(`user:${key}`);
-//         return value; // Return the retrieved value
-//     } catch (error) {
-//         // Throw a custom error if retrieval fails
-//         throw new CustomError("Error occurred while getting value from key:", key);
-//     }
-// };
-
-// Function to set a value in Redis with a given key
-// const setValue = async (key, value) => {
-//     try {
-//         // Set JSON data in Redis for the provided key
-//         const data = await client.json.set(`user:${key}`, "$", value);
-//         return data; // Return the result of setting the data
-//     } catch (error) {
-//         // Throw a custom error if setting the value fails
-//         throw new CustomError("Error occurred while setting value for key:", key);
-//     }
-// };
-
 // Function to retrieve a value from Redis by key
 const getValue = async (key) => {
     try {
         const value = await client.hGet('cache', key); // Get data from Redis
         return value ? JSON.parse(value) : null; // Parse JSON value
     } catch (error) {
-        throw new CustomError("Error occurred while getting value from Redis", key);
+        throw new Error(`Error occurred while getting value from Redis: ${error.message}`);
     }
 };
 
 // Function to set a value in Redis with a given key
 const setValue = async (key, value, expire = 30) => {
     try {
-        await client.hSet('cache', key, JSON.stringify(value), 'EX', expire); // Set data in Redis with expiration
+        await client.hSet('cache', key, JSON.stringify(value)); // Set data in Redis
+        await client.expire('cache', expire); // Set expiration time for the hash
         return value;
     } catch (error) {
-        throw new CustomError("Error occurred while setting value in Redis", key);
+        throw new Error(`Error occurred while setting value in Redis: ${error.message}`);
     }
 };
 

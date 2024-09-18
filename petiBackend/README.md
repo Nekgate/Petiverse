@@ -21,7 +21,7 @@
 ## AUTH ROUTES
 
 ### registration route
-- `/api/v1/auth/registration`
+- `/api/v1/auth/register`
 - post route
 - accepts a json as required data for registration
 - {
@@ -65,7 +65,7 @@
 }
 
 ### FETCH
-- `api/v1/auth/logout`
+- `api/v1/auth/refetch`
 - get route
 - don't accept json, verifies an authenticated user or logged user
 
