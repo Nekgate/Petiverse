@@ -86,10 +86,6 @@ userSchema.index({
   username: 1,
   createdAt: -1,
   lastLogin: -1,
-  posts: -1,
-  followers: -1,
-  following: -1,
-  blocklist: -1,
 });
 
 const User = mongoose.model("User", userSchema);

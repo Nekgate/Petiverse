@@ -213,6 +213,97 @@ const getAUserPostController = async (req, res, next) => {
     }    
 }
 
+const getAllPostFromAUser = async (req, res, next) => {
+    try {
+        // Get the userId from the verified token from cookie
+        const loggedUser = req.userId;
+    
+        // Throw error if no userId is found (user is not logged in)
+        if (!loggedUser) {
+            return res.status(401).json("You have to login first");
+        }
+        // get the userId from url
+        const { userId } = req.params;
+        // throw error if no Id is in the params
+        if (!userId){
+            throw new CustomError("UserId is required", 400);
+        }
+        // check if the user Id is in the database
+        const user = await User.findById({_id:userId});
+        // throw error if user not found
+        if (!user){
+            throw new CustomError("User not found", 400);
+        }
+        // check if user blacklisted logged in user
+        if (user.blocklist.includes(loggedUser)){
+            return res.status(401).json("Your not authorized to view post", 401);
+        }
+        // check if loggedUser is following user to view friends visiblity 
+        // and if logged user is not following user show only public
+        const isLoggedUserFollowing = user.followers.includes(loggedUser);
+        // If not following, show only public posts
+        const visibilityFilter = isLoggedUserFollowing ? {} : { visibility: "public" };
+
+        // Fetch the posts based on visibility and userId
+        const posts = await Post.find({ user: userId, ...visibilityFilter });
+
+        // Return the posts in the response
+        res.status(200).json(posts);
+    } catch {
+        next(error);
+    }
+}
+
+const getApostFromUser = async (req, res, next) => {
+    try {
+        // Get the userId from the verified token from cookie
+        const loggedUser = req.userId;
+    
+        // Throw error if no userId is found (user is not logged in)
+        if (!loggedUser) {
+            return res.status(401).json("You have to login first");
+        }
+        // get the userId from url
+        const { userId, postId } = req.params;
+        // throw error if no Id is in the params
+        if (!userId || !postId){
+            throw new CustomError("UserId and PostId is required", 400);
+        }
+         // check if the user Id is in the database
+         const user = await User.findById({_id:userId});
+         // throw error if user not found
+         if (!user){
+             throw new CustomError("User not found", 400);
+         }
+         // check if user blacklisted logged in user
+        if (user.blocklist.includes(loggedUser)){
+            return res.status(401).json("Your not authorized to view post", 401);
+        }
+        //  check if the post Id is available
+        const post = await Post.findById(postId);
+        // throw error if no post find
+        if (!post) {
+            throw new CustomError("Post is not found", 400);
+        }
+        // check if the userId is the owner of the post
+        if(!user.posts.includes(postId)){
+            throw new CustomError("Post is not found", 400);
+        }
+        // Check if logged-in user is following the post author
+        const isLoggedUserFollowing = user.followers.includes(loggedUser);
+
+        // If logged-in user is not following, check post visibility
+        if (!isLoggedUserFollowing && post.visibility !== "public") {
+            return res.status(403).json({ message: "You're not authorized to view this post" });
+        }
+
+        res.status(200).json(post)
+        
+    } catch(error) {
+        next(error);
+    }
+}
+
 const getAllPostsForAdminController = async (req, res, next) => {
     try {
         // Extract pagination parameters from query
@@ -253,5 +344,7 @@ module.exports = {
     getUserPostsController,
     getAPostController,
     getAUserPostController,
-    getAllPostsForAdminController
+    getAllPostsForAdminController,
+    getAllPostFromAUser,
+    getApostFromUser
 }

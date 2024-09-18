@@ -9,7 +9,15 @@ const {
     updatePostVisibilityController
 } = require('../postControllers/postController');
 const uploadImages = require('../middlewares/uploadPostPictureToCloud');
-const { getPostsController, getAPostController, getUserPostsController, getAUserPostController, getAllPostsForAdminController } = require('../postControllers/fetchPostController');
+const { 
+    getPostsController,
+    getAPostController,
+    getUserPostsController,
+    getAUserPostController,
+    getAllPostsForAdminController,
+    getAllPostFromAUser,
+    getApostFromUser,
+} = require('../postControllers/fetchPostController');
 const deletePostController = require('../postControllers/deletePostController');
 const { likePostController, dislikePostController } = require('../postControllers/likeDislikePostController');
 
@@ -19,7 +27,7 @@ router.post("/create", verifyToken, createPostController);
 
 // CREATE POST WITH IMAGE
 // upload.array indicate images to be uploaded and it should be maximum of five
-router.post("/create/image",verifyToken, upload.array("image",5),uploadImages, createPostWithImageController);
+router.post("/create-post",verifyToken, upload.array("image",5),uploadImages, createPostWithImageController);
 
 // UPDATE POST
 router.put("/update/:postId", verifyToken, updatePostController);
@@ -38,6 +46,12 @@ router.get("/users/posts", verifyToken, getUserPostsController);
 
 // GET A SINGLE POST OF USER
 router.get("/user/:postId", verifyToken, getAUserPostController);
+
+// GET ALL USER POSTS
+router.get("/user/:userId/posts", verifyToken, getAllPostFromAUser);
+
+// GET A POST FROM A USER
+router.get("/user/:userId/post/:postId", verifyToken, getApostFromUser);
 
 // DELETE A POST
 router.delete("/delete/:postId", verifyToken, deletePostController);

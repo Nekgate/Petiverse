@@ -1,6 +1,8 @@
 const Post = require('../models/Post');
 const User = require('../models/User');
 const { CustomError } = require('../middlewares/error');
+const cloudinary = require('../utils/cloudinaryConfig');
+const extractPublicId = require('../utils/extractPublicIdFromCloudinary');
 
 const deletePostController = async (req, res, next) => {
     try {
@@ -30,12 +32,32 @@ const deletePostController = async (req, res, next) => {
         }
         // check if the post owner is logged user
         if (postToDelete.user.toString() !== userId.toString()){
-            throw new CustomError("You are not authorized to delete this post", 401);
+            return res.status(401).json("You are not authorized to delete this post");
         }
         // Remove the postId from the user's list of posts
         user.posts=user.posts.filter(postId=>postId.toString()!==postToDelete._id.toString());
         // save the user 
         await user.save();
+
+         // Delete the image from Cloudinary if it exists
+        if (postToDelete.image) {
+            const publicId = extractPublicId(postToDelete.image);
+            if (publicId) {
+                await cloudinary.uploader.destroy(publicId, (error, result) => {
+                    if (error) {
+                        console.error('Error deleting image from Cloudinary:', error);
+                    } else {
+                        console.log('Image deleted from Cloudinary:', result);
+                    }
+                });
+            } else {
+                console.error('Public ID could not be extracted from URL:', postToDelete.image);
+            }
+        }
+
+        // delete image from the cloudinary
+        cloudinary
+        extractPublicId
         // Delete the post by its ID
         await Post.findByIdAndDelete(postId);
 

@@ -176,9 +176,185 @@
 
 ## POST
 
+### CREATE POST WITH ONLY TEXT
+- `/api/v1/post/create`
+- POST ROUTE
+- takes caption or text for post and visibility
+- get userId from cookie
+- {
+    caption:text,
+    visibility:public||friends however friends is 
+}
+
+### CREATE POST WITH IMAGES
+- `/api/v1/post/create-post`
+- POST ROUTE
+- takes caption or text for post, images not more than 5 and visibility
+- get userId from cookie
+- {
+    images
+    caption:text,
+    visibility:public||friends however friends is 
+}
+
+### UPDATE TEXT IN BOTH POST NOT IMAGE
+- `/api/v1/post/update/:postId`
+- PUT ROUTE
+- takes caption or text
+- get userId from cookie
+- {
+    caption:text 
+}
+
+### UPDATE POST VISIBILITY
+- `/api/v1/post/update/visibility/:postId`
+- PUT ROUTE
+- takes visibilty as public or friends
+- get userId from cookie
+- {
+    visibility:public||friends
+}
+
+### DELETE POST
+- `/api/v1/post/delete/:postId`
+- DELETE ROUTE
+- takes the postId in the url
+- get userId from cookie
+
+### LIKE POST
+- `/api/v1/post/like/:postId`
+- POST ROUTE
+- takes the postId in the url
+- get userId from cookie
+
+### UNLIKE POST
+- `/api/v1/post/dislike/:postId`
+- POST ROUTE
+- takes the postId in the url
+- get userId from cookie
+
+### GET POST OF USERS THAT ARE PUBLIC AND USER FOLLOWING
+- `/api/v1/post/all`
+- GET ROUTE
+- get userId from cookie
+
+### GET A POST OF USERS THAT ARE PUBLIC AND USER FOLLOWING
+- `/api/v1/post/:postId`
+- GET ROUTE
+- takes the postId in the url
+- get userId from cookie
+
+### GET A USER POST
+- `/api/v1/post/user/:userId/post/:postId`
+- GET ROUTE
+- takes the userId and postId in the url
+- get loggedUser from cookie
+
+### GET ALL USER POSTS
+- `/api/v1/post/userId/posts`
+- GET ROUTE
+- takes the userId in the url
+- get loggedUser from cookie
+
+### GET LOGGED USER POSTS
+- `/api/v1/post/users/posts`
+- GET ROUTE
+- this finds all userId posts
+- get userId from cookie
+
+### GET A LOGGED USER POST
+- `/api/v1/post/user/:postId`
+- GET ROUTE
+- takes the postId in the url 
+- the post belongs to userId
+- get userId from cookie
+
+### TOBE DELETE ROUTE.....GET ALL POST WITHOUT USER
+- `/api/v1/post/admin/all/posts`
+- GET ROUTE
+- returns all post both public and friends
+
 ## COMMENT
 
-## MESSAGE/CONVERSATION
+### CREATE A COMMENT IN A POSTID
+- `/api/v1/comment/create/:postId`
+
+### CREATE REPLY OF A COMMENT
+- `/api/v1/comment/reply/:commentId`
+
+### UPDATE A COMMENT
+- `/api/v1/comment/update/:commentId`
+
+### UPDATE A REPLY
+- `/api/v1/comment/update/:commentId/replies/:replyId`
+
+### GET ALL COMMENT IN A POST
+- `/api/v1/comment/post/:postId`
+
+### DELETE A COMMENT
+- `/api/v1/comment/delete/:commentId`
+
+### DELETE A REPLY IN COMMENT
+- `/api/v1/comment/:commentId/replies/:replyId`
+
+### LIKE A COMMENT
+- `/api/v1/comment/like/:commentId`
+
+### UNLIKE A COMMENT
+- `/api/v1/comment/dislike/:commentId`
+
+### LIKE A REPLY IN A COMMENT
+- `/api/v1/comment/:commentId/replies/like/:replyId`
+
+### UNLIKE A REPLY IN A COMMENT
+- `/api/v1/comment/:commentId/replies/dislike/:replyId`
+
+## CONVERSATION
+
+### INITIATE A CONVERSATION WITH ANOTHER USER
+- `/api/v1/chat/create/:secondUserId`
+- POST ROUTE
+- takes the secondUserId in the url, and the logged UserId from cookie
+- get loggedUser from cookie, user must be logged
+
+### GET ALL LOGGED IN USER CONVERSATION
+- `/api/v1/chat/all/user`
+- GET ROUTE
+- return the list of all conversation the user is engaged in
+- get loggedUser from cookie
+
+### DELETE A CONVERSATION OF LOGGED IN USER
+- `/api/v1/chat/deletw/:conversationId`
+- DELETE ROUTE
+- takes the conversationId from the Url, ensure the user is part of the conversation
+- get loggedUser from cookie
+
+## MESSAGE
+
+### WRITE A MESSAGE IN A CONVERSATION
+- `/api/v1/messages/chat/:conversationId/create`
+- POST ROUTE
+- takes the text from the body and conversationId from url
+- get loggedUser from cookie, user must be logged
+
+### EDIT MESSAGE
+- `/api/v1/messages/chat/:conversationId/edit/:messageId`
+- POST ROUTE
+- takes the text from the body and conversationId from url
+- get loggedUser from cookie, user must be logged
+
+### GET ALL MESSAGE IN A CONVERSATION
+- `/api/v1/messages/:conversationId`
+- GET ROUTE
+- takes the conversationId from url
+- get loggedUser from cookie, user must be logged
+
+### DELETE A MESSAGE
+- `/api/v1/messages/delete/:messageId`
+- DELETE ROUTE
+- takes the messageId from url
+- it check if user is the owner of the id
+- get loggedUser from cookie, user must be logged
 
 ## STORY
 

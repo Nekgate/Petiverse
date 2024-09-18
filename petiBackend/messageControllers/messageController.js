@@ -12,8 +12,9 @@ const createMessageController = async (req, res, next) => {
         if (!userId) {
             throw new CustomError("You have to login first", 401);
         }
-        // destructure and get every item from body
-        const { conversationId, text } = req.body;
+        // destructure and get every item from body and params
+        const { conversationId } = req.params;
+        const { text } = req.body;
         if (!text.trim()){
             throw new CustomError("Text is not found", 400);
         }
@@ -59,6 +60,7 @@ const createMessageController = async (req, res, next) => {
 const editMessageController = async (req, res, next) => {
     try {
         // get the id of user from the verifiedToken of user in cookie
+        const { conversationId } = req.params;
         const userId = req.userId;
         // throw error if no user Id
         if (!userId) {
@@ -70,6 +72,13 @@ const editMessageController = async (req, res, next) => {
         // throw error if text is not available
         if (!text.trim()) {
             throw new CustomError("Text is not found", 400);
+        }
+        // check if conversationId exist
+        const conversation = await Conversation.findById(conversationId);
+        
+        // throw error if not found
+        if (!conversation) {
+            throw new CustomError("Conversation not found!", 404)
         }
 
         // Find the message by its ID
