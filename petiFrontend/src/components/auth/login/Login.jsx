@@ -28,7 +28,7 @@ function Login() {
     const userData = await authenticateUser(formData);
     console.log("userData:", userData);
 
-      navigate("/dashboard");
+      navigate("/forgotPassword");
   };
 
   return (
@@ -73,7 +73,7 @@ function Login() {
               <label>remember me</label>
             </div>
             <div>
-              <Link to="/forgotPassword">Forgot password?</Link>
+              <Link to="/forgotPassword" className="f-log">Forgot password?</Link>
             </div>
           </div>
           <div className="login-btn">

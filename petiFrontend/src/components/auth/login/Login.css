@@ -103,7 +103,8 @@ font-size: 24px;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
+    width: 108%;
+    margin-top: 1rem;
 }
 .login-btn{
     display: flex;
@@ -114,6 +115,19 @@ font-size: 24px;
     gap: 1rem;
     margin-top: 3rem;
     padding: 0rem 1rem;
+}
+.f-log{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-end;
+    font-size: 16px;
+    font-family: "Lato";
+    line-height: normal;
+}
+.f-log:hover{
+    color: #613105;
+    font-weight: 500;
 }
 .btn-create{
     display: flex;

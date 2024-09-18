@@ -25,7 +25,7 @@ function nav() {
             </a>
           </li>
           <li>
-            <a href="#section-six">
+            <a href="#section-four">
               Article
             </a>
           </li>
