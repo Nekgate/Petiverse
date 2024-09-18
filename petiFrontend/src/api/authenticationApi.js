@@ -22,6 +22,27 @@ export const registerUser = async userData => {
   }
 };
 
+// Function to verify email
+export const verifyEmail = async (tokenData) => {
+  try {
+    const response = await axios.post(
+      `${baseUrl}/auth/verify-email`, // backend endpoint
+      tokenData, // Data should include the token from the user
+      {
+        headers: {
+          "Content-Type": "application/json", //
+          Accept: "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response ? error.response.data.message : error.message
+    );
+  }
+};
+
 // Function to authenticate a user
 export const authenticateUser = async userData => {
   try {
@@ -42,3 +63,4 @@ export const authenticateUser = async userData => {
     );
   }
 };
+

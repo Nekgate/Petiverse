@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../../../components/auth/login/Login.css";
 import { Link } from "react-router-dom";
 import { authenticateUser } from "../../../api/authenticationApi";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -9,6 +10,9 @@ function Login() {
     password: "",
     rememberMe: false
   });
+
+  const navigate = useNavigate();
+
 
   const handleChange = e => {
     const { name, value, type, checked } = e.target;
@@ -23,6 +27,8 @@ function Login() {
     console.log(formData);
     const userData = await authenticateUser(formData);
     console.log("userData:", userData);
+
+      navigate("/dashboard");
   };
 
   return (

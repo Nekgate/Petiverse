@@ -1,24 +1,22 @@
 import React, { useState } from "react";
 import "../../../components/auth/almostDone/AlmostBody.css";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { verifyEmail } from "../../../api/authenticationApi";
 
 function AlmostBody() {
-  
-  const [formData, setFormData] = useState({
-    phoneNumber: "",
-  });
-  
-  const handleChange = e => {
-    const { name, value, type, checked } = e.target;
-    setFormData(prevData => ({
-      ...prevData,
-      [name]: type === "checkbox" ? checked : value
-    }));
-  };
+  const [verificationToken, setVerificationToken] = useState("");
+  const navigate = useNavigate();
 
-    const handleSubmit = e => {
-      e.preventDefault();
-      console.log(formData);
+  const handleSubmit = async e => {
+    e.preventDefault();
+    
+      try {
+        const response = await verifyEmail({ token: verificationToken });
+        console.log("Email verified successfully:", response);
+        navigate("/successSignup");
+      } catch (error) {
+        console.error("Verification error:", error.message);
+      }
     };
 
   return <div className="almost-background">
@@ -31,11 +29,11 @@ function AlmostBody() {
           <p>Input the 6 digit number that has been sent to your email.</p>
           <form onSubmit={handleSubmit} className="all-form">
             <div className="all-form-in">
-              <input type="tel" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} placeholder="4-digit Number" required />
+              <input type="text" value={verificationToken} onChange={e => setVerificationToken(e.target.value)} placeholder="Enter your 6-digit code" />
             </div>
-            <Link to="/successSignup" className="btn-almost">
-              Proceed
-            </Link>
+            <button type="submit" className="btn-almost">
+              Verify Email
+            </button>
           </form>
         </div>
       </div>

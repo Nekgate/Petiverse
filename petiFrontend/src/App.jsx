@@ -9,6 +9,7 @@ import CheckEmail from "./pages/auth/checkEmail/Check";
 import ResetPassword from "./pages/auth/resetPassword/Resetpass";
 import ResetSuccess from "./pages/auth/resetSuccess/ResetSuccess";
 import Login from "./pages/auth/login/Login";
+import Dashboard from "./pages/dashboard//dashboard";
 
 function App() {
   return <div>
@@ -23,6 +24,7 @@ function App() {
           <Route path="/resetPassword" element={<ResetPassword />} />
           <Route path="/resetSuccess" element={<ResetSuccess />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </Router>
     </div>;

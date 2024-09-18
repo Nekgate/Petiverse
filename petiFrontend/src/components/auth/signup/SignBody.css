@@ -3,7 +3,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 4rem 1rem;
+    padding: 1rem;
     background-color: white;
     overflow: hidden;
 }
@@ -21,7 +21,7 @@
     font-size: 40px;
     font-family: "Lato";
     font-weight: 700;
-     margin-bottom: 1rem;
+    margin-bottom: 1rem;
 }
 .cre-para{
     display: flex;
@@ -49,7 +49,7 @@
     justify-content: flex-start;
     align-items: flex-start;
     width: 100%;
-    margin-top: 2rem;
+    margin-top: 1rem;
 }
 .form-in label{
     display: flex;

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "../../../components/auth/signup/SignBody.css";
 import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../../../api/authenticationApi";
-import axios from "axios";
 
 function SignBody() {
   const [formData, setFormData] = useState({
