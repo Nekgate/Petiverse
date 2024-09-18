@@ -98,7 +98,9 @@ const registerContoller = async (req, res, next) => {
                 ...savedUser._doc,
                 password:undefined,
                 phoneNumber:undefined,
-                email:undefined
+                email:undefined,
+                verificationToken:undefined,
+                verificationTokenExpiresAt:undefined
             });
         }    
     } catch(error) {
