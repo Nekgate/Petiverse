@@ -17,7 +17,8 @@ const swaggerUi = require('swagger-ui-express');
 const path = require('path');
 const { setupSocket } = require('./utils/socketIOConfig');
 const { errorHandler, CustomError } = require("./middlewares/error");
-require('./utils/redisMongooseCacheConfig');
+const { initRedisClient } = require("./utils/redisConfig");
+require('./redisMongooseCacheConfig');
 
 
 dotenv.config()
@@ -73,6 +74,8 @@ const port = process.env.PORT || 5000;
 // Connect to the database and then start the server
 connectDB()
     .then(() => {
+        // wait for the redis to connect
+        initRedisClient();
         // Start the server after a successful database connection
         server.listen(port, () => {
             console.log("App is running on port"); // Log a message indicating the server is running

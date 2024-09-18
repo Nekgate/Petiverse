@@ -1,5 +1,6 @@
 # Backend of Petiverse
-- The backend handles the authentication and authorization, Post by user, comment, story and likes. It handles the Chatting and Messaging of User and finding Vetinary Doctor.
+- Overview
+- TThe Petiverse backend handles various services, including user authentication and authorization, post management (text, images), comments, stories, likes, messaging, and finding veterinary doctors. The API supports JSON-based communication and utilizes MongoDB, Redis, and Cloudinary for data storage and media handling.
 
 - git clone project
 - create a *.env* file and store 
@@ -278,36 +279,85 @@
 
 ### CREATE A COMMENT IN A POSTID
 - `/api/v1/comment/create/:postId`
+- POST ROUTE
+- takes the postId from the params
+- takes text from the body
+- get userId from cookie
+- {
+    text:text 
+}
 
 ### CREATE REPLY OF A COMMENT
 - `/api/v1/comment/reply/:commentId`
+- POST ROUTE
+- takes the commentId from the params
+- takes text from the body
+- get userId from cookie
+- {
+    text:text 
+}
 
 ### UPDATE A COMMENT
 - `/api/v1/comment/update/:commentId`
+- PUT ROUTE
+- takes the commentId from the params
+- takes text from the body
+- get userId from cookie
+- {
+    text:text 
+}
 
 ### UPDATE A REPLY
 - `/api/v1/comment/update/:commentId/replies/:replyId`
+- PUT ROUTE
+- takes the commentId and replyId from the params
+- takes text from the body
+- get userId from cookie
+- {
+    text:text 
+}
 
 ### GET ALL COMMENT IN A POST
 - `/api/v1/comment/post/:postId`
+- GET ROUTE
+- takes the postId from the params
+- get userId from cookie
 
 ### DELETE A COMMENT
 - `/api/v1/comment/delete/:commentId`
+- DELETE ROUTE
+- takes the commentId from the params
+- get userId from cookie
 
 ### DELETE A REPLY IN COMMENT
 - `/api/v1/comment/:commentId/replies/:replyId`
+- DELETE ROUTE
+- takes the commentId and replyId from the params
+- get userId from cookie
 
 ### LIKE A COMMENT
 - `/api/v1/comment/like/:commentId`
+- POST ROUTE
+- takes the commentId from the params
+- get userId from cookie
 
 ### UNLIKE A COMMENT
 - `/api/v1/comment/dislike/:commentId`
+- POST ROUTE
+- takes the commentId from the params
+- get userId from cookie
 
 ### LIKE A REPLY IN A COMMENT
 - `/api/v1/comment/:commentId/replies/like/:replyId`
+- POST ROUTE
+- takes the commentId and replyId from the params
+- get userId from cookie
 
 ### UNLIKE A REPLY IN A COMMENT
 - `/api/v1/comment/:commentId/replies/dislike/:replyId`
+- POST ROUTE
+- takes the commentId and replyId from the params
+- get userId from cookie
 
 ## CONVERSATION
 
