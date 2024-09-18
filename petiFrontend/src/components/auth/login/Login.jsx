@@ -11,8 +11,10 @@ function Login() {
     rememberMe: false
   });
 
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = e => {
     const { name, value, type, checked } = e.target;
@@ -28,11 +30,19 @@ function Login() {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    console.log(formData);
-    const userData = await authenticateUser(formData);
-    console.log("userData:", userData);
+    setLoading(true); // Set loading when the form is submitted
 
-    navigate("/forgotPassword");
+    try {
+      console.log(formData);
+      const userData = await authenticateUser(formData);
+      console.log("userData:", userData);
+
+      navigate("/dashboard");
+    } catch (error) {
+      setMessage("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false); // Stop loading after the request is done
+    }
   };
 
   return (
@@ -91,14 +101,18 @@ function Login() {
             </div>
           </div>
           <div className="login-btn">
-            <button type="submit" className="btn-create">
-              Login
+            <button type="submit" className="btn-create" disabled={loading}>
+              {loading ? "Please wait..." : "Login"}
             </button>
             <Link to="/signup" className="btn-log">
               Create Account
             </Link>
           </div>
         </form>
+        {message &&
+          <p className="err-mesg">
+            {message}
+          </p>}
       </div>
     </div>
   );
