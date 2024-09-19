@@ -56,6 +56,9 @@
     margin-top: 2rem;
     cursor: pointer;
 }
+.left-art button:active{
+    transform:scale(0.95);
+}
 .right-art{
     display: flex;
     flex-direction: row;

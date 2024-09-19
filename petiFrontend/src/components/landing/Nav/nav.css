@@ -108,6 +108,9 @@ ul li a:hover{
     background-color: black;
    color: white;
 }
+.btn-1:active{
+    transform:scale(0.95);
+} 
 .btn-2{
      display: flex;
     flex-direction: row;
@@ -121,6 +124,9 @@ ul li a:hover{
     font-family: "Lato";
     background-color: transparent;
    color: black;
+}
+.btn-2:active{
+    transform:scale(0.95);
 }
 .col-three button.btn-1{
    background-color: black;
