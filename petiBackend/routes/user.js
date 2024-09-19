@@ -45,7 +45,7 @@ router.get("/blocked/:userId", verifyToken, getBlockedUsersController);
 router.get("/search/:query", verifyToken, searchUserController);
 
 // UPDATE USER
-router.put("/update", updateUserController);
+router.put("/update", verifyToken, updateUserController);
 
 // FOLLOW USER
 router.post("/follow/:userId", verifyToken, followUserController);

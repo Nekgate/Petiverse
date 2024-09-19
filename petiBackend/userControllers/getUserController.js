@@ -124,7 +124,11 @@ const getUserController = async (req, res, next) => {
             throw new CustomError("No User found", 401);
         }
         // Cache the result in Redis for future requests, set expiration time 90 sec
-        await setValue(cacheKey, user, 90); // 90seconds
+        await setValue(cacheKey, {user:{...user._doc,
+            password:undefined,
+            phoneNumber:undefined,
+            email:undefined,
+        }}, 90); // 90seconds
 
         // if user exist the exclude password, phoneNumber, and email get the data from user
         res.status(200).json({user:{...user._doc,
@@ -293,7 +297,7 @@ const searchUserController = async (req, res, next) => {
             throw new CustomError("You have to login first", 401);
         }
         // Define cache key
-        const cacheKey = `search_${logId}`;
+        const cacheKey = `search_${id}`;
 
         // Check Redis cache for verified users data
         const cachedUser = await getValue(cacheKey);
