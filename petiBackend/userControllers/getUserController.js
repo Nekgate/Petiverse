@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const { CustomError } = require("../middlewares/error");
+const { getValue, setValue } = require("../utils/redisConfig");
 
 const getAllUsersVerifiedController = async (req, res, next) => {
     try {
@@ -9,6 +10,19 @@ const getAllUsersVerifiedController = async (req, res, next) => {
         if (!id) {
             throw new CustomError("You have to login first", 401);
         }
+         // Define cache key
+         const cacheKey = 'verified_users';
+
+         // Check Redis cache for verified users data
+         const cachedUsers = await getValue(cacheKey);
+         if (cachedUsers) {
+             // Return the cached users if they exist
+             return res.status(200).json({
+                 message: "All Verified Users (from cache)",
+                 foundUsers: cachedUsers
+             });
+         }
+
         // Get all verified users from the database
         const users = await User.find({ isVerified: true });
 
@@ -17,6 +31,9 @@ const getAllUsersVerifiedController = async (req, res, next) => {
             const { password, phoneNumber, email, ...safeUserData } = user.toObject(); // Convert Mongoose document to plain JS object
             return safeUserData;
         });
+
+        // Cache the result in Redis for future requests, set expiration time 90 sec
+        await setValue(cacheKey, foundUsers, 90); // 90seconds
 
         // Send the response with the sanitized user data removing sensitive data
         res.status(200).json({
@@ -36,6 +53,18 @@ const getAllNotUsersVerifiedController = async (req, res, next) => {
         if (!id) {
             throw new CustomError("You have to login first", 401);
         }
+        // Define cache key
+        const cacheKey = 'not_verified_users';
+
+        // Check Redis cache for verified users data
+        const cachedUsers = await getValue(cacheKey);
+        if (cachedUsers) {
+            // Return the cached users if they exist
+            return res.status(200).json({
+                message: "All Verified Users (from cache)",
+                foundUsers: cachedUsers
+             });
+         }
         // Get all verified users from the database
         const users = await User.find({ isVerified: false });
 
@@ -44,6 +73,9 @@ const getAllNotUsersVerifiedController = async (req, res, next) => {
             const { password, phoneNumber, email, ...safeUserData } = user.toObject(); // Convert Mongoose document to plain JS object
             return safeUserData;
         });
+
+        // Cache the result in Redis for future requests, set expiration time 90 sec
+        await setValue(cacheKey, foundUsers, 90); // 90seconds
 
         // Send the response with the sanitized user data removing sensitive data
         res.status(200).json({
@@ -69,6 +101,18 @@ const getUserController = async (req, res, next) => {
         if (!id) {
             throw new CustomError("You have to login first", 401);
         }
+        // Define cache key
+        const cacheKey = `get_users_${id}`;
+
+        // Check Redis cache for verified users data
+        const cachedUser = await getValue(cacheKey);
+        if (cachedUser) {
+            // Return the cached users if they exist
+            return res.status(200).json({
+                message: "User (from cache)",
+                user: cachedUser
+             });
+         }
         // find the id in the database if it exist
         const user = await User.findById(userId);
         // if it don't exist
@@ -79,6 +123,12 @@ const getUserController = async (req, res, next) => {
         if (!user.isVerified == true) {
             throw new CustomError("No User found", 401);
         }
+        // Cache the result in Redis for future requests, set expiration time 90 sec
+        await setValue(cacheKey, {user:{...user._doc,
+            password:undefined,
+            phoneNumber:undefined,
+            email:undefined,
+        }}, 90); // 90seconds
 
         // if user exist the exclude password, phoneNumber, and email get the data from user
         res.status(200).json({user:{...user._doc,
@@ -105,6 +155,18 @@ const getFollowingController = async (req, res, next) => {
         if (!logId) {
             throw new CustomError("You have to login first", 401);
         }
+        // Define cache key
+        const cacheKey = `following_${logId}`;
+
+        // Check Redis cache for verified users data
+        const cachedUser = await getValue(cacheKey);
+        if (cachedUser) {
+            // Return the cached users if they exist
+            return res.status(200).json({
+                message: "following (from cache)",
+                following: cachedUser
+             });
+         }
         // find the userId in the database, with other information
         const user = await User.findById(userId).populate("following","username fullName profilePicture");
         // if not found throw error
@@ -117,6 +179,8 @@ const getFollowingController = async (req, res, next) => {
         }
         // destructure blocklist from other data
         const {following,...data} = user;
+        // Cache the result in Redis for future requests, set expiration time 90 sec
+        await setValue(cacheKey, following, 90); // 90seconds
         // response is the information in block list of user
         res.status(200).json(following);
     } catch (error) {
@@ -138,6 +202,18 @@ const getFollowersController = async (req, res, next) => {
         if (!logId) {
             throw new CustomError("You have to login first", 401);
         }
+        // Define cache key
+        const cacheKey = `followers_${logId}`;
+
+        // Check Redis cache for verified users data
+        const cachedUser = await getValue(cacheKey);
+        if (cachedUser) {
+            // Return the cached users if they exist
+            return res.status(200).json({
+                message: "Followers (from cache)",
+                followers: cachedUser
+             });
+         }
         // find the userId in the database, with other information
         const user = await User.findById(userId).populate("followers","username fullName profilePicture");
         // if not found throw error
@@ -150,6 +226,8 @@ const getFollowersController = async (req, res, next) => {
         }
         // destructure blocklist from other data
         const {followers,...data} = user;
+        // Cache the result in Redis for future requests, set expiration time 90 sec
+        await setValue(cacheKey, followers, 90); // 90seconds
         // response is the information in block list of user
         res.status(200).json(followers);
     } catch (error) {
@@ -171,6 +249,18 @@ const getBlockedUsersController = async (req, res, next) => {
         if (!logId) {
             throw new CustomError("You have to login first", 401);
         }
+        // Define cache key
+        const cacheKey = `block_${logId}`;
+
+        // Check Redis cache for verified users data
+        const cachedUser = await getValue(cacheKey);
+        if (cachedUser) {
+            // Return the cached users if they exist
+            return res.status(200).json({
+                message: "blocked users (from cache)",
+                blocklist: cachedUser
+             });
+         }
         // find the userId in the database, with other information
         const user = await User.findById(userId).populate("blocklist","username fullName profilePicture");
         // if not found throw error
@@ -183,6 +273,8 @@ const getBlockedUsersController = async (req, res, next) => {
         }
         // destructure blocklist from other data
         const {blocklist,...data} = user;
+        // Cache the result in Redis for future requests, set expiration time 90 sec
+        await setValue(cacheKey, blocklist, 90); // 90seconds
         // response is the information in block list of user
         res.status(200).json(blocklist);
     } catch (error) {
@@ -204,6 +296,18 @@ const searchUserController = async (req, res, next) => {
         if (!id) {
             throw new CustomError("You have to login first", 401);
         }
+        // Define cache key
+        const cacheKey = `search_${id}`;
+
+        // Check Redis cache for verified users data
+        const cachedUser = await getValue(cacheKey);
+        if (cachedUser) {
+            // Return the cached users if they exist
+            return res.status(200).json({
+                message: "search (from cache)",
+                foundUsers: cachedUser
+             });
+         }
         // find user object using regular expression
         // check to only return verified user
         // check the query as a username or fullName
@@ -219,6 +323,8 @@ const searchUserController = async (req, res, next) => {
             const { password, phoneNumber, email, ...safeUserData } = user.toObject(); // Convert Mongoose document to plain JS object
             return safeUserData;
         });
+        // Cache the result in Redis for future requests, set expiration time 90 sec
+        await setValue(cacheKey, foundUsers, 90); // 90seconds
         res.status(200).json({foundUsers});
     } catch (error) {
         next(error);
