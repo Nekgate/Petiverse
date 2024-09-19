@@ -96,7 +96,9 @@
     font-family: "Lato";
     cursor: pointer;
 }
-
+.btn-forgot:active{
+    transform:scale(0.95);
+}
 .forgot-right p{
     display: flex;
     flex-direction: row;

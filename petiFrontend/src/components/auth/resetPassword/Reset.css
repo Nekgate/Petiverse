@@ -135,6 +135,12 @@
     cursor: pointer;
     margin-top: 1rem;
 }
+.btn-reset:active{
+    transform:scale(0.95);
+}
+.reset-btn:active{
+    transform:scale(0.95);
+}
 .reset-right p{
     display: flex;
     flex-direction: row;
