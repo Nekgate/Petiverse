@@ -2,3 +2,15 @@
     background-color: #E3E3E3;
     min-height: 100vh;
 }
+.dash-grid{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.dash-ad{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
