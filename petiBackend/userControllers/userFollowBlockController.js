@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const { CustomError } = require("../middlewares/error");
+const { clearCache } = require('../utils/redisConfig');
 
 const followUserController = async (req, res, next) => {
     try {
@@ -16,7 +17,7 @@ const followUserController = async (req, res, next) => {
             throw new CustomError("You have to login first", 401);
         }
         // if both user and id are same abort
-        if (userId==id){
+        if (userId===id){
             throw new CustomError("You cannot follow yourself", 400);
         }
         // get the user to be followed object
@@ -45,6 +46,10 @@ const followUserController = async (req, res, next) => {
         // save the users info to database
         await loggedInUser.save();
         await userToFollow.save();
+        // Define cache key
+        const cacheKey = `following_${logId}`;
+        // clear the cache of user
+        clearCache(cacheKey);
         // return response
         res.status(201).json({message:"Successfully followed user!"});
     } catch(error) {
@@ -92,6 +97,10 @@ const unfollowUserController = async (req, res, next) => {
         // save the users info to database
         await loggedInUser.save();
         await userToUnFollow.save();
+        // Define cache key
+        const cacheKey = `following_${logId}`;
+        // clear the cache of user
+        clearCache(cacheKey);
         // return response
         res.status(201).json({message:"Successfully unfollowed user!"});
     } catch(error) {
@@ -149,6 +158,10 @@ const blockUserController = async (req, res, next) => {
         // save both of the users
         await loggedInUser.save();
         await userToBlock.save();
+        // Define cache key
+        const cacheKey = `block_${logId}`;
+        // clear the cache of user
+        clearCache(cacheKey);
 
         res.status(200).json({message:"User is Blocked successfully!"});
 
@@ -203,6 +216,11 @@ const unblockUserController = async (req, res, next) => {
 
         // save the users
         await loggedInUser.save();
+        // Define cache key
+        const cacheKey = `block_${logId}`;
+        // clear the cache of user
+        clearCache(cacheKey);
+
 
         res.status(200).json({message:"User is Unblocked successfully!"});
 

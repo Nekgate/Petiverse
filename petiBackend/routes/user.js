@@ -9,7 +9,7 @@ const {
     getAllUsersVerifiedController,
     getAllNotUsersVerifiedController,
     getFollowersController,
-    getFollowingController, 
+    getFollowingController,
 } = require('../userControllers/getUserController');
 const { 
     followUserController,
