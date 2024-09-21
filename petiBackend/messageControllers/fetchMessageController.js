@@ -18,18 +18,14 @@ const getMessagesController = async (req, res, next) => {
         if (!conversation){
             throw new CustomError("Conversation not found", 404);
         }
-        // check if user in the participant of the conversation
-        const userInConvo = await Conversation.find({
-            participants:{$in:[userId]},
-        })
-        // throw error if user is not part of the conversation
-        if (!userInConvo) {
-            throw new CustomError("You cannot get message of others", 401);
+        // check if user is a participant of the conversation
+        const isUserInConversation = conversation.participants.includes(userId);
+        if (!isUserInConversation) {
+            throw new CustomError("You cannot view messages of a conversation you're not part of", 403);
         }
-        // get all message that have same conversation Id
-        const messages = await Message.find({
-            conversation:conversationId
-        });
+
+        // get all messages with the same conversation Id
+        const messages = await Message.find({ conversationId: conversationId }).sort({ createdAt: -1 });
         res.status(200).json(messages);
 
     } catch(error) {

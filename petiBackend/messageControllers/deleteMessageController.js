@@ -33,7 +33,7 @@ const deleteMessageController = async (req, res, next) => {
         }
         // Check if the user is the sender of the message
         if (message.sender.toString() !== userId.toString()) {
-            throw new CustomError("You cannot edit this message", 403);
+            throw new CustomError("You cannot delete this message", 403);
         }
         // find and delete the message in the database
         await Message.findByIdAndDelete(messageId);
