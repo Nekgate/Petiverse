@@ -70,6 +70,7 @@ const getPostsController = async (req, res, next) => {
         })
         .skip((page - 1) * limit)
         .limit(limit)
+        .sort({createdAt:-1})
         .populate("user", "username fullName profilePicture"); // Populate user details for each post
 
         // calculating the total post to be given to a user
@@ -81,7 +82,7 @@ const getPostsController = async (req, res, next) => {
             user: { $nin: excludedUsersIds }
         });
         // Cache the result in Redis for future requests, set expiration time 90 sec
-        await setValue(cacheKey, posts, 120); // 2 minutes
+        await setValue(cacheKey, posts, 3600); // 2 minutes
         // getting the total page
         const totalPages = Math.ceil(totalPosts / limit);
 
@@ -201,6 +202,7 @@ const getUserPostsController = async (req, res, next) => {
         const userPosts = await Post.find({user:userId})
         .populate("user", "username fullName profilePicture")
         .skip(skip)
+        .sort({createdAt:-1})
         .limit(limit);
         // Cache the result in Redis for future requests, set expiration time 90 sec
         await setValue(cacheKey, userPosts, 7200); // 2 hours
@@ -327,7 +329,7 @@ const getAllPostFromAUser = async (req, res, next) => {
         const visibilityFilter = isLoggedUserFollowing ? {} : { visibility: "public" };
 
         // Fetch the posts based on visibility and userId
-        const posts = await Post.find({ user: userId, ...visibilityFilter });
+        const posts = await Post.find({ user: userId, ...visibilityFilter }).sort({createdAt:-1});
         // Cache the result in Redis for future requests, set expiration time 90 sec
         await setValue(cacheKey, posts, 7200); // 2 hours
 

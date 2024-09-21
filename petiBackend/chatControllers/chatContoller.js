@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const Conversation = require('../models/Conversation');
 const { CustomError } = require('../middlewares/error');
+const { clearCache } = require('../utils/redisConfig');
 
 const createNewConversationController = async (req, res, next) => {
     
@@ -58,6 +59,10 @@ const createNewConversationController = async (req, res, next) => {
         });
         // save the new conversation created
         const savedConversation = await newConversation.save();
+        // Define cache key
+        const cacheKey = `chat_${userId}`;
+        // clear cache of the user
+        clearCache(cacheKey);
 
         res.status(201).json({message:'success', conversationId: savedConversation._id});
     } catch(error) {

@@ -1,6 +1,7 @@
 const Conversation = require('../models/Conversation');
 const Message = require('../models/Message');
 const { CustomError } = require('../middlewares/error');
+const { clearCache } = require('../utils/redisConfig');
 
 const deleteConversationController = async (req, res, next) => {
     try {
@@ -26,6 +27,10 @@ const deleteConversationController = async (req, res, next) => {
         await Conversation.deleteOne({_id:conversationId});
         // delete all message partaining to the conversation
         await Message.deleteMany({conversationId:conversationId});
+        // Define cache key
+        const cacheKey = `chat_${userId}`;
+        // clear cache of the user
+        clearCache(cacheKey);
 
         res.status(200).json({message:"Conversion deleted successfully"});
 

@@ -2,6 +2,7 @@ const Message = require('../models/Message');
 const Conversation = require('../models/Conversation');
 const User = require('../models/User');
 const { CustomError } = require('../middlewares/error');
+const { clearCache } = require('../utils/redisConfig');
 
 const deleteMessageController = async (req, res, next) => {
     try {
@@ -37,6 +38,10 @@ const deleteMessageController = async (req, res, next) => {
         }
         // find and delete the message in the database
         await Message.findByIdAndDelete(messageId);
+        // Define cache key
+        const cacheKey = `message_${userId}`;
+        // clear cache of the user
+        clearCache(cacheKey);
 
         res.status(200).json({message:"Message deleted succcessfully!"});
     } catch(error) {
