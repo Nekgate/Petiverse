@@ -2,7 +2,13 @@ const Post = require('../models/Post');
 const User = require('../models/User');
 const { CustomError } = require('../middlewares/error');
 
-
+/**
+ * 
+ * @param {userId} req 
+ * @param {*[post]} res 
+ * @param {*[error]} next 
+ * @returns 
+ */
 const getPostsController = async (req, res, next) => {
     try {
         // get the id of user from the verifiedToken of user in cookie
@@ -36,11 +42,18 @@ const getPostsController = async (req, res, next) => {
         // 1. Posts from users the current user is following.
         // 2. Public posts from any user, excluding posts from users who blocked the current user or whom the user has blocked.
         const posts = await Post.find({
-            $or: [
-                { visibility: 'friends', user: { $in: followingIds.length > 0 ? followingIds : [] } },  // Posts from followed users
-                { visibility: 'public' }          // Public posts
-            ],
-            user: { $nin: excludedUsersIds }     // Exclude posts from blocked/blockedMe users
+            $and: [
+                {
+                    user: { $nin: excludedUsersIds }    // Exclude posts from blocked/blockedMe users
+                },
+                {
+                    $or: [
+                        { user: userId },        // Include user's own posts
+                        { visibility: 'friends', user: { $in: followingIds } },  // Posts from followed users
+                        { visibility: 'public' }        // Public posts from any user
+                    ]
+                }
+            ]    // Exclude posts from blocked/blockedMe users
         })
         .skip((page - 1) * limit)
         .limit(limit)
@@ -68,7 +81,7 @@ const getPostsController = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-}
+};
 
 const getAPostController = async (req, res, next) => {
     try {
@@ -104,7 +117,7 @@ const getAPostController = async (req, res, next) => {
             throw new CustomError("Post not found", 404);
         }
         // if the post owner didnt block the user
-        const postAuthor = await User.findById(post._id);
+        const postAuthor = await User.findById(post.user._id);
         // Check if the post visibility is allowed for the current user
         // Check if the post author has blocked the current user
         if (postAuthor.blocklist.includes(userId)) {
@@ -123,7 +136,6 @@ const getAPostController = async (req, res, next) => {
         next(error);
     }
 };
-
 
 const getUserPostsController = async (req, res, next) => {
     try {
@@ -341,8 +353,8 @@ const getAllPostsForAdminController = async (req, res, next) => {
 
 module.exports = {
     getPostsController,
-    getUserPostsController,
     getAPostController,
+    getUserPostsController,
     getAUserPostController,
     getAllPostsForAdminController,
     getAllPostFromAUser,

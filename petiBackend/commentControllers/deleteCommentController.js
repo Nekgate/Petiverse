@@ -23,7 +23,7 @@ const deleteCommentController = async (req, res, next) => {
             throw new CustomError("Comment not found", 404);
         }
         // throw error if user that commented is not the same with user logged in
-        if (comment.user !== userId){
+        if (comment.user._id.toString() !== userId){
             throw new CustomError("You have no permission delete the comment", 401);
         }
         // find the comment in the post remove it and update

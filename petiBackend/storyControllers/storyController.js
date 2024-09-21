@@ -24,7 +24,7 @@ const createStoryController = async (req, res, next) => {
         let image = ""
         // Get the image URL from Cloudinary (if file uploaded)
         if (req.file){
-            image=req.imageUrl;;
+            image=req.imageUrl;
         }
 
         // // Ensure that only one of text or image is provided (not both)

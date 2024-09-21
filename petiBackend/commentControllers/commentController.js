@@ -138,7 +138,7 @@ const updateCommentController = async (req, res, next) => {
             throw new CustomError("Comment not found", 404);
         }
         // throw error if userId is not the user that created the comment
-        if (commentToUpdate.user !== userId){
+        if (commentToUpdate.user._id.toString() !== userId){
             throw new CustomError("You are not authorized to update comment", 401);
         }
         // find and update the comment with the text
@@ -183,6 +183,10 @@ const updateReplyCommentController = async (req, res, next) => {
         // throw error if not found
         if (!user) {
             throw new CustomError("User not found", 400);
+        }
+        // check if comment have any reply to it
+        if (!parentComment.replies || parentComment.replies.length === 0) {
+            throw new CustomError("No reply in the comment");
         }
         // iterate to find the reply index
         const replyIndex = parentComment.replies.findIndex((reply)=>reply._id.toString()===replyId);
