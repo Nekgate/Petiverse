@@ -70,7 +70,7 @@ const getPostsController = async (req, res, next) => {
     }
 }
 
-const getAPostController = async (req, res) => {
+const getAPostController = async (req, res, next) => {
     try {
         // Get the postId from the params
         const { postId } = req.params;
