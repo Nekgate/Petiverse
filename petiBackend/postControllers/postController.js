@@ -1,6 +1,7 @@
 const Post = require('../models/Post');
 const User = require('../models/User');
 const { CustomError } = require('../middlewares/error');
+const { clearCache } = require('../utils/redisConfig');
 
 const createPostController = async (req, res, next) => {
     
@@ -42,6 +43,12 @@ const createPostController = async (req, res, next) => {
         user.posts.push(newPost._id);
         // save the user table
         await user.save();
+        // Define cache key
+        const cacheKey = `post_${userId}`;
+        const cacheKey1 = `userpost_${userId}`;
+        // clear cache of the user
+        clearCache(cacheKey);
+        clearCache(cacheKey1);
 
         res.status(201).json({message:"Post created successfully!", post:newPost});
     } catch (error) {
@@ -95,6 +102,12 @@ const createPostWithImageController = async (req, res, next) => {
         user.posts.push(newPost._id);
         // save the user
         await user.save();
+        // Define cache key
+        const cacheKey = `post_${userId}`;
+        const cacheKey1 = `userpost_${userId}`;
+        // clear cache of the user
+        clearCache(cacheKey);
+        clearCache(cacheKey1);
 
         res.status(201).json({message:"Post Created Successfully!", post:newPost});
 
@@ -141,6 +154,12 @@ const updatePostController = async (req,res,next) => {
 
         // update post
         await postToUpdate.save();
+        // Define cache key
+        const cacheKey = `post_${userId}`;
+        const cacheKey1 = `userpost_${userId}`;
+        // clear cache of the user
+        clearCache(cacheKey);
+        clearCache(cacheKey1);
 
         res.status(200).json({message:"Post Updated successfully", post:updatedPost});
     } catch (error) {
@@ -193,6 +212,12 @@ const updatePostVisibilityController = async (req,res,next) => {
 
         // update post
         await postToUpdate.save();
+        // Define cache key
+        const cacheKey = `post_${userId}`;
+        const cacheKey1 = `userpost_${userId}`;
+        // clear cache of the user
+        clearCache(cacheKey);
+        clearCache(cacheKey1);
 
         res.status(200).json({message:"Post Updated successfully", post:updatedPost});
     } catch (error) {

@@ -1,6 +1,7 @@
 const Post = require('../models/Post');
 const User = require('../models/User');
 const { CustomError } = require('../middlewares/error');
+const { clearCache } = require('../utils/redisConfig');
 
 
 const likePostController = async (req, res, next) => {
@@ -55,6 +56,13 @@ const likePostController = async (req, res, next) => {
         post.likes.push(userId);
         // save the post again
         await post.save();
+        // Define cache key
+        const cacheKey = `post_${userId}`;
+        const cacheKey1 = `userpost_${userId}`;
+        // clear cache of the user
+        clearCache(cacheKey);
+        clearCache(cacheKey1);
+
         res.status(200).json({message:"post liked", post});
 
     } catch (error) {
@@ -115,6 +123,13 @@ const dislikePostController = async (req, res, next) => {
         post.likes=post.likes.filter(id=>id.toString()!==userId);
         // save the post again
         await post.save();
+        // Define cache key
+        const cacheKey = `post_${userId}`;
+        const cacheKey1 = `userpost_${userId}`;
+        // clear cache of the user
+        clearCache(cacheKey);
+        clearCache(cacheKey1);
+
         res.status(200).json({message:"post disliked", post});
 
     } catch (error) {
