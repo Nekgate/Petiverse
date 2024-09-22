@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const Story = require('../models/Story');
 const { CustomError } = require('../middlewares/error');
+const { clearCache } = require('../utils/redisConfig');
 
 
 const deleteAStoryController = async (req, res, next) => {
@@ -36,6 +37,12 @@ const deleteAStoryController = async (req, res, next) => {
         const updatedStory = await Story.findByIdAndDelete({_id:storyId});
         // save story
         updatedStory.save();
+        // Define cache key
+        const cacheKey = `story_${userId}`;
+        const cacheKey1 = `userStory_${userId}`;
+        // clear cache of the user
+        clearCache(cacheKey);
+        clearCache(cacheKey1);
 
         res.status(200).json({message:"Story Deleted Successfully"});
     } catch(error) {
@@ -61,6 +68,12 @@ const deleteUserStoriesController = async (req, res, next) => {
         }
         // find and delete
         await Story.deleteMany({user:userId});
+        // Define cache key
+        const cacheKey = `story_${userId}`;
+        const cacheKey1 = `userStory_${userId}`;
+        // clear cache of the user
+        clearCache(cacheKey);
+        clearCache(cacheKey1);
 
         res.status(200).json({message:"All Stories Deleted Successfully"});
 
