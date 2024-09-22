@@ -10,6 +10,7 @@
     position: fixed;
     right: 0;
     margin-right: 15px;
+    z-index: 1000;
 }
 .advert-inner{
     display: flex;

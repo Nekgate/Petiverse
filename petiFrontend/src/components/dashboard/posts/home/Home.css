@@ -9,7 +9,8 @@
     margin-top: 2px;
     margin-left: 18rem;
     margin-right: 23rem;
-    width: -webkit-fill-available;
+     width: -webkit-fill-available;
+     /* width: fit-content; */
     overflow-y: auto;
 
 }

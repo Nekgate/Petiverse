@@ -28,6 +28,7 @@
     align-items: center;
     width: -webkit-fill-available;
     gap: 5rem;
+    padding: 0rem;
 }
 .sub-li{
     display: flex;
