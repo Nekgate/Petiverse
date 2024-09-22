@@ -1,44 +1,62 @@
-import React, {useState} from 'react';
+import React, { useState } from "react";
 import "../../../components/auth/forgotPassword/Forgot.css";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { sendResetEmail } from "../../../api/authenticationApi";
 
 function Forgot() {
-  const [formData, setFormData] = useState({
-    email: ""
-  });
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const handleChange = e => {
-    const { name, value, type, checked } = e.target;
-    setFormData(prevData => ({
-      ...prevData,
-      [name]: type === "checkbox" ? checked : value
-    }));
-  };
-
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    console.log(formData);
+    setIsLoading(true);
+    setMessage("");
+
+    try {
+      await sendResetEmail({ email });
+      // On successful request, navigate to the CheckEmail screen
+      navigate("/checkEmail"); // Navigate to CheckEmail screen
+    } catch (error) {
+      setMessage("Something went wrong. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  return <div className="forgot-background">
+  return (
+    <div className="forgot-background">
       <div className="forgot-inner">
         <div className="forgot-left">
           <img src="/images/forpet.png" alt="Logo" />
         </div>
         <div className="forgot-right">
           <h1>Forgot Your Password?</h1>
-          <p>Enter the email connected to your account.</p>
+          <h6>Enter the email connected to your account.</h6>
           <form onSubmit={handleSubmit} className="for-form">
             <div className="for-form-in">
-              <input type="email" name="email" value={formData.phoneNumber} onChange={handleChange} placeholder="name@gmail.com" required />
+              <input
+                type="email"
+                name="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder="Enter your registered email"
+                required
+              />
             </div>
-            <Link to="/checkEmail" className="btn-forgot">
-              Proceed
-            </Link>
+            <button type="submit" disabled={isLoading} className="btn-forgot">
+              {isLoading ? "Please wait..." : "Reset Password"}
+            </button>
           </form>
+          {message &&
+            <p>
+              {message}
+            </p>}
         </div>
       </div>
-    </div>;
+    </div>
+  );
 }
 
-export default Forgot
+export default Forgot;
