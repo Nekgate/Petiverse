@@ -9,7 +9,7 @@ const router = express.Router();
 router.post("/create/:secondUserId", verifyToken, createNewConversationController);
 
 // GET CONVERSATIONS OF USER
-router.get("/all/user", getConversationOfUserController);
+router.get("/all/user", verifyToken, getConversationOfUserController);
 
 // DELETE CONVERSATION
 router.delete("/delete/:conversationId", verifyToken, deleteConversationController);

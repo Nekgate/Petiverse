@@ -411,12 +411,21 @@
 ### CREATE A STORY
 `api/v1/story/create`
 - POST ROUTE
-- takes a file form data of image in jpg, png, jpeg or text or both
+- takes text
+- get userId from cookie
+- push the image to cloudinary and generate a url 
+- {
+    text:text
+}
+
+### CREATE A STORY
+`api/v1/story/create-image`
+- POST ROUTE
+- takes a file form data of image in jpg, png, jpeg
 - get userId from cookie
 - push the image to cloudinary and generate a url 
 - {
     image: image
-    text:text
 }
 
 ### GET ALL STORY OF USERS A USER IS FOLLOWING

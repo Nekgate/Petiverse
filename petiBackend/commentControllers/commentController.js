@@ -2,6 +2,7 @@ const User = require('../models/User');
 const Comment = require('../models/Comment');
 const Post = require('../models/Post');
 const { CustomError } = require('../middlewares/error');
+const { clearCache } = require('../utils/redisConfig');
 
 
 const createCommentController = async (req, res, next) => {
@@ -50,6 +51,10 @@ const createCommentController = async (req, res, next) => {
         post.comments.push(newComment._id);
         // save post
         await post.save();
+        // Define cache key
+        const cacheKey = `comment_${userId}`;
+        // clear cache of the user
+        clearCache(cacheKey);
 
         res.status(201).json({message:"Comment added to Post Successfully",comment:newComment});
 
@@ -102,6 +107,10 @@ const createCommentReplyController = async (req, res, next) => {
         parentComment.replies.push(reply);
         // save the comment
         await parentComment.save();
+        // Define cache key
+        const cacheKey = `comment_${userId}`;
+        // clear cache of the user
+        clearCache(cacheKey);
 
         res.status(201).json({message:"Reply have been created", reply});
     } catch (error) {
@@ -138,11 +147,15 @@ const updateCommentController = async (req, res, next) => {
             throw new CustomError("Comment not found", 404);
         }
         // throw error if userId is not the user that created the comment
-        if (commentToUpdate.user !== userId){
+        if (commentToUpdate.user._id.toString() !== userId){
             throw new CustomError("You are not authorized to update comment", 401);
         }
         // find and update the comment with the text
         const updatedComment = await Comment.findByIdAndUpdate(commentToUpdate,{text},{new:true});
+        // Define cache key
+        const cacheKey = `comment_${userId}`;
+        // clear cache of the user
+        clearCache(cacheKey);
 
         res.status(200).json({message:"Comment updated successfully", updatedComment});
     } catch (error) {
@@ -184,6 +197,10 @@ const updateReplyCommentController = async (req, res, next) => {
         if (!user) {
             throw new CustomError("User not found", 400);
         }
+        // check if comment have any reply to it
+        if (!parentComment.replies || parentComment.replies.length === 0) {
+            throw new CustomError("No reply in the comment");
+        }
         // iterate to find the reply index
         const replyIndex = parentComment.replies.findIndex((reply)=>reply._id.toString()===replyId);
         // throw error if not found
@@ -198,6 +215,10 @@ const updateReplyCommentController = async (req, res, next) => {
         parentComment.replies[replyIndex].text = text;
         // save the parentComment
         await parentComment.save();
+        // Define cache key
+        const cacheKey = `comment_${userId}`;
+        // clear cache of the user
+        clearCache(cacheKey);
 
         res.status(200).json({message:"Reply updated successfully", parentComment});
     } catch (error) {

@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const Conversation = require('../models/Conversation');
 const { CustomError } = require('../middlewares/error');
+const { clearCache } = require('../utils/redisConfig');
 
 const createNewConversationController = async (req, res, next) => {
     
@@ -12,9 +13,9 @@ const createNewConversationController = async (req, res, next) => {
             throw new CustomError("You have to login first", 401);
         }
         // get info from the url
-        const secondUserId = req.params;
+        const { secondUserId } = req.params;
         // check if user exist
-        const userFirst = await User.findById({_id:userId});
+        const userFirst = await User.findById(userId);
         // throw error if not found
         if (!userFirst){
             throw new CustomError("User not found", 400);
@@ -23,7 +24,7 @@ const createNewConversationController = async (req, res, next) => {
             throw new CustomError("You are not allowed", 401);
         }
         // check if user exist
-        const userSecond = await User.findById({_id:secondUserId});
+        const userSecond = await User.findById(secondUserId);
         // throw error if not found
         if (!userSecond){
             throw new CustomError("User not found", 400);
@@ -58,6 +59,10 @@ const createNewConversationController = async (req, res, next) => {
         });
         // save the new conversation created
         const savedConversation = await newConversation.save();
+        // Define cache key
+        const cacheKey = `chat_${userId}`;
+        // clear cache of the user
+        clearCache(cacheKey);
 
         res.status(201).json({message:'success', conversationId: savedConversation._id});
     } catch(error) {

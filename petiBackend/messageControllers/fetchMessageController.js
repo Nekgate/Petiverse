@@ -1,6 +1,7 @@
 const Message = require('../models/Message');
 const Conversation = require('../models/Conversation');
 const { CustomError } = require('../middlewares/error');
+const { setValue, getValue } = require('../utils/redisConfig');
 
 const getMessagesController = async (req, res, next) => {
     try {
@@ -10,6 +11,18 @@ const getMessagesController = async (req, res, next) => {
         if (!userId) {
             throw new CustomError("You have to login first", 401);
         }
+        // Define cache key
+        const cacheKey = `message_${userId}`;
+
+        // Check Redis cache for verified users data
+        const cachedUser = await getValue(cacheKey);
+        if (cachedUser) {
+            // Return the cached users if they exist
+            return res.status(200).json({
+                message: "posts (from cache)",
+                user: cachedUser
+             });
+         }
         // get conversation id from url
         const { conversationId } = req.params;
         // check if conversationId exist
@@ -18,18 +31,16 @@ const getMessagesController = async (req, res, next) => {
         if (!conversation){
             throw new CustomError("Conversation not found", 404);
         }
-        // check if user in the participant of the conversation
-        const userInConvo = await Conversation.find({
-            participants:{$in:[userId]},
-        })
-        // throw error if user is not part of the conversation
-        if (!userInConvo) {
-            throw new CustomError("You cannot get message of others", 401);
+        // check if user is a participant of the conversation
+        const isUserInConversation = conversation.participants.includes(userId);
+        if (!isUserInConversation) {
+            throw new CustomError("You cannot view messages of a conversation you're not part of", 403);
         }
-        // get all message that have same conversation Id
-        const messages = await Message.find({
-            conversation:conversationId
-        });
+
+        // get all messages with the same conversation Id
+        const messages = await Message.find({ conversationId: conversationId }).sort({ createdAt: -1 });
+        // Cache the result in Redis for future requests, set expiration time 90 sec
+        await setValue(cacheKey, messages, 3600); // 2 minutes
         res.status(200).json(messages);
 
     } catch(error) {

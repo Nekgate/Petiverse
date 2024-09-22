@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const Comment = require('../models/Comment');
 const { CustomError } = require("../middlewares/error");
+const { clearCache } = require('../utils/redisConfig');
 
 
 const likeCommentController = async (req, res, next) => {
@@ -36,7 +37,11 @@ const likeCommentController = async (req, res, next) => {
         // add the user liking to the comment like
         comment.likes.push(userId);
         // save the comment
-        await comment.save()
+        await comment.save();
+        // Define cache key
+        const cacheKey = `comment_${userId}`;
+        // clear cache of the user
+        clearCache(cacheKey);
 
         res.status(201).json({message:"Comment liked successfully", comment});
     } catch(error) {
@@ -77,7 +82,11 @@ const dislikeCommentController = async (req, res, next) => {
         // filter/remove the comment likes id and remove this user
         comment.likes=comment.likes.filter(id=>id.toString()!==userId);
         // save the comment
-        await comment.save()
+        await comment.save();
+        // Define cache key
+        const cacheKey = `comment_${userId}`;
+        // clear cache of the user
+        clearCache(cacheKey);
 
         res.status(201).json({message:"Comment disliked successfully", comment});
     } catch(error) {

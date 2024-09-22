@@ -52,6 +52,9 @@ const deleteUserController = async (req, res, next) => {
         );
         // delete user with the userId
         await userToDelete.deleteOne();
+        // clear all caches
+        clearAllCaches();
+        
         res.clearCookie("token")
         .status(200)
         .json("User Deleted successfully!");

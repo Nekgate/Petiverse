@@ -1,6 +1,7 @@
 const Comment = require('../models/Comment');
 const Post = require('../models/Post');
 const { CustomError } = require("../middlewares/error");
+const { clearCache } = require('../utils/redisConfig');
 
 const deleteCommentController = async (req, res, next) => {
     try {
@@ -23,7 +24,7 @@ const deleteCommentController = async (req, res, next) => {
             throw new CustomError("Comment not found", 404);
         }
         // throw error if user that commented is not the same with user logged in
-        if (comment.user !== userId){
+        if (comment.user._id.toString() !== userId){
             throw new CustomError("You have no permission delete the comment", 401);
         }
         // find the comment in the post remove it and update
@@ -33,7 +34,11 @@ const deleteCommentController = async (req, res, next) => {
             {new:true}
         )
         // delete the comment
-        await comment.deleteOne()
+        await comment.deleteOne();
+        // Define cache key
+        const cacheKey = `comment_${userId}`;
+        // clear cache of the user
+        clearCache(cacheKey);
 
         res.status(200).json({message:"Comment has been deleted!"});
     } catch(error) {
@@ -79,6 +84,10 @@ const deleteReplyCommentController = async (req, res, next) => {
         
         // save the comment
         await comment.save();
+        // Define cache key
+        const cacheKey = `comment_${userId}`;
+        // clear cache of the user
+        clearCache(cacheKey);
 
         res.status(200).json({message:"Reply deleted successfully", comment});
 

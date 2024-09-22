@@ -10,13 +10,13 @@ const {
 } = require('../postControllers/postController');
 const uploadImages = require('../middlewares/uploadPostPictureToCloud');
 const { 
-    getPostsController,
-    getAPostController,
     getUserPostsController,
     getAUserPostController,
     getAllPostsForAdminController,
     getAllPostFromAUser,
     getApostFromUser,
+    getPostsController,
+    getAPostController,
 } = require('../postControllers/fetchPostController');
 const deletePostController = require('../postControllers/deletePostController');
 const { likePostController, dislikePostController } = require('../postControllers/likeDislikePostController');
@@ -35,14 +35,14 @@ router.put("/update/:postId", verifyToken, updatePostController);
 // UPDATE POST VISIBILITY
 router.put("/update/visibility/:postId", verifyToken, updatePostVisibilityController);
 
-// GET A POSTS
-router.get("/:postId", verifyToken, getAPostController);
-
 // GET ALL POSTS
-router.get("/all", verifyToken, getPostsController);
+router.get("/all-post", verifyToken, getPostsController);
+
+// GET A POSTS
+router.get("/find/:postId", verifyToken, getAPostController);
 
 // GET ALL POSTS FROM A USER
-router.get("/users/posts", verifyToken, getUserPostsController);
+router.get("/user/posts", verifyToken, getUserPostsController);
 
 // GET A SINGLE POST OF USER
 router.get("/user/:postId", verifyToken, getAUserPostController);

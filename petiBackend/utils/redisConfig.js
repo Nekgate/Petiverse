@@ -57,7 +57,6 @@ const setValue = async (key, value, expire = 30) => {
 const clearCache = async (key) => {
     try {
         await client.hDel('cache', key); // Delete specific key from Redis cache
-        console.log(`Cache cleared for key: ${key}`);
     } catch (error) {
         console.error(`Failed to clear cache for key: ${key}`, error);
     }

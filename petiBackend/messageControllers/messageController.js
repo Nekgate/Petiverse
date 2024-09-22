@@ -3,6 +3,7 @@ const Conversation = require('../models/Conversation');
 const User = require('../models/User');
 const { CustomError } = require('../middlewares/error');
 const { emitMessage } = require('../utils/socketIOConfig');
+const { clearCache } = require('../utils/redisConfig');
 
 const createMessageController = async (req, res, next) => {
     try {
@@ -15,7 +16,9 @@ const createMessageController = async (req, res, next) => {
         // destructure and get every item from body and params
         const { conversationId } = req.params;
         const { text } = req.body;
-        if (!text.trim()){
+        
+        // check if text is empty
+        if (!text){
             throw new CustomError("Text is not found", 400);
         }
         // check if conversationId exist
@@ -26,7 +29,7 @@ const createMessageController = async (req, res, next) => {
             throw new CustomError("Conversation not found!", 404)
         }
         // check if conversationId exist
-        const user = await User.findById({userId});
+        const user = await User.findById(userId);
         // throw error if not found
         if (!user) {
             throw new CustomError("User not found!", 404)
@@ -42,11 +45,15 @@ const createMessageController = async (req, res, next) => {
         // create new message
         const newMessage = new Message({
             text,
-            conversation:conversationId,
+            conversationId,
             sender:userId,
         })
         // save newMessage
         await newMessage.save();
+        // Define cache key
+        const cacheKey = `message_${userId}`;
+        // clear cache of the user
+        clearCache(cacheKey);
 
         // emit message to user instantly
         emitMessage(conversationId, { conversationId, userId, text });
@@ -60,17 +67,17 @@ const createMessageController = async (req, res, next) => {
 const editMessageController = async (req, res, next) => {
     try {
         // get the id of user from the verifiedToken of user in cookie
-        const { conversationId } = req.params;
+        const { conversationId } = req.params; // to be deleted during production
         const userId = req.userId;
         // throw error if no user Id
         if (!userId) {
             throw new CustomError("You have to login first", 401);
         }
         // Destructure and get messageId and updatedText from body
-        const messageId = req.params;
-        const text = req.body;
+        const { messageId } = req.params;
+        const { text } = req.body;
         // throw error if text is not available
-        if (!text.trim()) {
+        if (!text) {
             throw new CustomError("Text is not found", 400);
         }
         // check if conversationId exist
@@ -96,13 +103,17 @@ const editMessageController = async (req, res, next) => {
             throw new CustomError("You cannot message in this convo", 401);
         }
         // Check if the user is the sender of the message
-        if (message.sender.toString() !== userId.toString()) {
+        if (message.sender.toString() !== userId) {
             throw new CustomError("You cannot edit this message", 403);
         }
 
         // Update the message text
         message.text = text;
         await message.save();
+        // Define cache key
+        const cacheKey = `message_${userId}`;
+        // clear cache of the user
+        clearCache(cacheKey);
 
         // emit message to user instantly
         emitMessage(message.conversationId, { conversationId: message.conversationId, userId, text });

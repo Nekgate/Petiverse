@@ -102,7 +102,7 @@ const getUserController = async (req, res, next) => {
             throw new CustomError("You have to login first", 401);
         }
         // Define cache key
-        const cacheKey = `get_users_${id}`;
+        const cacheKey = `get_users_${userId}`;
 
         // Check Redis cache for verified users data
         const cachedUser = await getValue(cacheKey);
@@ -128,7 +128,7 @@ const getUserController = async (req, res, next) => {
             password:undefined,
             phoneNumber:undefined,
             email:undefined,
-        }}, 90); // 90seconds
+        }}, 7200); // 2 hours
 
         // if user exist the exclude password, phoneNumber, and email get the data from user
         res.status(200).json({user:{...user._doc,
@@ -180,7 +180,7 @@ const getFollowingController = async (req, res, next) => {
         // destructure blocklist from other data
         const {following,...data} = user;
         // Cache the result in Redis for future requests, set expiration time 90 sec
-        await setValue(cacheKey, following, 90); // 90seconds
+        await setValue(cacheKey, following, 3600); // 90seconds
         // response is the information in block list of user
         res.status(200).json(following);
     } catch (error) {
@@ -227,7 +227,7 @@ const getFollowersController = async (req, res, next) => {
         // destructure blocklist from other data
         const {followers,...data} = user;
         // Cache the result in Redis for future requests, set expiration time 90 sec
-        await setValue(cacheKey, followers, 90); // 90seconds
+        await setValue(cacheKey, followers, 3600); // 90seconds
         // response is the information in block list of user
         res.status(200).json(followers);
     } catch (error) {
@@ -274,7 +274,7 @@ const getBlockedUsersController = async (req, res, next) => {
         // destructure blocklist from other data
         const {blocklist,...data} = user;
         // Cache the result in Redis for future requests, set expiration time 90 sec
-        await setValue(cacheKey, blocklist, 90); // 90seconds
+        await setValue(cacheKey, blocklist, 3600); // 90seconds
         // response is the information in block list of user
         res.status(200).json(blocklist);
     } catch (error) {
@@ -297,7 +297,7 @@ const searchUserController = async (req, res, next) => {
             throw new CustomError("You have to login first", 401);
         }
         // Define cache key
-        const cacheKey = `search_${id}`;
+        const cacheKey = `search_${query[0]}`;
 
         // Check Redis cache for verified users data
         const cachedUser = await getValue(cacheKey);
@@ -324,7 +324,7 @@ const searchUserController = async (req, res, next) => {
             return safeUserData;
         });
         // Cache the result in Redis for future requests, set expiration time 90 sec
-        await setValue(cacheKey, foundUsers, 90); // 90seconds
+        await setValue(cacheKey, foundUsers, 3600);
         res.status(200).json({foundUsers});
     } catch (error) {
         next(error);

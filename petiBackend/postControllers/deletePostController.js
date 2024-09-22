@@ -3,6 +3,7 @@ const User = require('../models/User');
 const { CustomError } = require('../middlewares/error');
 const cloudinary = require('../utils/cloudinaryConfig');
 const extractPublicId = require('../utils/extractPublicIdFromCloudinary');
+const { clearCache } = require('../utils/redisConfig');
 
 const deletePostController = async (req, res, next) => {
     try {
@@ -54,12 +55,14 @@ const deletePostController = async (req, res, next) => {
                 console.error('Public ID could not be extracted from URL:', postToDelete.image);
             }
         }
-
-        // delete image from the cloudinary
-        cloudinary
-        extractPublicId
         // Delete the post by its ID
         await Post.findByIdAndDelete(postId);
+        // Define cache key
+        const cacheKey = `post_${userId}`;
+        const cacheKey1 = `userpost_${userId}`;
+        // clear cache of the user
+        clearCache(cacheKey);
+        clearCache(cacheKey1);
 
         res.status(200).json({message:"Post deleted successfully"});
     } catch (error) {

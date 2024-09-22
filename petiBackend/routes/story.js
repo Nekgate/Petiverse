@@ -2,13 +2,17 @@ const express = require('express');
 const verifyToken = require('../middlewares/verifyToken');
 const upload = require('../middlewares/multerConfig');
 const uploadStoryImage = require('../middlewares/uploadStoryPictureToCloud');
-const createStoryController = require('../storyControllers/storyController');
 const { getStoriesController, getUserStoriesController } = require('../storyControllers/fetchStoryController');
 const { deleteUserStoriesController, deleteAStoryController } = require('../storyControllers/deleteStoryController');
+const { createStoryController, createStoryImageController } = require('../storyControllers/storyController');
 const router = express.Router();
 
-// CREATE STORY
-router.post("/create", verifyToken, upload.single('image'), uploadStoryImage, createStoryController);
+
+// CREATE STORY WITH TEXT
+router.post("/create", verifyToken, createStoryController);
+
+// CREATE STORY WITH IMAGE
+router.post("/create-image", verifyToken, upload.single('image'), uploadStoryImage, createStoryImageController);
 
 // GET ALL STORIES
 router.get("/all/user/following", verifyToken, getStoriesController);
