@@ -33,8 +33,17 @@ li{
     font-size: 18px;
     font-weight: 500;
     font-family: "Lato";
+    cursor: pointer;
 }
-
+li:hover{
+     color: #A02525;
+}
+.dnav{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
 .col-three{
     display: flex;
     flex-direction: row;

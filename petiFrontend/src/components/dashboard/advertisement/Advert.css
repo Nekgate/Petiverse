@@ -6,9 +6,9 @@
     background-color: white;
     border-radius: 2px;
     padding: 0rem 2rem;
-    margin-top: 1rem;
-    width: fit-content;
-    margin-left: 15px;
+    margin-top: 10px;
+    position: fixed;
+    right: 0;
     margin-right: 15px;
 }
 .advert-inner{
