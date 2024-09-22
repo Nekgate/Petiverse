@@ -50,7 +50,7 @@ const getCommentsByPostController = async (req, res, next) => {
             throw new CustomError("Post not found", 404);
         }
         // get all comment associated with the post
-        const comments = await Comment.find({post:postId});
+        const comments = await Comment.find({post:postId}).sort({createdAt:-1});
         // populate how the comment will be displayed
         await populateUserDetails(comments);
         // Cache the result in Redis for future requests, set expiration time 90 sec
