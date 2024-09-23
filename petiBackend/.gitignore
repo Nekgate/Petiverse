@@ -3,3 +3,4 @@ node_modules
 cloud.js
 cleanCache.js
 redisMongooseCacheConfig.js
+upload.js
