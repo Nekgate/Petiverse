@@ -94,6 +94,7 @@ const getUserController = async (req, res, next) => {
     if (!userId) {
         throw new CustomError("You can't find a user without an Id", 404);
     }
+    console.log(userId);
     try {
         // get the id of user from the verifiedToken of user in cookie
         const id = req.userId;
@@ -156,7 +157,7 @@ const getFollowingController = async (req, res, next) => {
             throw new CustomError("You have to login first", 401);
         }
         // Define cache key
-        const cacheKey = `following_${logId}`;
+        const cacheKey = `following_${userId}`;
 
         // Check Redis cache for verified users data
         const cachedUser = await getValue(cacheKey);
@@ -203,7 +204,7 @@ const getFollowersController = async (req, res, next) => {
             throw new CustomError("You have to login first", 401);
         }
         // Define cache key
-        const cacheKey = `followers_${logId}`;
+        const cacheKey = `followers_${userId}`;
 
         // Check Redis cache for verified users data
         const cachedUser = await getValue(cacheKey);
@@ -250,7 +251,7 @@ const getBlockedUsersController = async (req, res, next) => {
             throw new CustomError("You have to login first", 401);
         }
         // Define cache key
-        const cacheKey = `block_${logId}`;
+        const cacheKey = `block_${userId}`;
 
         // Check Redis cache for verified users data
         const cachedUser = await getValue(cacheKey);

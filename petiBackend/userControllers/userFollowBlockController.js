@@ -47,7 +47,7 @@ const followUserController = async (req, res, next) => {
         await loggedInUser.save();
         await userToFollow.save();
         // Define cache key
-        const cacheKey = `following_${logId}`;
+        const cacheKey = `following_${userId}`;
         // clear the cache of user
         clearCache(cacheKey);
         // return response
@@ -98,7 +98,7 @@ const unfollowUserController = async (req, res, next) => {
         await loggedInUser.save();
         await userToUnFollow.save();
         // Define cache key
-        const cacheKey = `following_${logId}`;
+        const cacheKey = `following_${userId}`;
         // clear the cache of user
         clearCache(cacheKey);
         // return response
@@ -159,7 +159,7 @@ const blockUserController = async (req, res, next) => {
         await loggedInUser.save();
         await userToBlock.save();
         // Define cache key
-        const cacheKey = `block_${logId}`;
+        const cacheKey = `block_${userId}`;
         // clear the cache of user
         clearCache(cacheKey);
 
@@ -217,7 +217,7 @@ const unblockUserController = async (req, res, next) => {
         // save the users
         await loggedInUser.save();
         // Define cache key
-        const cacheKey = `block_${logId}`;
+        const cacheKey = `block_${userId}`;
         // clear the cache of user
         clearCache(cacheKey);
 

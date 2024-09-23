@@ -3,6 +3,7 @@ const User = require('../models/User');
 const Post = require('../models/Post');
 const Comment = require('../models/Comment');
 const Story = require('../models/Story');
+const { clearAllCaches } = require('../utils/redisConfig');
 
 const deleteUserController = async (req, res, next) => {
     try {

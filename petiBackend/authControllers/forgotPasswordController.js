@@ -6,7 +6,6 @@ const { sendPasswordResetEmail } = require('../mailutils/sendMailToResetPassword
 const forgotPasswordController = async (req, res, next) => {
     // get email of user from body
     const { email } = req.body;
-    console.log(email);
 
     try {
         // validate if email is provided and is in valid format

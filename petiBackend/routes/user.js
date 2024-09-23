@@ -24,7 +24,7 @@ const uploadCoverImage = require('../middlewares/uploadCoverPictureToCloud');
 const { uploadProfilePictureController, uploadCoverPictureController } = require('../userControllers/userUploadPictureController');
 
 // GET USER
-router.get("/:userId", verifyToken, getUserController);
+router.get("/find/:userId", verifyToken, getUserController);
 
 // GET ALL USERS
 router.get("/users/verified", verifyToken, getAllUsersVerifiedController);

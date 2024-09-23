@@ -93,7 +93,7 @@
 - user must log in to perform
 
 ### GET A USER
-- `api/v1/user/:userId`
+- `api/v1/user/find/:userId`
 -   GET ROUTE
 - user must log in to perform
 

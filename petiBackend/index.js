@@ -18,7 +18,6 @@ const path = require('path');
 const { setupSocket } = require('./utils/socketIOConfig');
 const { errorHandler, CustomError } = require("./middlewares/error");
 const { initRedisClient } = require("./utils/redisConfig");
-require('./redisMongooseCacheConfig');
 
 
 dotenv.config()
@@ -62,16 +61,7 @@ app.use(errorHandler);
 // import port
 const port = process.env.PORT || 5000;
 
-// Start the Express server and listen on the port defined in the environment variables (PORT)
-// The connectDB function is called to establish a database connection once the server starts
-// app.listen(port,()=>{
-//   connectDB()
-//   console.log("app is running")  // Log a message indicating the server is running
-// })
-
-// Connect to the database and then start the server
-// Connect to the database and then start the server
-// Connect to the database and then start the server
+// Connect to the database, redis and then start the server
 connectDB()
     .then(() => {
         // wait for the redis to connect
