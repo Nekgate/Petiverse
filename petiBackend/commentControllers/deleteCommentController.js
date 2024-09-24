@@ -85,7 +85,7 @@ const deleteReplyCommentController = async (req, res, next) => {
         // save the comment
         await comment.save();
         // Define cache key
-        const cacheKey = `comment_${userId}`;
+        const cacheKey = `comment_${comment.post.toString()}`;
         // clear cache of the user
         clearCache(cacheKey);
 

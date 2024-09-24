@@ -42,9 +42,13 @@ const likePostController = async (req, res, next) => {
         }
         // check if user is following the post author
         const isFollowing = postAuthor.followers.includes(userId);
+        // check if user is the owner
+        const userOwnership = postAuthor._id.toString() === userId;
+        // add all sundrie together
+        const allowUser = [userOwnership, isFollowing];
 
         // If not following the post owner, check if the post visibility is public
-        if (!isFollowing && post.visibility !== "public") {
+        if (!allowUser && post.visibility !== "public") {
             return res.status(403).json({ message: "You are not allowed to like this post" });
         }
         

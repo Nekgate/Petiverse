@@ -61,7 +61,7 @@ const getAllNotUsersVerifiedController = async (req, res, next) => {
         if (cachedUsers) {
             // Return the cached users if they exist
             return res.status(200).json({
-                message: "All Verified Users (from cache)",
+                message: "All not Verified Users (from cache)",
                 foundUsers: cachedUsers
              });
          }

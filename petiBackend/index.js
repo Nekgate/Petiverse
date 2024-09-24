@@ -41,10 +41,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Load Swagger document
-// const swaggerDocument = require(path.join(__dirname, 'docs', 'swagger.json'));
+const swaggerDocument = require(path.join(__dirname, 'docs', 'swagger.json'));
 
 // Serve Swagger UI at /api-docs
-// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/petiverse-api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // use authentication routes
 app.use("/api/v1/auth",authRoute);

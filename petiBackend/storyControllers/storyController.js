@@ -35,11 +35,9 @@ const createStoryController = async (req, res, next) => {
         // session add the story and save
         await newStory.save();
         // Define cache key
-        const cacheKey = `story_${userId}`;
-        const cacheKey1 = `userStory_${userId}`;
+        const cacheKey = `userStory_${userId}`;
         // clear cache of the user
         clearCache(cacheKey);
-        clearCache(cacheKey1);
 
         res.status(201).json(newStory);
     } catch(error) {

@@ -39,7 +39,7 @@ const getStoriesController = async (req, res, next) => {
            {user:{$in:followingUsers}}
        ).populate("user", "fullName username profilePicture").sort({createdAt:-1});
        // Cache the result in Redis for future requests, set expiration time 90 sec
-       await setValue(cacheKey, stories, 3600); // 2 minutes
+       await setValue(cacheKey, stories, 90); // 90 seconds
 
        res.status(200).json(stories);
 

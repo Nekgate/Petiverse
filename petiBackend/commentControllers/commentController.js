@@ -23,7 +23,7 @@ const createCommentController = async (req, res, next) => {
         // get text form body
         const { text } = req.body;
         // throw error if text is empty
-        if (!text.trim()){
+        if (!text){
             throw new CustomError("Text not found", 400);
         }
         
@@ -52,7 +52,7 @@ const createCommentController = async (req, res, next) => {
         // save post
         await post.save();
         // Define cache key
-        const cacheKey = `comment_${userId}`;
+        const cacheKey = `comment_${postId}`;
         // clear cache of the user
         clearCache(cacheKey);
 
@@ -76,7 +76,7 @@ const createCommentReplyController = async (req, res, next) => {
         // get userId,text form body
         const { text } = req.body;
         // throw error if text is empty
-        if (!text.trim()){
+        if (!text){
             throw new CustomError("Text not found", 400);
         }
         // get the id of user from the verifiedToken of user in cookie
@@ -108,7 +108,7 @@ const createCommentReplyController = async (req, res, next) => {
         // save the comment
         await parentComment.save();
         // Define cache key
-        const cacheKey = `comment_${userId}`;
+        const cacheKey = `comment_${parentComment.post.toString()}`;
         // clear cache of the user
         clearCache(cacheKey);
 
@@ -131,7 +131,7 @@ const updateCommentController = async (req, res, next) => {
         // get text form body
         const { text } = req.body;
         // throw error if text is empty
-        if (!text.trim()){
+        if (!text){
             throw new CustomError("Text not found", 400);
         }
         // get the id of user from the verifiedToken of user in cookie
@@ -153,7 +153,7 @@ const updateCommentController = async (req, res, next) => {
         // find and update the comment with the text
         const updatedComment = await Comment.findByIdAndUpdate(commentToUpdate,{text},{new:true});
         // Define cache key
-        const cacheKey = `comment_${userId}`;
+        const cacheKey = `comment_${commentToUpdate.post.toString()}`;
         // clear cache of the user
         clearCache(cacheKey);
 
@@ -176,7 +176,7 @@ const updateReplyCommentController = async (req, res, next) => {
         // get text form body
         const { text } = req.body;
         // throw error if text is empty
-        if (!text.trim()){
+        if (!text){
             throw new CustomError("Text not found", 400);
         }
         // get the id of user from the verifiedToken of user in cookie
@@ -216,7 +216,7 @@ const updateReplyCommentController = async (req, res, next) => {
         // save the parentComment
         await parentComment.save();
         // Define cache key
-        const cacheKey = `comment_${userId}`;
+        const cacheKey = `comment_${parentComment.post.toString()}`;
         // clear cache of the user
         clearCache(cacheKey);
 

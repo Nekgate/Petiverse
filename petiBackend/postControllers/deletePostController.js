@@ -40,21 +40,26 @@ const deletePostController = async (req, res, next) => {
         // save the user 
         await user.save();
 
-         // Delete the image from Cloudinary if it exists
-        if (postToDelete.image) {
-            const publicId = extractPublicId(postToDelete.image);
-            if (publicId) {
-                await cloudinary.uploader.destroy(publicId, (error, result) => {
-                    if (error) {
-                        console.error('Error deleting image from Cloudinary:', error);
-                    } else {
-                        console.log('Image deleted from Cloudinary:', result);
-                    }
-                });
-            } else {
-                console.error('Public ID could not be extracted from URL:', postToDelete.image);
+        // Delete the image from Cloudinary if it exists
+        if (Array.isArray(postToDelete.image) && postToDelete.image.length > 0) {
+            for (const imageUrl of postToDelete.image) {
+                const publicId = extractPublicId(imageUrl);
+                if (publicId) {
+                    await cloudinary.uploader.destroy(publicId, (error, result) => {
+                        if (error) {
+                            console.error('Error deleting image from Cloudinary:', error);
+                        } else {
+                            console.log('Image deleted from Cloudinary:', result);
+                        }
+                    });
+                } else {
+                    console.error('Public ID could not be extracted from URL:', imageUrl);
+                }
             }
+        } else {
+            console.error('No images found or image data is not an array.');
         }
+        
         // Delete the post by its ID
         await Post.findByIdAndDelete(postId);
         // Define cache key

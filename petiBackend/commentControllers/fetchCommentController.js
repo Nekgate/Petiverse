@@ -32,7 +32,7 @@ const getCommentsByPostController = async (req, res, next) => {
             throw new CustomError("You have to login first", 401);
         }
         // Define cache key
-        const cacheKey = `comment_${userId}`;
+        const cacheKey = `comment_${postId}`;
 
         // Check Redis cache for verified users data
         const cachedUser = await getValue(cacheKey);

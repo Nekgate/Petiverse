@@ -36,6 +36,10 @@ const createNewConversationController = async (req, res, next) => {
         if (userSecond.blocklist.includes(userId)){
             throw new CustomError("The User already blocked you", 400)
         }
+        // Check if firstUser and secondUser are the same
+        if (userId === secondUserId) {
+            throw new CustomError("You can't chat with yourself!", 400);
+        }
         // Check if both users are already in a conversation
         const existingConversation = await Conversation.findOne({
             participants: { $all: [userId, secondUserId] }
@@ -47,10 +51,6 @@ const createNewConversationController = async (req, res, next) => {
                 message: "Conversation already exists",
                 conversationId: existingConversation._id
             });
-        }
-        // Check if firstUser and secondUser are the same
-        if (userId === secondUserId) {
-            throw new CustomError("You can't chat with yourself!", 400);
         }
         
         // Create a new conversation if no existing conversation is found

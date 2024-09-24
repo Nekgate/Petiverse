@@ -11,8 +11,14 @@ const getMessagesController = async (req, res, next) => {
         if (!userId) {
             throw new CustomError("You have to login first", 401);
         }
+        // get conversation id from url
+        const { conversationId } = req.params;
+        // check if conversationId exist
+        if (!conversationId){
+            throw new CustomError("ConversatonId is required", 400);
+        }
         // Define cache key
-        const cacheKey = `message_${userId}`;
+        const cacheKey = `message_${conversationId}`;
 
         // Check Redis cache for verified users data
         const cachedUser = await getValue(cacheKey);
@@ -23,8 +29,7 @@ const getMessagesController = async (req, res, next) => {
                 user: cachedUser
              });
          }
-        // get conversation id from url
-        const { conversationId } = req.params;
+        
         // check if conversationId exist
         const conversation = await Conversation.findById(conversationId);
         // throw a error if not found

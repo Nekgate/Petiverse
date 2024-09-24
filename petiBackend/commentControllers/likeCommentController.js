@@ -39,7 +39,7 @@ const likeCommentController = async (req, res, next) => {
         // save the comment
         await comment.save();
         // Define cache key
-        const cacheKey = `comment_${userId}`;
+        const cacheKey = `comment_${comment.post.toString()}`;
         // clear cache of the user
         clearCache(cacheKey);
 
@@ -84,7 +84,7 @@ const dislikeCommentController = async (req, res, next) => {
         // save the comment
         await comment.save();
         // Define cache key
-        const cacheKey = `comment_${userId}`;
+        const cacheKey = `comment_${comment.post.toString()}`;
         // clear cache of the user
         clearCache(cacheKey);
 
@@ -134,6 +134,10 @@ const likeReplyCommentController = async (req, res, next) => {
         replyComment.likes.push(userId);
         // save comment
         await comment.save();
+        // Define cache key
+        const cacheKey = `comment_${comment.post.toString()}`;
+        // clear cache of the user
+        clearCache(cacheKey);
 
         res.status(200).json({message:"Reply comment liked successfully!", comment});
     } catch(error) {
@@ -181,6 +185,10 @@ const dislikeRelpyCommentController = async (req, res, next) => {
         replyComment.likes = replyComment.likes.filter(id=>id.toString()!==userId);
         // save comment
         await comment.save();
+        // Define cache key
+        const cacheKey = `comment_${comment.post.toString()}`;
+        // clear cache of the user
+        clearCache(cacheKey);
 
         res.status(200).json({message:"Reply comment disliked successfully!", comment});
     } catch(error) {

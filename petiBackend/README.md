@@ -1,22 +1,131 @@
-# Backend of Petiverse
-- Overview
-- TThe Petiverse backend handles various services, including user authentication and authorization, post management (text, images), comments, stories, likes, messaging, and finding veterinary doctors. The API supports JSON-based communication and utilizes MongoDB, Redis, and Cloudinary for data storage and media handling.
+# Petiverse API Tutorial
 
-- git clone project
-- create a *.env* file and store 
-- inside the *.env* populate this data {
-    MONGODB_URL:URL OF THE MONGODB,
-    PORT=PORT YOU WANT,
-    JWT_SECRET=ANY CHARACTER OF CHOICE,
-    JWT_EXPIRES=HOW LONG JWT EXPIRES,
-    URL=URL OF LOCALHOST
-    AUTH_EMAIL=your email
-    AUTH_PASS=your password
-    CLOUDINARY_NAME=cloudinary name
-    CLOUDINARY_API_KEY=cloudinary api name
-    CLOUDINARY_API_SECRET=cloudinary api secret key
-    REDIS_URL=redis url
-}
+> Petiverse Reference Documentation is a catalog of all predefined API components—requests, documentation, authorization, variables, and examples—into an organized asset library for faster onboarding of new team members. 
+  
+
+# Table of Content
+
+Quick Guild to run the application
+
+## Quick Guild to Start the Application
+
+### Prerequisites
+
+Before starting the application, ensure the following tools and services are installed and properly set up:
+
+1. Node.js & NPM
+    
+    - Download the latest version of Node.js from [Node.js official website](https://nodejs.org/). It will automatically install npm as well.
+        
+    - Linux: Use your terminal to install Node.js and npm:  
+        **sudo apt update****sudo apt install nodejs npm**
+        
+    - Mac: Install Node.js and npm via \[Homebrew\]([https://brew.sh/](https://brew.sh/)):  
+        **brew install node**
+        
+2. Redis Server
+    
+    - Install Redis on your system. For example:
+        
+        - Linux:  
+            **sudo apt install redis-server**
+            
+        - Mac:  
+            **brew install redis**
+            
+        - Windows:  
+            Install via [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) or download Redis from the [official Redis website](https://redis.io/downloads/).
+            
+        - Ensure Redis is running:
+            
+            - Linux/Mac: Start the Redis service using:  
+                **sudo service redis-server start**  
+                or  
+                **sudo systemctl start redis-server**
+                
+        - Verify Redis Installation: Test if Redis is running by using the **redis-cli**:
+            
+            **redis-cli ping**
+            
+        - If Redis is active, it will return **PONG**.
+            
+
+### Steps to Set Up the Application
+
+1. Clone the Project
+    
+    - Open your terminal and clone the repository from GitHub into your local machine:  
+        **git clone** [<b>https://github.com/Nekgate/Petiverse</b>](https://github.com/Nekgate/Petiverse)**
+        
+2. Navigate to the Project Directory
+    
+    - Change your working directory to the project folder:  
+        **cd Petiverse/petiBackend**
+        
+3. Install Dependencies
+    
+    - Once inside the backend directory **petiBackend**, install the necessary dependencies by running:  
+        **npm install**
+        
+4. Set Up MongoDB
+    
+    - Head over to the [MongoDB website](https://www.mongodb.com/) and sign up for an account if you don’t have one.
+        
+    - Create a project in MongoDB Atlas and get the API key for Node.js (you'll use this later in your environment variables).
+        
+5. Set Up Cloudinary
+    
+    - Go to [Cloudinary](https://cloudinary.com/) and create an account.
+        
+    - After signing up, retrieve your cloud_name, API Key, and API Secret.
+        
+    - Create different preset which are folders with the following names:  
+        **profilePicture**  
+        **coverPicture**  
+        **post**  
+        **story**
+        
+6. Get Gmail App Password
+    
+    - Go to your Gmail account and generate an App Password for sending emails from your application. Follow [this guide](https://medium.com/@piusrestiantoro02/how-to-generate-a-gmail-app-password-0e71cd41fd3c) to generate the app password.
+        
+    - save the app password to be used later.
+        
+
+### Running the Application
+
+With everything set up, you're now ready to run the application:
+
+1. Set Up Environment Variables
+    
+    - Create a **.env** file in your project’s root directory **petiBackend** and add the following keys:  
+        **MONGODB_URL=your-mongodb-uri**  
+        **PORT=your-desired-port-for-backend**  
+        **JWT_SECRET=your-choice-of-string or user crypto to get one**  
+        **JWT_EXPIRES=your-desired-duration-for-jwt e.g.(1h,1d,1m)**  
+        **URL=your-domain-url or localhost url**  
+        **AUTH_EMAIL=your-gmail**  
+        **AUTH_PASS=your-gmail-app-password**  
+        **CLOUDINARY_NAME=your-cloudinary-cloud-name**  
+        **CLOUDINARY_API_KEY=your-cloudinary-api-key**  
+        **CLOUDINARY_API_SECRET=your-cloudinary-api-secret**  
+        **REDIS_URL=redis url**
+        
+2. Start the Application
+    
+
+\- Run the application using:
+
+**npx nodemon index.js**
+
+You have to login to consume every route apart from Auth routes
+
+## Any error not documented will return 500, it is not solely server error it means server had a bridge
+
+# To View proper documentation when server is running
+```bash
+http://localhost:5000/petiverse-api-docs/
+```
 
 ## AUTH ROUTES
 

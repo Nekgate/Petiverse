@@ -35,9 +35,7 @@ const createMessageController = async (req, res, next) => {
             throw new CustomError("User not found!", 404)
         }
         // check if user in the participant of the conversation
-        const userInConvo = await Conversation.find({
-            participants:{$in:[userId]},
-        })
+        const userInConvo = conversation.participants.includes(userId);
         // throw error if user is not part of the conversation
         if (!userInConvo) {
             throw new CustomError("You cannot message in this convo", 401);
@@ -51,7 +49,7 @@ const createMessageController = async (req, res, next) => {
         // save newMessage
         await newMessage.save();
         // Define cache key
-        const cacheKey = `message_${userId}`;
+        const cacheKey = `message_${conversationId}`;
         // clear cache of the user
         clearCache(cacheKey);
 
@@ -95,9 +93,7 @@ const editMessageController = async (req, res, next) => {
             throw new CustomError("Message not found!", 404);
         }
         // check if user in the participant of the conversation
-        const userInConvo = await Conversation.find({
-            participants:{$in:[userId]},
-        })
+        const userInConvo = conversation.participants.includes(userId);
         // throw error if user is not part of the conversation
         if (!userInConvo) {
             throw new CustomError("You cannot message in this convo", 401);
@@ -111,7 +107,7 @@ const editMessageController = async (req, res, next) => {
         message.text = text;
         await message.save();
         // Define cache key
-        const cacheKey = `message_${userId}`;
+        const cacheKey = `message_${conversationId}}`;
         // clear cache of the user
         clearCache(cacheKey);
 
