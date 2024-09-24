@@ -141,6 +141,13 @@ http://localhost:5000/petiverse-api-docs/
     confirmPassword: same as password,
     phoneNumber: any number upto 8 and not more than 15
 }
+
+"username":"gab",
+"fullname":"gab crof",
+"phoneNumber":"08100000000",
+"email":"user@mail.com",
+"password":"Admin123$",
+"confirmPassword":"Admin123$"
 - yet to implement location(country & state)
 
 ### VERIFY ACCOUNT
@@ -261,6 +268,10 @@ http://localhost:5000/petiverse-api-docs/
 - `api/v1/user/update`
 - PUT ROUTE
 - userId will be gotten from cookie
+{
+    bio=info about pet,
+    fullname=the real name of pet
+}
 
 ### UPDATE THE PROFILE PICTURE
 - `api/v1/user/update-profile-picture`
