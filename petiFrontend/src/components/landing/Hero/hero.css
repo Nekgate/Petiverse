@@ -57,6 +57,9 @@ span{
     border: 1px solid #1A1A1A;
     cursor: pointer;
 }
+.hero-btn:active{
+    transform:scale(0.95);
+}
 .right{
     display: flex;
     flex-direction: row;

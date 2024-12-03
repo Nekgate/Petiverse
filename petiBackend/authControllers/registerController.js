@@ -89,8 +89,8 @@ const registerContoller = async (req, res, next) => {
             // authenticate user with a created token
             generateTokenAndSetCookie(res, savedUser._id);
             // send email to user
-            await sendVerificationEmail(savedUser.email, verificationToken);
-
+            // await sendVerificationEmail(savedUser.email, verificationToken);
+             console.log(verificationToken) 
             // remove email, phoneNumber, password
             // display other information 
             res.status(201).json({

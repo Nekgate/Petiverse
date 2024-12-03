@@ -1,0 +1,136 @@
+.side-background{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: white;
+    border-radius: 2px;
+    padding: 1rem 2rem;
+    margin-top: 10px;
+    /* width: 0%; */
+    position: fixed;
+    left: 0;
+    position: fixed;
+    margin-left: 15px;
+}
+.side-inner{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 6rem;
+}
+.side-inn-top{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.side-top{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 3rem;
+}
+.side-top-left{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.sideprof-img{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.side-top-per{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 0rem;
+}
+.side-top-per h4{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: start;
+    margin-bottom: 0rem;
+    font-size: 16px;
+    font-weight: 800;
+    font-family: "Lato";
+}
+.side-top-per p{
+     display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: start;
+    margin-top: 0rem;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: "Lato";
+}
+.side-main-nav{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.side-main-nav ul{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 1rem 0rem;
+}
+.side-main-nav ul li{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.side-main-nav ul li:hover{
+     color: #A02525;
+    font-size: 20px
+}
+.icon{
+    margin-right: 1rem;
+}
+.side-inn-low{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    bottom: 0;
+    width: min-content;
+}
+.side-inn-low button{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 80px;
+    background-color: black;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: "Lato";
+    margin-bottom: 1rem;
+}
+.side-inn-low p{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 400;
+    font-family: "Lato";
+    width: 100%;
+}

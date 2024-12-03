@@ -3,7 +3,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 4rem 1rem;
+    padding: 1rem;
     background-color: white;
     overflow: hidden;
 }
@@ -21,7 +21,7 @@
     font-size: 40px;
     font-family: "Lato";
     font-weight: 700;
-     margin-bottom: 1rem;
+    margin-bottom: 1rem;
 }
 .cre-para{
     display: flex;
@@ -40,7 +40,7 @@
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
-    gap: 0.5rem;
+    gap: 0rem;
     width: 100%;
 }
 .form-in{
@@ -49,7 +49,7 @@
     justify-content: flex-start;
     align-items: flex-start;
     width: 100%;
-    margin-top: 2rem;
+    margin-top: 1rem;
 }
 .form-in label{
     display: flex;
@@ -90,6 +90,21 @@ font-size: 24px;
     justify-content: center;
     align-items: center;
     margin-right: 10px;
+}
+.signup-top{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    gap: 2rem;
+}
+.form-in{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-left: 10px;
 }
 .form-check label{
    display: flex;
@@ -135,4 +150,31 @@ font-size: 24px;
     color: black;
     font-family: "Lato";
     cursor: pointer;
+}
+.top-tog1{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 105%;
+}
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.toggle-password {
+  cursor: pointer;
+  margin-left: 10px;
+  font-size: 12px;
+  color: #613105;
+  font-family: "Lato";
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+.err-mesg{
+    color: red;
 }

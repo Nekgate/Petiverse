@@ -1,7 +1,8 @@
-import React from 'react';
+import React from "react";
 import "./hero.css"
 
 function hero() {
+  
   return <div className='hero-background'>
       <div className='hero-inner'>
         <div className="left">
@@ -24,3 +25,4 @@ function hero() {
 }
 
 export default hero
+

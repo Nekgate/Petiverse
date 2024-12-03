@@ -58,7 +58,7 @@ function Review() {
             </p>
             <div className="min-review">
               <div className="test-img-wrap">
-                <img src={data.img} />
+                <img src={data.img} alt="img"/>
               </div>
               <div className="review">
                 <p>
